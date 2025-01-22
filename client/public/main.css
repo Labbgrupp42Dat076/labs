@@ -6,7 +6,7 @@
     ". login ."
     "footer footer footer";
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: 1fr 2fr 3fr  1fr;
+    grid-template-rows: 1fr 2fr 4fr  1fr;
     height: 100vh;
     width: 100vw;
     padding: 0 !important;
@@ -19,13 +19,25 @@ header{
 
 
 nav{
+    margin-top: 1vh;
+
     display: flex;
     justify-content: space-around;
     align-items: center;
     background-color: #f9f9f9;
-    margin-left: 0;
+    margin-left: 0.5 !important;
     margin-right: auto;
-    width: 15vw;
+
+   position: absolute !important;
+}
+
+.profile{
+    background-color: #000000;
+    margin-left: auto;
+    margin-right: 1.5vh;
+    margin-top: 1.5vh;
+    width: 20vw !important;
+    height: 20vw !important;
 }
 
 .intro{
