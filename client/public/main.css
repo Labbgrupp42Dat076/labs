@@ -1,3 +1,11 @@
+:root {
+    --main-color: rgb(177, 213, 213);
+    --main-color-light: rgba(177, 213, 213, 0.288);
+    --main-color-dark: rgb(177, 213, 213);
+    --main-color-darker: rgb(177, 213, 213);
+    --main-color-darkest: rgb(177, 213, 213);
+}
+
 .container-own{
     display: grid;
     grid-template-areas: 
@@ -22,7 +30,7 @@ nav{
     justify-content: space-between;
     width: 100%;
     padding: 0 1rem;
-    background-color: rgb(177, 213, 213);
+    background-color: var(--main-color);
     position: absolute !important;
 }
 
@@ -51,17 +59,17 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(177, 213, 213);
+    background-color: var(--main-color);
 }
 
 .btn-primary{
-    background-color: rgb(177, 213, 213) !important;
+    background-color: var(--main-color);
     border: none !important;
 }
 
 .cool-background{
     grid-area: article;
-    background-color: rgba(177, 213, 213, 0.288);
+    background-color: var(--main-color-light);
     position: relative;
     z-index: -1;
     width: 100%;
