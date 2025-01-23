@@ -53,3 +53,14 @@ footer{
     align-items: center;
     background-color: rgb(177, 213, 213);
 }
+
+.btn-primary{
+    background-color: rgb(177, 213, 213) !important;
+    border: none !important;
+}
+
+
+.intro{
+    grid-area: article;
+    padding: 2em;
+}
