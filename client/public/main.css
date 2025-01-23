@@ -1,4 +1,4 @@
-.container{
+.container-own{
     display: grid;
     grid-template-areas: 
     "header header header"
@@ -6,51 +6,50 @@
     ". login ."
     "footer footer footer";
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: 1fr 2fr 4fr  1fr;
+    grid-template-rows: 1fr 2fr 6fr  1fr;
     height: 100vh;
-    width: 100vw;
+    width: 100vw !important;
     padding: 0 !important;
+    margin: 0 !important;
 }
 header{
     grid-area: header;
     display: flex;
+
 }
-
-
-
 nav{
-    margin-top: 1vh;
-
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #f9f9f9;
-    margin-left: 0.5 !important;
-    margin-right: auto;
-
-   position: absolute !important;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1rem;
+    background-color: rgb(177, 213, 213);
+    position: absolute !important;
 }
 
-.profile{
-    background-color: #000000;
-    margin-left: auto;
-    margin-right: 1.5vh;
-    margin-top: 1.5vh;
-    width: 20vw !important;
-    height: 20vw !important;
+/* set children to be contained */
+.navbar-toggler .navbar-toggler-icon img{
+    width: 2rem;
+    height: 2rem;
+    transform : rotate(5040deg);
+    transition: transform 0.5s;
 }
-
-.intro{
-    grid-area: article;
-    background-color: #f9f9f9;
-
+.collapsed .navbar-toggler-icon img{
+    width: 2rem;
+    height: 2rem;
+    transform : rotate(0deg);
 }
 
 .login-container{
     grid-area: login;
-    background-color: #f9f9f9;
+    padding-top: 2rem;
+    padding-bottom: 10rem;
+
 }
 
-.hide{
-    display: none;
+footer{
+    grid-area: footer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(177, 213, 213);
 }
