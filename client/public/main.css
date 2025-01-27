@@ -24,6 +24,7 @@ nav{
     padding: 0 1rem;
     background-color: rgb(177, 213, 213);
     position: absolute !important;
+    z-index: 20000;
 }
 
 /* set children to be contained */
