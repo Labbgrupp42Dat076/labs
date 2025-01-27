@@ -2,7 +2,7 @@
     display: flex;
     height: 100vh;
     width: 100vw;
-    flex-direction: row;
+    flex-direction: column;
 
     overflow: scroll;
     overflow-x: hidden;
@@ -43,6 +43,8 @@
     justify-content: start;
     align-items:center;   
     width: 100%;
+    height: auto;
+    position: relative;
 }
 
 .action_buttons{
@@ -104,4 +106,59 @@
 
 .bi-arrow-right{
     transform: rotate(90deg) !important; 
+}
+
+.add_note{
+    position: fixed;
+    bottom: 2vw;
+    right: 2vw;
+    z-index: 1000;
+
+    height: 20vw;
+    width: 20vw;
+}
+
+
+@media screen and (min-width: 768px){
+    .note{
+        
+        width: 30vw ;
+        height: 20vw ;
+    }
+
+    .expanded{
+        width: 50vw !important;
+        height: 70vh !important;
+        overflow-y: scroll !important;
+        overflow-x: hidden;
+    }
+
+    .action_buttons{
+        margin-top: 10vw;
+        width: 30vw;
+        height: 7vw;
+        padding: 1vh 1vh;
+    }
+
+    .action_buttons button{
+        width: 8vw;
+        height: 3vw;
+
+    }
+
+    .action_buttons button {
+        font-size: 0.7em !important;
+    }
+
+
+    .notes{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .add_note{
+        height: 10vw;
+        width: 10vw;
+    }
 }
