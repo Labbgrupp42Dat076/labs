@@ -32,6 +32,7 @@ nav{
     padding: 0 1rem;
     background-color: var(--main-color);
     position: absolute !important;
+    z-index: 20000;
 }
 
 /* set children to be contained */
