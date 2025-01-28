@@ -23,26 +23,29 @@
 header{
     grid-area: header;
     display: flex;
-
+    position: fixed;
+    width: 100vw !important;
+    z-index: 10;
+    height : 3rem;
 }
 nav{
     display: flex;
     justify-content: space-between;
     width: 100%;
     padding: 0 1rem;
-    background-color: var(--main-color);
+    background-color: var(--main-color) !important;
     position: absolute !important;
     z-index: 20000;
 }
 
 /* set children to be contained */
-.navbar-toggler .navbar-toggler-icon img{
+.navbar-toggler .navbar-toggler-icon{
     width: 2rem;
     height: 2rem;
-    transform : rotate(5040deg);
+    transform : rotate(90deg);
     transition: transform 0.5s;
 }
-.collapsed .navbar-toggler-icon img{
+.collapsed .navbar-toggler-icon{
     width: 2rem;
     height: 2rem;
     transform : rotate(0deg);
