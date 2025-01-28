@@ -12,6 +12,40 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
+
+  <header>
+
+    <!-- nav component -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">appen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+          aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon">
+            <img src="https://img.icons8.com/ios/50/000000/menu--v1.png" />
+          </span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+          <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+            <li class="nav-item border-top">
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item border-top">
+              <a class="nav-link" href="pomodoro">Pomodoro</a>
+            </li>
+            <li class="nav-item border-top">
+              <a class="nav-link" href="todo.html">To-Do</a>
+            </li>
+            <li class="nav-item border-top">
+              <a class="nav-link" href="./notes.html">Notes</a>
+            </li>
+        </div>
+      </div>
+    </nav>
+    <!-- end nav component -->
+  </header>
+
+
     <section class="vh-100 gradient-custom">
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
@@ -85,6 +119,5 @@
           </div>
         </div>
       </section>
-
 </body>
 </html>
