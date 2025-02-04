@@ -26,9 +26,17 @@ class userService {
     }
 
     public async deleteUser(id: number) {
-        this.users = this.users.filter((item) => item.id !== id);
-        if (this.users.length === 0) {
-            throw new Error('No user found');
+        let hasDeleted: boolean = false;
+        this.users = this.users.filter((item) => {
+            if (item.id !== id) {
+                return true;
+            } else {
+                hasDeleted = true;
+                return false;
+            }
+        })
+        if (!hasDeleted) {
+            throw new Error('User not found');
         }
     }
 
