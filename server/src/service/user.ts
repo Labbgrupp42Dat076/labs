@@ -126,8 +126,10 @@ class userService {
         return await user;
     }
 
-    
+
 
 
 
 }
+
+export default new userService();
