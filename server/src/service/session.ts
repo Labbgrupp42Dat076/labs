@@ -15,7 +15,12 @@ class sessionService {
     public async getSession(id: number) {
         let session = this.sessions.find((item) => item.id === id);
         if (session) {
-            return await session;
+            if (session.expiration > Date.now()) {
+                return await session;
+            } else {
+                await this.deleteSession(session.id);
+                throw new Error('Session expired');
+            }
         } else {
             throw new Error('Session not found');
         }
