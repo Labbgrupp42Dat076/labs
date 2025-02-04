@@ -1,13 +1,13 @@
-import { user } from '../model/user';
+import { User } from '../model/user';
 
 class userService {
-    users: user[] = [];
+    users: User[] = [];
 
     public async login(name: string, password: string) {
         // do something
     }
 
-    public async register(user:user) {
+    public async register(user:User) {
         return await this.users.push(user);
 
     }
@@ -40,7 +40,7 @@ class userService {
         }
     }
 
-    private async updateUser(user: user) {
+    private async updateUser(user: User) {
         this.users = this.users.map((item) => {
             return user.id === item.id ? user : item;
         });
