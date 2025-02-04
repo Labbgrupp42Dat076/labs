@@ -3,7 +3,7 @@ import { user } from '../model/user';
 class userService {
     users: user[] = [];
 
-    public async login() {
+    public async login(name: string, password: string) {
         // do something
     }
 
@@ -125,6 +125,30 @@ class userService {
         this.updateUser(user);
         return await user;
     }
+
+    public async updateUserNames(id: number, name: string) {
+        let user = this.users.find((item) => item.id === id);
+        if (user) {
+            user.name = name;
+        } else {
+            throw new Error('User not found');
+        }
+        this.updateUser(user);
+        return await user;
+    }
+
+    public async updateUserPasswords(id: number, password: string) {
+        let user = this.users.find((item) => item.id === id);
+        if (user) {
+            user.password = password;
+        } else {
+            throw new Error('User not found');
+        }
+        this.updateUser(user);
+        return await user;
+    }
+
+
 
 
 
