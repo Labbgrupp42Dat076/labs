@@ -9,3 +9,13 @@ sliders.forEach(slider => {
         time.innerHTML = slider.value + ' minutes'; 
     });
 });
+
+var minutesEl = document.getElementById("minutes");
+var secondsEl = document.getElementById("seconds");
+
+function coundownTimer (){
+    minutesEl.innerHTML = 55;
+    secondsEl.innerHTML = 44;
+}
+
+coundownTimer();
