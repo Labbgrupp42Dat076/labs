@@ -27,9 +27,19 @@ class sessionService {
     }
 
     public async deleteSession(id: number) {
-        this.sessions = this.sessions.filter((item) => item.id !== id);
-        if (this.sessions.length === 0) {
-            throw new Error('No session found');
+        let hasDeleted:boolean = false;
+        this.sessions = this.sessions.filter((item) => {
+
+            if(item.id !== id){
+                return true;
+            }else{
+                hasDeleted = true;
+                return false;
+            }
+        })
+
+        if (!hasDeleted) {
+            throw new Error('Session not found');
         }
     }
 
