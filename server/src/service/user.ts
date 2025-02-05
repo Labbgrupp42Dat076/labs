@@ -1,5 +1,6 @@
 import { User } from '../model/user';
 
+
 class userService {
     users: User[] = [];
 
@@ -46,7 +47,7 @@ class userService {
         });
     }
 
-    public async addNoteId(id: number, noteId: number) {
+    async addNoteId(id: number, noteId: number) {
         let user = this.users.find((item) => item.id === id);
         if (user) {
             user.noteIds.push(noteId);
@@ -73,7 +74,8 @@ class userService {
     }
 
 
-    public async setLastPomodoroSession(id: number, lastPomodoroSession: number) {
+    public async setLastPomodoroSessionToNow(id: number) {
+        let lastPomodoroSession: number = Date.now();
         let user = this.users.find((item) => item.id === id);
         if (user) {
             user.lastPomodoroSession = lastPomodoroSession;
