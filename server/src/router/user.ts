@@ -1,8 +1,6 @@
 import express, { Request, Response } from "express";
 import { User } from "../model/user";
 import userService from "../service/user";
-import { TodoObject } from "../model/todoObject";
-import todoService from "../service/todo";
 
 const router = express.Router();
 
