@@ -3,4 +3,5 @@ export interface Note {
     preview : string,
     fileID : string,
     id : number
+    todoIds : number[]
 }
