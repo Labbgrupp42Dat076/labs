@@ -41,7 +41,9 @@ export class NoteService {
             this.updateNotes(note);
             return true;
         }
-        return false;
+        else {
+            throw new Error('Note not found');
+        }
     }
 
     private async deleteLinkedFile(fileID : string) : Promise<boolean> {
