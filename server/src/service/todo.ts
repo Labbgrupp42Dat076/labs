@@ -33,9 +33,17 @@ class todoService {
         return await this.getTodoById(id)
     }
 
+    public async getTodosByListOfIds(ids: number[]) {
+        let output = this.todoList.filter((item) => ids.includes(item.id));
+        return await output;
+    }
+
+
     public async addTodos(todo: TodoObject) {
+        //this should be db things
+        // generate id
         this.todoList.push(todo);
-        return await this.todoList;
+        return todo.id;
     }
 
  
