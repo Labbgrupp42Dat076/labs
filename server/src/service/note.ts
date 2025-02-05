@@ -7,6 +7,10 @@ export class NoteService {
         return JSON.parse(JSON.stringify(this.notes.find(note => note.id === id)));
     }
 
+    public async getNotesByListOfIDs(ids : number[]) : Promise<Note[]> {
+        return this.notes.filter(note => ids.includes(note.id));
+    }
+
     async createNote(title : string, fileID : string) : Promise<number> {
         //from fileID, get a .txt file and extract the first 100 characters as preview
         let preview = await this.getPreview(fileID);
@@ -60,3 +64,6 @@ export class NoteService {
         return this.notes;
     }
 }
+
+
+export default new NoteService();
