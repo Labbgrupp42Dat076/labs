@@ -22,16 +22,14 @@ export class FileService {
 
   public upload = multer({ storage: this.storage }).single("file");
 
-  public updateFile(oldFileName: string, newFile: Express.Multer.File): string {
-    const oldFilePath = path.join(UPLOADS_DIR, oldFileName);
-    const newFilePath = path.join(UPLOADS_DIR, newFile.filename);
+  public updateFileContent(fileName: string, newContent: string): void {
+    const filePath = path.join(UPLOADS_DIR, fileName);
 
-    if (fs.existsSync(oldFilePath)) {
-      fs.unlinkSync(oldFilePath);
+    if (fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, newContent, "utf-8");
+    } else {
+      throw new Error("File not found");
     }
-
-    fs.renameSync(newFile.path, newFilePath);
-    return newFile.filename;
   }
 
   public deleteFile(fileName: string): boolean {
