@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import multer from "multer";
+import { v4 as uuidv4 } from 'uuid';
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
 
@@ -15,7 +16,7 @@ export class FileService {
       cb(null, UPLOADS_DIR);
     },
     filename: (req, file, cb) => {
-      const uniqueName = `${Date.now()}-${file.originalname}`;
+      const uniqueName = path.extname(file.originalname) + uuidv4();
       cb(null, uniqueName);
     },
   });
@@ -32,13 +33,13 @@ export class FileService {
     }
   }
 
-  public deleteFile(fileName: string): boolean {
+  public deleteFile(fileName: string): void {
     const filePath = path.join(UPLOADS_DIR, fileName);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
-      return true;
+    } else {
+      throw new Error("File not found");
     }
-    return false;
   }
   
   public readFile(fileName: string): string {
