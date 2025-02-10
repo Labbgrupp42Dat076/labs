@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import multer from "multer";
 import { v4 as uuidv4 } from 'uuid';
+import { FileObject } from "../model/fileObject";
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
 
@@ -11,6 +12,8 @@ if (!fs.existsSync(UPLOADS_DIR)) {
 }
 
 export class FileService {
+  fileList: Array<FileObject> = [];
+
   private storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, UPLOADS_DIR);
@@ -29,6 +32,11 @@ export class FileService {
       } else {
         callback(null);
       }
+    });
+
+    this.fileList.push({
+      id: this.fileList.length,
+      path: req.file.filename,
     });
     return req.file.filename;
   }
@@ -53,7 +61,12 @@ export class FileService {
     }
   }
   
-  public readFile(fileName: string): string {
+  public readFile(fileId: string): string {
+    const fileName = this.fileList.find((file) => file.id === parseInt(fileId))?.path;
+    if (!fileName) {
+      throw new Error("File not found");
+    }
+
     const filePath = path.join(UPLOADS_DIR, fileName);
     if (fs.existsSync(filePath)) {
       return fs.readFileSync(filePath, "utf-8");
@@ -62,7 +75,6 @@ export class FileService {
     }
   }
 }
-
 
 const fileService = new FileService();
 export default fileService;
