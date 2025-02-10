@@ -68,3 +68,6 @@ export class TodoService {
 
 }
 
+const todoService = new TodoService();
+export default todoService;
+
