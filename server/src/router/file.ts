@@ -18,13 +18,12 @@ fileRouter.get("/:id", async (req: Request, res: Response) => {
 // upload a file
 fileRouter.post("/", async (req: Request, res: Response) => {
   try {
-    fileService.upload(req, res, (err) => {
+    const resp = fileService.uploadFile(req, res, (err: any) => {
       if (err) {
-        res.status(404).json({ message: err.message });
-      } else {
-        res.status(200).json({ message: 'File uploaded' });
+        throw new Error(err);
       }
     });
+    res.status(200).json({ message: 'File uploaded', file: resp }); 
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     res.status(404).json({ message: errorMessage });
