@@ -3,10 +3,10 @@ import express, { Request, Response } from "express";
 import todoService from "../service/todo";
 import { TodoObject } from "../model/todoObject";
 
-const router = express.Router();
+const todoRouter = express.Router();
 
 // get all todos 
-router.get("/", async (req: Request, res: Response) => {
+todoRouter.get("/", async (req: Request, res: Response) => {
     try {
         const todos = await todoService.getTodos();
         res.status(200).json(todos);
@@ -17,7 +17,7 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 // get all todos from a list of ids
-router.get("/list", async (req: Request, res: Response) => {
+todoRouter.get("/list", async (req: Request, res: Response) => {
     try {
         const todos = await todoService.getTodosByListOfIds(req.body.ids);
         res.status(200).json(todos);
@@ -28,7 +28,7 @@ router.get("/list", async (req: Request, res: Response) => {
 });
 
 // delete a todo
-router.delete("/:id", async (req: Request, res: Response) => {
+todoRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
         await todoService.deleteTodos(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo deleted' });
@@ -39,7 +39,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
 });
 
 // add a todo
-router.post("/", async (req: Request, res: Response) => {
+todoRouter.post("/", async (req: Request, res: Response) => {
     try {
         const todo: TodoObject = {
             id: 0,
@@ -55,7 +55,7 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 // done a todo
-router.post("/:id/done", async (req: Request, res: Response) => {
+todoRouter.post("/:id/done", async (req: Request, res: Response) => {
     try {
         await todoService.setTodoDone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo done' });
@@ -69,7 +69,7 @@ router.post("/:id/done", async (req: Request, res: Response) => {
 
 // undone a todo
 
-router.post("/:id/undone", async (req: Request, res: Response) => {
+todoRouter.post("/:id/undone", async (req: Request, res: Response) => {
     try {
         await todoService.setTodoUndone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo undone' });
@@ -79,3 +79,6 @@ router.post("/:id/undone", async (req: Request, res: Response) => {
     }
 
 });
+
+
+export default todoRouter;
