@@ -41,3 +41,5 @@ fileRouter.delete("/:id", async (req: Request, res: Response) => {
     res.status(404).json({ message: errorMessage });
   }
 });
+
+export default fileRouter;
