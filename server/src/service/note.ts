@@ -1,4 +1,5 @@
 import {Note} from '../model/note'
+import FileService from './file';
 
 export class NoteService {
     private notes : Note[] = []
@@ -12,7 +13,6 @@ export class NoteService {
     }
 
     async createNote(title : string, fileID : string) : Promise<number> {
-        //from fileID, get a .txt file and extract the first 100 characters as preview
         let preview = await this.getPreview(fileID);
 
         const Note = {
@@ -30,9 +30,8 @@ export class NoteService {
 
 
     private async getPreview(fileID : string) : Promise<string> {
-        //get the file from the fileID
-        //extract the first 100 characters
-        return "preview";
+        const fileContent: string = FileService.readFile(fileID);
+        return fileContent.substring(0, 100);
     }
 
     async deleteNoteByID(id : number) : Promise<boolean> {
@@ -52,8 +51,7 @@ export class NoteService {
 
     private async deleteLinkedFile(fileID : string) : Promise<boolean> {
         //delete the file with the fileID
-
-        return true;
+        return FileService.deleteFile(fileID);
     }
 
     private async updateNotes(note : Note) : Promise<Note[]> {
@@ -65,5 +63,3 @@ export class NoteService {
     }
 }
 
-
-export default new NoteService();

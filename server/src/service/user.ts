@@ -1,7 +1,7 @@
 import { User } from '../model/user';
 
 
-class userService {
+export class UserService {
     users: User[] = [];
 
     public async login(name: string, password: string) {
@@ -165,5 +165,3 @@ class userService {
 
 
 }
-
-export default new userService();

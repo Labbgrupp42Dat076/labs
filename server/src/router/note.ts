@@ -4,11 +4,11 @@ import noteService from "../service/note";
 import { Note } from "../model/note";
 
 
-const router = express.Router();
+const noteRouter = express.Router();
 
 // get all notes from a list of ids
 
-router.get("/", async (req: Request, res: Response) => {
+noteRouter.get("/", async (req: Request, res: Response) => {
     try {
         const notes = await noteService.getNotesByListOfIDs(req.body.ids);
         res.status(200).json(notes);
@@ -19,7 +19,7 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 // create a note
-router.post("/", async (req: Request, res: Response) => {
+noteRouter.post("/", async (req: Request, res: Response) => {
     try {
         const id = await noteService.createNote(req.body.title, req.body.fileID);
         res.status(200).json({ message: 'Note created' + id });
@@ -30,7 +30,7 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 // delete a note
-router.delete("/:id", async (req: Request, res: Response) => {
+noteRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
         await noteService.deleteNoteByID(parseInt(req.params.id));
         res.status(200).json({ message: 'Note deleted' });
@@ -41,6 +41,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
 });
 
 
+export default noteRouter;
 
 
 
