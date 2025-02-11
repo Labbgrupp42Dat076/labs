@@ -4,6 +4,8 @@
   "description": "this is a cool app that lets you become an academic weapon",
   "main": "index.js",
   "scripts": {
+    "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
+
     "test": "jest"
   },
   "author": "",

@@ -1,5 +1,5 @@
 import {Note} from '../model/note'
-import FileService from './file';
+import fileService from './file';
 
 export class NoteService {
     private notes : Note[] = []
@@ -30,7 +30,7 @@ export class NoteService {
 
 
     private async getPreview(fileID : string) : Promise<string> {
-        const fileContent: string = FileService.readFile(fileID);
+        const fileContent: string = fileService.readFile(fileID);
         return fileContent.substring(0, 100);
     }
 
@@ -49,9 +49,9 @@ export class NoteService {
         }
     }
 
-    private async deleteLinkedFile(fileID : string) : Promise<boolean> {
+    private async deleteLinkedFile(fileID : string) : Promise<void> {
         //delete the file with the fileID
-        return FileService.deleteFile(fileID);
+        fileService.deleteFile(fileID);
     }
 
     private async updateNotes(note : Note) : Promise<Note[]> {
@@ -63,3 +63,6 @@ export class NoteService {
     }
 }
 
+const noteService = new NoteService();
+
+export default noteService;

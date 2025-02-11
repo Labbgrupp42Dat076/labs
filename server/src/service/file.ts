@@ -21,7 +21,18 @@ export class FileService {
     },
   });
 
-  public upload = multer({ storage: this.storage }).single("file");
+  private upload = multer({ storage: this.storage }).single("file");
+  public async uploadFile(req: any, res: any, callback: any): Promise<string> {
+    this.upload(req, res, (err: any) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null);
+      }
+    });
+    return req.file.filename;
+  }
+  
 
   public updateFileContent(fileName: string, newContent: string): void {
     const filePath = path.join(UPLOADS_DIR, fileName);
@@ -52,3 +63,6 @@ export class FileService {
   }
 }
 
+
+const fileService = new FileService();
+export default fileService;
