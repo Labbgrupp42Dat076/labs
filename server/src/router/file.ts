@@ -2,6 +2,9 @@ import express, { Request, Response } from "express";
 
 import fileService from "../service/file";
 
+import { ErrorMessage } from "../../utilities/error_message";
+import e from "express";
+
 const fileRouter = express.Router();
 
 // get a file
@@ -10,8 +13,7 @@ fileRouter.get("/:id", async (req: Request, res: Response) => {
     const file = await fileService.readFile(req.params.id);
     res.status(200).json(file);
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    res.status(404).json({ message: errorMessage });
+   ErrorMessage.setResponseToErrorMessage(error, res);
   }
 });
 
@@ -20,13 +22,12 @@ fileRouter.post("/", async (req: Request, res: Response) => {
   try {
     const resp = fileService.uploadFile(req, res, (err: any) => {
       if (err) {
-        throw new Error(err);
+        throw new ErrorMessage(err.message, 404);
       }
     });
     res.status(200).json({ message: 'File uploaded', file: resp }); 
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    res.status(404).json({ message: errorMessage });
+    ErrorMessage.setResponseToErrorMessage(error, res);
   }
 });
 
@@ -36,8 +37,7 @@ fileRouter.delete("/:id", async (req: Request, res: Response) => {
     await fileService.deleteFile(req.params.id);
     res.status(200).json({ message: 'File deleted' });
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    res.status(404).json({ message: errorMessage });
+    ErrorMessage.setResponseToErrorMessage(error, res);
   }
 });
 
