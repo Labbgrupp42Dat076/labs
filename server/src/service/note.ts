@@ -12,6 +12,10 @@ export class NoteService {
         return this.notes.filter(note => ids.includes(note.id));
     }
 
+    public async getNotes() : Promise<Note[]> {
+        return this.notes;
+    }
+
     async createNote(title : string, fileID : string) : Promise<number> {
         let preview = await this.getPreview(fileID);
 
@@ -29,9 +33,12 @@ export class NoteService {
     }
 
 
-    private async getPreview(fileID : string) : Promise<string> {
-        const fileContent: string = fileService.readFile(fileID);
-        return fileContent.substring(0, 100);
+    private async getPreview(fileID: string): Promise<string> {
+        try {
+            return fileService.readFile(fileID).substring(0, 100);
+        } catch (error) {
+            return "No preview available"; // Default preview
+        }
     }
 
     async deleteNoteByID(id : number) : Promise<boolean> {
