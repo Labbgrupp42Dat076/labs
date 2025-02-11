@@ -3,6 +3,8 @@ import express, { Request, Response } from "express";
 import noteService from "../service/note";
 import { Note } from "../model/note";
 
+import { ErrorMessage } from "../../utilities/error_message";
+
 
 const noteRouter = express.Router();
 
@@ -13,8 +15,7 @@ noteRouter.get("/", async (req: Request, res: Response) => {
         const notes = await noteService.getNotesByListOfIDs(req.body.ids);
         res.status(200).json(notes);
     } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        res.status(404).json({ message: errorMessage });
+        ErrorMessage.setResponseToErrorMessage(error, res);
     }
 });
 
@@ -24,8 +25,7 @@ noteRouter.post("/", async (req: Request, res: Response) => {
         const id = await noteService.createNote(req.body.title, req.body.fileID);
         res.status(200).json({ message: 'Note created' + id });
     } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        res.status(404).json({ message: errorMessage });
+        ErrorMessage.setResponseToErrorMessage(error, res);
     }
 });
 
@@ -35,8 +35,7 @@ noteRouter.delete("/:id", async (req: Request, res: Response) => {
         await noteService.deleteNoteByID(parseInt(req.params.id));
         res.status(200).json({ message: 'Note deleted' });
     } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        res.status(404).json({ message: errorMessage });
+        ErrorMessage.setResponseToErrorMessage(error, res);
     }
 });
 
