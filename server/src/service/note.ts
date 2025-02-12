@@ -1,15 +1,26 @@
 import {Note} from '../model/note'
 import fileService from './file';
+import { ErrorMessage } from '../../utilities/error_message';
 
 export class NoteService {
     private notes : Note[] = []
 
     private getNotesFromID(id : number) : Note {
-        return JSON.parse(JSON.stringify(this.notes.find(note => note.id === id)));
+
+        try{
+            return JSON.parse(JSON.stringify(this.notes.find(note => note.id === id)));
+        } catch (error) {
+            throw new ErrorMessage("Note not found", 404);
+        }
     }
 
     public async getNotesByListOfIDs(ids : number[]) : Promise<Note[]> {
+
+        try{
         return this.notes.filter(note => ids.includes(note.id));
+        } catch (error) {
+            throw new ErrorMessage("Note not found", 404);
+        }
     }
 
     public async getNotes() : Promise<Note[]> {
@@ -17,8 +28,13 @@ export class NoteService {
     }
 
     async createNote(title : string, fileID : string) : Promise<number> {
-        let preview = await this.getPreview(fileID);
-
+        let preview : string;
+        try {
+            //maybe validate the fileID here as well
+            preview = await this.getPreview(fileID);
+        } catch (error) {
+            throw new ErrorMessage("File not found", 404);
+        }
         const Note = {
             title : title,
             preview : preview,
@@ -30,6 +46,8 @@ export class NoteService {
         this.notes.push(Note);
         this.updateNotes(Note);
         return Note.id;
+    
+
     }
 
 
@@ -52,7 +70,7 @@ export class NoteService {
             return true;
         }
         else {
-            throw new Error('Note not found');
+            throw new ErrorMessage("Note not found", 404);
         }
     }
 

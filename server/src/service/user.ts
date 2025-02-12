@@ -1,16 +1,21 @@
 import { User } from '../model/user';
-
-
+import { ErrorMessage } from '../../utilities/error_message';
 export class UserService {
     users: User[] = [];
 
     public async login(name: string, password: string) {
         // do something
+        throw new ErrorMessage('Not implemented', 501);
+
     }
 
-    public async register(user:User): Promise<number> {
-        return await this.users.push(user);
-
+    public async register(user: User): Promise<number> {
+        // might need a db check later :)
+        if (this.users.find((item) => item.id === user.id)) {
+            throw new ErrorMessage('User already exists', 400);
+        }
+        this.users.push(user);
+        return user.id;
     }
 
     public async getUsers(): Promise<User[]> {
@@ -19,10 +24,10 @@ export class UserService {
 
     public async getUser(id: number): Promise<User> {
         let user = this.users.find((item) => item.id === id);
-        if( user) {
+        if (user) {
             return await user;
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
     }
 
@@ -37,7 +42,7 @@ export class UserService {
             }
         })
         if (!hasDeleted) {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
     }
 
@@ -50,10 +55,13 @@ export class UserService {
     async addNoteId(id: number, noteId: number): Promise<User> {
         let user = this.users.find((item) => item.id === id);
         if (user) {
+            if (user.noteIds.includes(noteId)) {
+                throw new ErrorMessage('Note already added', 400);
+            }
             user.noteIds.push(noteId);
 
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
 
         this.updateUser(user);
@@ -64,10 +72,13 @@ export class UserService {
     public async addTodoId(id: number, todoId: number): Promise<User> {
         let user = this.users.find((item) => item.id === id);
         if (user) {
+            if (user.todoIds.includes(todoId)) {
+                throw new ErrorMessage('Todo already added', 400);
+            }
             user.todoIds.push(todoId);
-        
+
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
         this.updateUser(user);
         return await user;
@@ -80,10 +91,10 @@ export class UserService {
         if (user) {
             user.lastPomodoroSession = lastPomodoroSession;
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
         this.updateUser(user);
-  
+
     }
 
     public async getLastPomodoroSession(id: number): Promise<number> {
@@ -91,7 +102,7 @@ export class UserService {
         if (user) {
             return await user.lastPomodoroSession;
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
     }
 
@@ -100,7 +111,7 @@ export class UserService {
         if (user) {
             return await user.noteIds;
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
     }
 
@@ -122,7 +133,7 @@ export class UserService {
             throw new Error('User not found');
         }
         this.updateUser(user);
-      
+
     }
 
     public async deleteTodoId(id: number, todoId: number): Promise<void> {
@@ -133,7 +144,7 @@ export class UserService {
             throw new Error('User not found');
         }
         this.updateUser(user);
-  
+
     }
 
     public async updateUserNames(id: number, name: string): Promise<void> {

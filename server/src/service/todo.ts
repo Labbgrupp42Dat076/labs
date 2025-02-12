@@ -1,5 +1,7 @@
 import { TodoObject } from '../model/todoObject';
 
+import { ErrorMessage } from '../../utilities/error_message';
+
 export class TodoService {
     todoList: Array<TodoObject> = [];
     
@@ -10,7 +12,7 @@ export class TodoService {
         if (output) {
             return output;
         } else {
-            throw new Error('Todo not found');
+            throw new ErrorMessage("Todo not found", 404);
         }
     }
 
@@ -34,8 +36,14 @@ export class TodoService {
     }
 
     public async getTodosByListOfIds(ids: number[]): Promise<TodoObject[]> {
+        try{
         let output = this.todoList.filter((item) => ids.includes(item.id));
+        
         return await output;
+        } catch (error) {
+            throw new ErrorMessage("Todos not found", 404
+            );
+        }
     }
 
 
