@@ -24,9 +24,19 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
 // login
 userRouter.post("/login", async (req: Request, res: Response) => {
   try {
-    const user:User = await userService.login(req.body.name, req.body.password);
+    const user: User = await userService.login(req.body.name, req.body.password);
     req.session.user= user;
     res.status(200).json({ message: 'Login successful' });
+  } catch (error: unknown) {
+    ErrorMessage.setResponseToErrorMessage(error, res);
+  }
+});
+
+// log out 
+userRouter.post("/logout", async (req: Request, res: Response) => {
+  try {
+    req.session.user = undefined;
+    res.status(200).json({ message: 'Logout successful' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }
