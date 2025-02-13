@@ -3,6 +3,7 @@ import path from "path";
 import multer from "multer";
 import { v4 as uuidv4 } from 'uuid';
 import { FileObject } from "../model/fileObject";
+import { ErrorMessage } from "../../utilities/error_message";
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
 
@@ -48,7 +49,8 @@ export class FileService {
     if (fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, newContent, "utf-8");
     } else {
-      throw new Error("File not found");
+     
+      throw new ErrorMessage("File not found", 404);
     }
   }
 
@@ -57,21 +59,21 @@ export class FileService {
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     } else {
-      throw new Error("File not found");
+      throw new ErrorMessage("File not found", 404);
     }
   }
   
   public readFile(fileId: string): string {
     const fileName = this.fileList.find((file) => file.id === parseInt(fileId))?.path;
     if (!fileName) {
-      throw new Error("File not found");
+      throw new ErrorMessage("File not found", 404);
     }
 
     const filePath = path.join(UPLOADS_DIR, fileName);
     if (fs.existsSync(filePath)) {
       return fs.readFileSync(filePath, "utf-8");
     } else {
-      throw new Error("File not found");
+      throw new ErrorMessage("File not found", 404);
     }
   }
 }
