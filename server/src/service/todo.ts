@@ -1,6 +1,6 @@
 import { TodoObject } from '../model/todoObject';
 
-class todoService {
+export class TodoService {
     todoList: Array<TodoObject> = [];
     
 
@@ -68,4 +68,6 @@ class todoService {
 
 }
 
-export default new todoService();
+const todoService = new TodoService();
+export default todoService;
+
