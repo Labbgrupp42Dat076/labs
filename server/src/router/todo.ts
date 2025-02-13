@@ -4,19 +4,15 @@ import todoService from "../service/todo";
 import { TodoObject } from "../model/todoObject";
 import { ErrorMessage } from "../../utilities/error_message";
 const todoRouter = express.Router();
-import session = require("express-session");
-import { User } from "../model/user";
+
+import { check_session } from "../../utilities/session_checker";
 
 // get all todos 
 todoRouter.get("/", async (req: Request, res: Response) => {
     try {
 
         //todo move this to note?? maybe functionally decompose
-        const user = req.session.user as User | undefined;
-        
-        if (!user) {
-            throw new ErrorMessage('User not found', 404);
-        }
+        const user = check_session(req);
 
         const todoIds: number[] = await user.todoIds
         const todos: TodoObject[]= await todoService.getTodosByListOfIds(todoIds);
