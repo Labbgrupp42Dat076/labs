@@ -3,6 +3,12 @@ import { User } from "../model/user";
 import userService from "../service/user";
 import { ErrorMessage } from "../../utilities/error_message";
 
+declare module 'express-session' {
+  interface SessionData {
+    user?: User;
+  }
+}
+
 const userRouter = express.Router();
 
 // get a user
@@ -18,7 +24,8 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
 // login
 userRouter.post("/login", async (req: Request, res: Response) => {
   try {
-    await userService.login(req.body.name, req.body.password);
+    const user:User = await userService.login(req.body.name, req.body.password);
+    req.session.user= user;
     res.status(200).json({ message: 'Login successful' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
