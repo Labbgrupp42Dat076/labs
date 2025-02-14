@@ -2,12 +2,23 @@ import {Note} from '../model/note'
 import fileService from './file';
 import { ErrorMessage } from '../../utilities/error_message';
 
+
 export class NoteService {
-    private notes : Note[] = []
+    private notes : Note[] = [
+
+        {
+            title: "test",
+            preview:"test",
+            id:0,
+            fileID:"0",
+            todoIds:[]
+        }
+    ]
 
     private getNotesFromID(id : number) : Note {
 
         try{
+            
             return JSON.parse(JSON.stringify(this.notes.find(note => note.id === id)));
         } catch (error) {
             throw new ErrorMessage("Note not found", 404);
@@ -17,6 +28,7 @@ export class NoteService {
     public async getNotesByListOfIDs(ids : number[]) : Promise<Note[]> {
 
         try{
+        
         return this.notes.filter(note => ids.includes(note.id));
         } catch (error) {
             throw new ErrorMessage("Note not found", 404);
