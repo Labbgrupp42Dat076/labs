@@ -36,6 +36,7 @@ todoRouter.get("/list", async (req: Request, res: Response) => {
 // delete a todo
 todoRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
+        check_session(req)
         await todoService.deleteTodos(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo deleted' });
     } catch (error: unknown) {
@@ -61,6 +62,7 @@ todoRouter.post("/", async (req: Request, res: Response) => {
 // done a todo
 todoRouter.post("/:id/done", async (req: Request, res: Response) => {
     try {
+        check_session(req)
         await todoService.setTodoDone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo done' });
     } catch (error: unknown) {
@@ -74,6 +76,7 @@ todoRouter.post("/:id/done", async (req: Request, res: Response) => {
 
 todoRouter.post("/:id/undone", async (req: Request, res: Response) => {
     try {
+        check_session(req)
         await todoService.setTodoUndone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo undone' });
     } catch (error: unknown) {
