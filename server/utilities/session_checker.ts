@@ -1,7 +1,8 @@
 import { User } from "../src/model/user";
 import { ErrorMessage } from "./error_message";
+import { Request } from "express"
 
-export function check_session(req: any): User {
+export function check_session(req: Request): User {
 
         const user = req.session.user as User | undefined;
         
