@@ -2,7 +2,18 @@ import { User } from '../model/user';
 import { ErrorMessage } from '../../utilities/error_message';
 import session from 'express-session';
 export class UserService {
-    users: User[] = [];
+    users: User[] = [
+
+        {
+            id: 0,
+            name: "admin",
+            password: "admin",
+            noteIds: [0],
+            todoIds: [],
+            lastPomodoroSession: 0
+
+        }
+    ];
 
     public async login(name: string, password: string): Promise<User> {
 
