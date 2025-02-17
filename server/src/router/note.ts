@@ -12,7 +12,9 @@ const noteRouter = express.Router();
 
 noteRouter.get("/", async (req: Request, res: Response) => {
     try {
-        const notes = await noteService.getNotesByListOfIDs(req.body.ids);
+
+        const ids = [1,2,3,4,5] // for testing
+        const notes = await noteService.getNotesByListOfIDs(ids);
         res.status(200).json(notes);
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
