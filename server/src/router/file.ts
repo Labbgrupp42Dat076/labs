@@ -22,12 +22,12 @@ fileRouter.get("/:id", async (req: Request, res: Response) => {
 // upload a file
 fileRouter.post("/", async (req: Request, res: Response) => {
   try {
-    const resp = fileService.uploadFile(req, res, (err: any) => {
+    const resp = await fileService.uploadFile(req, res, (err: any) => {
       if (err) {
         throw new ErrorMessage(err.message, 404);
       }
     });
-    res.status(200).json({ message: 'File uploaded', file: resp }); 
+    res.status(200).json({ message: resp }); 
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }

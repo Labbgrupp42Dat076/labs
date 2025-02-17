@@ -4,21 +4,20 @@ import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
-import { useRef } from 'react';
+import {useState, FormEvent, useRef} from 'react';
 
-interface NoteData {
-    name: string;
-    fileID: string;
-    id: string;
-}
+
 
 export function AddNoteOverlay() {
+
+    const [fileId, setFileId] = useState<string | null>(null)
 
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        let fileIdLocal: string | null = null
         if(fileInputRef.current && fileInputRef.current.files) {
             const file = fileInputRef.current.files[0]
             const formData = new FormData()
@@ -30,10 +29,13 @@ export function AddNoteOverlay() {
                         'Content-Type': 'multipart/form-data'
                     }       
                 })
-                console.log(response.data)
+                fileIdLocal = response.data.message
+                await setFileId(fileIdLocal)
+                console.log(fileId)
             } catch (error) {
                 console.error(error)
             }
+            setFileId(fileIdLocal)
         }
     }
 

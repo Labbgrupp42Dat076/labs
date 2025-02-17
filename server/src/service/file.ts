@@ -26,6 +26,7 @@ export class FileService {
         id: this.fileList.length,
         path: uniqueName  ,
       });
+      console.log(this.fileList);
       cb(null, uniqueName);
     },
   });
@@ -33,14 +34,14 @@ export class FileService {
   private upload = multer({ storage: this.storage }).single("file");
   public async uploadFile(req: any, res: any, callback: any): Promise<string> {
 
-    this.upload(req, res, (err: any) => {
+    await this.upload(req, res, (err: any) => {
       if (err) {
         callback(err);
       } else {
         callback(null);
       }
     });
-    
+  
     return this.fileList.length.toString();
   }
   
