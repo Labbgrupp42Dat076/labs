@@ -13,13 +13,7 @@ interface NoteData {
 }
 
 export function AddNoteOverlay() {
-    const fileUpload = async (e: any) => {
-        const file = e.target.files[0]
-        const formData = new FormData()
-        formData.append('file', file)
-        const response = await axios.post('http://localhost:8080/file', formData)
-        console.log(response)
-    }
+
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -29,9 +23,14 @@ export function AddNoteOverlay() {
             const file = fileInputRef.current.files[0]
             const formData = new FormData()
             formData.append('file', file)
+   
             try {
-                const response = await axios.post('http://localhost:8080/file', formData)
-                console.log(response)
+                const response = await axios.post('http://localhost:8080/file', formData,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }       
+                })
+                console.log(response.data)
             } catch (error) {
                 console.error(error)
             }
@@ -44,6 +43,7 @@ export function AddNoteOverlay() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label>Title</Form.Label>
                 <Form.Control type="text" placeholder="Title" />
+
 
                 <Form.Select aria-label="Default select example">
                     <option>Open this select menu</option>

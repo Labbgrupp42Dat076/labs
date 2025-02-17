@@ -20,14 +20,19 @@ export class FileService {
       cb(null, UPLOADS_DIR);
     },
     filename: (req, file, cb) => {
+      
       const uniqueName = path.extname(file.originalname) + uuidv4();
+      this.fileList.push({
+        id: this.fileList.length,
+        path: uniqueName  ,
+      });
       cb(null, uniqueName);
     },
   });
 
   private upload = multer({ storage: this.storage }).single("file");
   public async uploadFile(req: any, res: any, callback: any): Promise<string> {
-    console.log(req.file);
+
     this.upload(req, res, (err: any) => {
       if (err) {
         callback(err);
@@ -36,11 +41,7 @@ export class FileService {
       }
     });
     
-    this.fileList.push({
-      id: this.fileList.length,
-      path: req.file.filename,
-    });
-    return req.file.filename;
+    return this.fileList.length.toString();
   }
   
 
