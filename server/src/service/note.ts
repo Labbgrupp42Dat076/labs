@@ -44,20 +44,14 @@ export class NoteService {
 
     private getNotesFromID(id : number) : Note {
 
-        try{
             return JSON.parse(JSON.stringify(this.notes.find(note => note.id === id)));
-        } catch (error) {
-            throw new ErrorMessage("Note not found", 404);
-        }
+     
     }
 
     public async getNotesByListOfIDs(ids : number[]) : Promise<Note[]> {
 
-        try{
         return this.notes.filter(note => ids.includes(note.id));
-        } catch (error) {
-            throw new ErrorMessage("Note not found", 404);
-        }
+    
     }
 
     public async getNotes() : Promise<Note[]> {
@@ -101,9 +95,21 @@ export class NoteService {
         //delete the linked file
         let note = this.notes.find(note => note.id === id);
         if (note) {
-            this.deleteLinkedFile(note.fileID);
+            if (await this.deleteLinkedFile(note.fileID)){}else
+            {
+                throw new ErrorMessage("File not found", 404);
+            }
+
+            
+        
+        
             this.notes = this.notes.filter(note => note.id !== id);
-            this.updateNotes(note);
+            try{
+                this.updateNotes(note);
+            }catch (error) {
+                throw new ErrorMessage("Note not found", 404);
+            }
+       
             return true;
         }
         else {
@@ -111,15 +117,31 @@ export class NoteService {
         }
     }
 
-    private async deleteLinkedFile(fileID : string) : Promise<void> {
+    private async deleteLinkedFile(fileID : string) : Promise<boolean> {
         //delete the file with the fileID
-        fileService.deleteFile(fileID);
+
+        try {
+            fileService.deleteFile(fileID);
+            return true;
+        } catch (error) {
+            return false;
+        }
+
     }
 
     private async updateNotes(note : Note) : Promise<Note[]> {
+     
         this.notes = this.notes.map( (item) => {
-            return this.getNotesFromID(note.id) === item ? note : item;
+   
+            try {
+                return this.getNotesFromID(note.id) === item ? note : item;
+            } catch (SyntaxError) {
+                // catches to prevent the function from throwing an error if the note is not found
+                return item;
+            }
+           
         });
+  
 
         return this.notes;
     }

@@ -2,7 +2,7 @@
 import { Button } from 'react-bootstrap';
 // import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import axios from 'axios';
 interface NoteData {
     name: string;
     content: string;
@@ -15,6 +15,9 @@ export function Note(props: NoteData) {
         <div className='note' id ={props.id}>
             <h2>{props.name}</h2>
             <p>{props.content}</p>
+            <div>
+                something for the todo list
+            </div>
 
             <div className='action_buttons  shadow-sm bg-white rounded'>
                 <Button variant="primary" onClick={
@@ -27,7 +30,18 @@ export function Note(props: NoteData) {
                     }
                 } >Expand</Button>
                 <Button variant='primary'>Edit</Button>
-                <Button variant='danger'>Delete</Button>
+                <Button variant='danger'
+                onClick={() => {
+                    axios.delete('http://localhost:8080/note/' + props.id)
+                    .then(() => {
+                        const note = document.getElementById(props.id)
+                        if (note) {
+                            note.remove()
+                        }
+                    })
+                    
+                }}
+                >Delete</Button>
             </div>
         </div>
     )

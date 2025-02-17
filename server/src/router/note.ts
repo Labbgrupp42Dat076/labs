@@ -36,8 +36,10 @@ noteRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
         await noteService.deleteNoteByID(parseInt(req.params.id));
         res.status(200).json({ message: 'Note deleted' });
-    } catch (error: unknown) {
+    } catch (error) {
+        console.log("hello");
         ErrorMessage.setResponseToErrorMessage(error, res);
+ 
     }
 });
 
