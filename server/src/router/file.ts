@@ -22,6 +22,9 @@ fileRouter.get("/:id", async (req: Request, res: Response) => {
 // upload a file
 fileRouter.post("/", async (req: Request, res: Response) => {
   try {
+
+    // look for a file name in the request
+
     const resp = await fileService.uploadFile(req, res, (err: any) => {
       if (err) {
         throw new ErrorMessage(err.message, 404);
