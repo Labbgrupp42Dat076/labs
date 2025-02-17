@@ -2,6 +2,13 @@ import express, { Request, Response } from "express";
 import { User } from "../model/user";
 import userService from "../service/user";
 import { ErrorMessage } from "../../utilities/error_message";
+import { check_session } from "../../utilities/session_checker"
+
+declare module 'express-session' {
+  interface SessionData {
+    user?: User;
+  }
+}
 
 const userRouter = express.Router();
 
@@ -18,8 +25,24 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
 // login
 userRouter.post("/login", async (req: Request, res: Response) => {
   try {
-    await userService.login(req.body.name, req.body.password);
-    res.status(200).json({ message: 'Login successful' });
+
+    console.log(req.body)
+    const user: User = await userService.login(req.body.name, req.body.password);
+    req.session.user = user;
+    res.status(200).json({
+      message: 'Login successful',
+      user: user
+    });
+  } catch (error: unknown) {
+    ErrorMessage.setResponseToErrorMessage(error, res);
+  }
+});
+
+// log out 
+userRouter.post("/logout", async (req: Request, res: Response) => {
+  try {
+    req.session.user = undefined;
+    res.status(200).json({ message: 'Logout successful' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }
@@ -45,9 +68,11 @@ userRouter.post("/register", async (req: Request, res: Response) => {
 });
 
 // delete link between note and user
-userRouter.delete("/:userId/notes/:noteId", async (req: Request, res: Response) => {
+userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
   try {
-    await userService.deleteNoteId(parseInt(req.params.userId), parseInt(req.params.noteId));
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.deleteNoteId(userId, parseInt(req.params.noteId));
     res.status(200).json({ message: 'Note deleted' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -55,9 +80,12 @@ userRouter.delete("/:userId/notes/:noteId", async (req: Request, res: Response) 
 });
 
 // add link between note and user
-userRouter.post("/:userId/notes/:noteId", async (req: Request, res: Response) => {
+userRouter.post("/notes/:noteId", async (req: Request, res: Response) => {
   try {
-    await userService.addNoteId(parseInt(req.params.userId), parseInt(req.params.noteId));
+
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.addNoteId(userId, parseInt(req.params.noteId));
     res.status(200).json({ message: 'Note added' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -66,9 +94,12 @@ userRouter.post("/:userId/notes/:noteId", async (req: Request, res: Response) =>
 
 
 //delete link between todo and user
-userRouter.delete("/:userId/todos/:todoId", async (req: Request, res: Response) => {
+userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
   try {
-    await userService.deleteTodoId(parseInt(req.params.userId), parseInt(req.params.todoId));
+
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.deleteTodoId(userId, parseInt(req.params.todoId));
     res.status(200).json({ message: 'Todo deleted' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -78,7 +109,9 @@ userRouter.delete("/:userId/todos/:todoId", async (req: Request, res: Response) 
 // add link between todo and user
 userRouter.post("/:userId/todos/:todoId", async (req: Request, res: Response) => {
   try {
-    await userService.addTodoId(parseInt(req.params.userId), parseInt(req.params.todoId));
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.addTodoId(userId, parseInt(req.params.todoId));
     res.status(200).json({ message: 'Todo added' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -87,9 +120,11 @@ userRouter.post("/:userId/todos/:todoId", async (req: Request, res: Response) =>
 
 
 // update username
-userRouter.put("/:id/name", async (req: Request, res: Response) => {
+userRouter.put("/name", async (req: Request, res: Response) => {
   try {
-    await userService.updateUserNames(parseInt(req.params.id), req.body.name);
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.updateUserNames(userId, req.body.name);
     res.status(200).json({ message: 'Name updated' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -97,9 +132,11 @@ userRouter.put("/:id/name", async (req: Request, res: Response) => {
 });
 
 // update password
-userRouter.put("/:id/password", async (req: Request, res: Response) => {
+userRouter.put("/password", async (req: Request, res: Response) => {
   try {
-    await userService.updateUserPasswords(parseInt(req.params.id), req.body.password);
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.updateUserPasswords(userId, req.body.password);
     res.status(200).json({ message: 'Password updated' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -108,9 +145,11 @@ userRouter.put("/:id/password", async (req: Request, res: Response) => {
 
 
 // set last pomodoro session to now
-userRouter.post("/:id/pomodoro", async (req: Request, res: Response) => {
+userRouter.post("/pomodoro", async (req: Request, res: Response) => {
   try {
-    await userService.setLastPomodoroSessionToNow(parseInt(req.params.id));
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.setLastPomodoroSessionToNow(userId);
     res.status(200).json({ message: 'Pomodoro session updated' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -118,9 +157,11 @@ userRouter.post("/:id/pomodoro", async (req: Request, res: Response) => {
 });
 
 // get last pomodoro session
-userRouter.get("/:id/pomodoro", async (req: Request, res: Response) => {
+userRouter.get("/pomodoro", async (req: Request, res: Response) => {
   try {
-    const lastPomodoroSession = await userService.getLastPomodoroSession(parseInt(req.params.id));
+
+    let userId: number = getUserIdFromCookies(req);
+    const lastPomodoroSession = await userService.getLastPomodoroSession(userId);
     res.status(200).json(lastPomodoroSession);
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -129,3 +170,10 @@ userRouter.get("/:id/pomodoro", async (req: Request, res: Response) => {
 
 
 export default userRouter;
+function getUserIdFromCookies(req: Request) {
+  check_session(req);
+  let userId: number;
+  req.session.user?.id ? userId = req.session.user?.id : userId = 0;
+  return userId;
+}
+
