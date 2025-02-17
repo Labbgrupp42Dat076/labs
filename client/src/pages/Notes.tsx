@@ -5,6 +5,7 @@ import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import './notes.css'
 import { Note } from '../components/Note'
+import { AddNoteOverlay } from '../components/CreateNote'
 
 export function Notes() {
   const [notes, setNotes] = useState([])
@@ -25,6 +26,20 @@ export function Notes() {
   return (
     <div className='notes_body'>
 
+        <div id="overlay" className="hidden" >
+            <div className="overlayToggler" onClick={
+            () => {
+                const overlay = document.getElementById('overlay')
+                if (overlay) {
+                    overlay.classList.toggle('hidden')
+                }
+            }
+        }>
+
+            </div>
+            <AddNoteOverlay></AddNoteOverlay>
+        </div>
+      
       <section className="notes">
         {
 
@@ -38,7 +53,12 @@ export function Notes() {
        
         </section>
     
-        <Button className='add_notes' onClick={() => {/* add notes appears*/}} variant="primary">Add Note</Button>
+        <Button className='add_notes' onClick={() => {
+            const overlay = document.getElementById('overlay')
+            if (overlay) {
+                overlay.classList.toggle('hidden')
+            }
+        }} variant="primary">Add Note</Button>
 
 
     </div>

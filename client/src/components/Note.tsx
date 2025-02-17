@@ -30,6 +30,7 @@ export function Note(props: NoteData) {
                     }
                 } >Expand</Button>
                 <Button variant='primary'>Edit</Button>
+                <Button variant='primary'>Download</Button>
                 <Button variant='danger'
                 onClick={() => {
                     axios.delete('http://localhost:8080/note/' + props.id)

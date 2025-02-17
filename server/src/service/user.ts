@@ -5,7 +5,7 @@ export class UserService {
 
     public async login(name: string, password: string) {
         // do something
-        throw new ErrorMessage('Not implemented', 501);
+        throw new ErrorMessage('sNot implemented', 501);
 
     }
 

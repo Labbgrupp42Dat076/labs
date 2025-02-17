@@ -27,6 +27,7 @@ export class FileService {
 
   private upload = multer({ storage: this.storage }).single("file");
   public async uploadFile(req: any, res: any, callback: any): Promise<string> {
+    console.log(req.file);
     this.upload(req, res, (err: any) => {
       if (err) {
         callback(err);
@@ -34,7 +35,7 @@ export class FileService {
         callback(null);
       }
     });
-
+    
     this.fileList.push({
       id: this.fileList.length,
       path: req.file.filename,
