@@ -40,6 +40,7 @@ const Pomodoro: React.FC = () => {
                     } else if (minutes === 0 && isBreak) {
                         clearInterval(interval!);
                         setStudyTime();
+
                     } else {
                         setMinutes(minutes - 1);
                         setSeconds(59);

@@ -12,34 +12,47 @@ if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
 
+
 export class FileService {
   fileList: Array<FileObject> = [];
 
   private storage = multer.diskStorage({
+    
+
+
     destination: (req, file, cb) => {
       cb(null, UPLOADS_DIR);
     },
     filename: (req, file, cb) => {
-      const uniqueName = path.extname(file.originalname) + uuidv4();
+     
+      let uniqueName = path.extname(file.originalname) + uuidv4();
+      this.fileList.push({
+        id: this.fileList.length,
+        path: uniqueName  ,
+      });
       cb(null, uniqueName);
     },
   });
 
-  private upload = multer({ storage: this.storage }).single("file");
+  
+
+  private upload = multer({ storage: this.storage}).single("file");
   public async uploadFile(req: any, res: any, callback: any): Promise<string> {
-    this.upload(req, res, (err: any) => {
+    try {
+    await this.upload(req, res, (err: any) => {
       if (err) {
         callback(err);
-      } else {
+      }else if (!req.file) {
+        callback(new ErrorMessage('No file uploaded', 400));
+      } 
+      
+      else {
         callback(null);
       }
     });
-
-    this.fileList.push({
-      id: this.fileList.length,
-      path: req.file.filename,
-    });
-    return req.file.filename;
+  } catch (error) {}
+  
+    return this.fileList.length.toString();
   }
   
 

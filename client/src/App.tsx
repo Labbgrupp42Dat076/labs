@@ -1,17 +1,18 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Pomodoro from './pomodoro'
 
-function App() {
-  const [count, setCount] = useState(0)
+import TodoPage from './TodoPage/TodoPage'
+import {useRoutes} from 'react-router-dom'
+import Pomodoro from './pomodoro'
 
-  return (
-    <>
-      <Pomodoro />
-    </>
-  )
-}
+const App = () => {
+  const routes = useRoutes([
+      { path: '/', element: <TodoPage /> },
+      {path: '/pomodoro', element: <Pomodoro />}
+  ]);
+
+  return routes;
+};
 
 export default App

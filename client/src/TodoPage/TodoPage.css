@@ -1,0 +1,93 @@
+
+
+.todo-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: max-content;
+    padding: 3rem;
+    border: #ffffff94 solid 1px;
+    border-radius: 1rem;
+
+    width: 50vw;
+}
+
+.todo-page header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.todo-page header>* {
+    height: 3rem;
+}
+
+.todo-page header input {
+    flex: 1;
+
+    box-sizing: border-box;
+    padding: .3rem;
+}
+
+/* ------------- */
+
+.todo-page .display-buttons {
+    width: 100%;
+    text-align: left;
+}
+
+.todo-page .display-buttons button {
+border-radius: 1rem 1rem 0 0;
+margin-right: .5rem;
+}
+
+.todo-page .active-filter {
+    padding-top: 1rem;
+}
+
+
+/* ------------- */
+
+.todo-page ul {
+    list-style: none;
+    text-align: left;
+
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    width: 100%;
+    padding: 0;
+}
+
+.todo-page .todo-item {
+    background-color: #3e3e3e;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+
+    width: 100%;
+    padding: .2rem;
+    border-radius: .5rem;
+
+}
+
+.todo-page .completed {
+    text-decoration: line-through;
+}
+
+.todo-page .delete-button {
+    margin-left: auto;   
+}
+
+.todo-page .clear-completed-button {
+    background-color: brown;
+}
