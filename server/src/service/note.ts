@@ -4,42 +4,6 @@ import { ErrorMessage } from '../../utilities/error_message';
 
 export class NoteService {
     private notes : Note[] = [
-
-        {
-            title : "Note 1",
-            preview : "This is the first note lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            fileID : "1",
-            id : 1,
-            todoIds : [1,2]
-        },
-        {
-            title : "Note 2",
-            preview : "This is the second note",
-            fileID : "2",
-            id : 2,
-            todoIds : [3,4]
-        },
-        {
-            title : "Note 3",
-            preview : "This is the third note",
-            fileID : "3",
-            id : 3,
-            todoIds : [5,6]
-        },
-        {
-            title : "Note 4",
-            preview : "This is the fourth note",
-            fileID : "4",
-            id : 4,
-            todoIds : [7,8]
-        },
-        {
-            title : "Note 5",
-            preview : "This is the fifth note",
-            fileID : "5",
-            id : 5,
-            todoIds : [9,10]
-        }
     ]
 
     private getNotesFromID(id : number) : Note {
@@ -58,23 +22,26 @@ export class NoteService {
         return this.notes;
     }
 
-    async createNote(title : string, fileID : string) : Promise<number> {
+    async createNote(title : string, fileID : string, todoIds: number[]) : Promise<number> {
         let preview : string;
+        
         try {
             //maybe validate the fileID here as well
             preview = await this.getPreview(fileID);
         } catch (error) {
             throw new ErrorMessage("File not found", 404);
         }
+
         const Note = {
             title : title,
             preview : preview,
             fileID : fileID,
             id : Date.now(),
-            todoIds : []
+            todoIds : todoIds
         }
 
         this.notes.push(Note);
+        console.log(this.notes);
         this.updateNotes(Note);
         return Note.id;
     

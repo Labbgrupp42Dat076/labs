@@ -13,7 +13,7 @@ const noteRouter = express.Router();
 noteRouter.get("/", async (req: Request, res: Response) => {
     try {
 
-        const ids = [1,2,3,4,5] // for testing
+        const ids = [1, 2, 3, 4, 5] // for testing
         const notes = await noteService.getNotesByListOfIDs(ids);
         res.status(200).json(notes);
     } catch (error: unknown) {
@@ -24,8 +24,19 @@ noteRouter.get("/", async (req: Request, res: Response) => {
 // create a note
 noteRouter.post("/", async (req: Request, res: Response) => {
     try {
-        const id = await noteService.createNote(req.body.title, req.body.fileID);
-        res.status(200).json({ message: 'Note created' + id });
+
+        // reformat from string to number
+        req.body.content.forEach((element: string) => {
+            if (element === undefined) {
+                return;
+            }
+            parseInt(element);
+        }
+        );
+
+
+        const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content);
+            res.status(200).json({ message: 'Note created' + id });
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
@@ -39,7 +50,7 @@ noteRouter.delete("/:id", async (req: Request, res: Response) => {
     } catch (error) {
         console.log("hello");
         ErrorMessage.setResponseToErrorMessage(error, res);
- 
+
     }
 });
 
