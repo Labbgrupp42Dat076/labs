@@ -66,9 +66,9 @@ const TodoPage: React.FC = () => {
             todoId = response.data.id;
             console.log(response.data.id);
             return response.data;
-        }).then(() => {
+        }).then(async() => {
             //add todo to the user
-            const response =axios.post('http://localhost:8080/user/todo', {
+            const response  = await axios.post('http://localhost:8080/user/todo', {
                 todoId: todoId,
             })
             console.log(response);}
