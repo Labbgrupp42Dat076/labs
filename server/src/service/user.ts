@@ -4,6 +4,7 @@ import session from 'express-session';
 export class UserService {
     users: User[] = [
 
+
         {
             id: 0,
             name: "admin",
@@ -11,7 +12,6 @@ export class UserService {
             noteIds: [0],
             todoIds: [],
             lastPomodoroSession: 0
-
         }
     ];
 
