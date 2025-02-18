@@ -4,7 +4,7 @@ import noteService from "../service/note";
 import { Note } from "../model/note";
 
 import { ErrorMessage } from "../../utilities/error_message";
-
+import { check_session } from "../../utilities/session_checker";
 
 const noteRouter = express.Router();
 
@@ -13,8 +13,13 @@ const noteRouter = express.Router();
 noteRouter.get("/", async (req: Request, res: Response) => {
     try {
 
-        const ids = [1, 2, 3, 4, 5] // for testing
-        const notes = await noteService.getNotesByListOfIDs(ids);
+        check_session(req)  
+        let notes: Note[] = []
+        const noteIds = await req.session.user?.noteIds 
+        if (noteIds) {
+          notes = await noteService.getNotesByListOfIDs(noteIds)
+        }
+
         res.status(200).json(notes);
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);

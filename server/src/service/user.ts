@@ -1,12 +1,29 @@
 import { User } from '../model/user';
 import { ErrorMessage } from '../../utilities/error_message';
+import session from 'express-session';
 export class UserService {
-    users: User[] = [];
+    users: User[] = [
 
-    public async login(name: string, password: string) {
-        // do something
-        throw new ErrorMessage('sNot implemented', 501);
 
+        {
+            id: 0,
+            name: "admin",
+            password: "admin",
+            noteIds: [0],
+            todoIds: [],
+            lastPomodoroSession: 0
+        }
+    ];
+
+    public async login(name: string, password: string): Promise<User> {
+
+        // doe some db check later
+        let user = this.users.find((item) => item.name === name && item.password === password);
+        if (user) {
+            return await user;
+        } else {
+            throw new ErrorMessage('User not found', 404);
+        }
     }
 
     public async register(user: User): Promise<number> {

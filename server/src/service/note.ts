@@ -2,17 +2,26 @@ import {Note} from '../model/note'
 import fileService from './file';
 import { ErrorMessage } from '../../utilities/error_message';
 
+
 export class NoteService {
     private notes : Note[] = [
+
     ]
 
     private getNotesFromID(id : number) : Note {
+
+
+        try{
+            
 
             return JSON.parse(JSON.stringify(this.notes.find(note => note.id === id)));
      
     }
 
     public async getNotesByListOfIDs(ids : number[]) : Promise<Note[]> {
+
+        try{
+        
 
         return this.notes.filter(note => ids.includes(note.id));
     
