@@ -9,6 +9,10 @@ import axios from 'axios'
 
 import TodoPage from './TodoPage/TodoPage'
 
+import { Notes } from './pages/Notes'
+axios.defaults.withCredentials = true;
+
+
 import {useRoutes} from 'react-router-dom'
 import Pomodoro from './pomodoro'
 
@@ -36,7 +40,6 @@ const App = () => {
 
   return routes;
 };
-
 
 
 

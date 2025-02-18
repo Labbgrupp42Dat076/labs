@@ -27,7 +27,7 @@ export class FileService {
      
       let uniqueName = path.extname(file.originalname) + uuidv4();
       this.fileList.push({
-        id: this.fileList.length,
+        id: this.fileList.length +1,
         path: uniqueName  ,
       });
       cb(null, uniqueName);
@@ -67,8 +67,17 @@ export class FileService {
     }
   }
 
-  public deleteFile(fileName: string): void {
+  public deleteFile(fileId: string): void {
+    console.log(this.fileList)
+    console.log(fileId)
+    const fileName = this.fileList.find((file) => file.id === parseInt(fileId))?.path;
+    if (!fileName) {
+      console.log("file not found");
+      throw new ErrorMessage("File not found", 404);
+    }
+
     const filePath = path.join(UPLOADS_DIR, fileName);
+    console.log("file name " + fileName);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     } else {

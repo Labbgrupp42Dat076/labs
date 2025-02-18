@@ -82,7 +82,7 @@ export class UserService {
         }
 
         this.updateUser(user);
-
+        
         return await user;
     }
 
@@ -185,7 +185,6 @@ export class UserService {
         this.updateUser(user);
 
     }
-
 
 
 
