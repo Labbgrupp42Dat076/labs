@@ -12,6 +12,7 @@ import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
 export function AddNoteOverlay() {
 
     const [fileId, setFileId] = useState<string | null>(null)
+    const[noteId, setNoteId] = useState<string | null>(null)
 
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -68,19 +69,37 @@ export function AddNoteOverlay() {
 
 
 
-
-        axios.post('http://localhost:8080/note', {
+        let localNoteId
+        await axios.post('http://localhost:8080/note', {
             title: title,
             content: todos,
             fileId: fileId
         }).then((response) => {
             console.log(response)
-            alert('Note added')
-            window.location.reload()
+            localNoteId = response.data.id
+
         }).catch((error) => {
             console.error(error)
             alert('Error adding note')
         })
+
+        if (localNoteId){
+            setNoteId(localNoteId)
+        }
+        console.log("local note id" + localNoteId)
+        // add note to the user
+        axios.post('http://localhost:8080/user/notes',
+        { noteId: localNoteId }
+        ).then((response) => {
+            console.log(response)
+            alert('Note added')
+
+            window.location.reload()
+        }).catch((error) => {
+            console.error(error)
+            // alert('Error linking note to user')
+        }
+        )
 
 
     }

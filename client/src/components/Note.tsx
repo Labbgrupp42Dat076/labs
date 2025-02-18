@@ -40,6 +40,12 @@ export function Note(props: NoteData) {
                             note.remove()
                         }
                     })
+
+                    // delete it from the user as well
+                    axios.delete('http://localhost:8080/user/notes/' + props.id)
+                    .then(() => {
+                        console.log('note deleted from user')
+                    })
                     
                 }}
                 >Delete</Button>
