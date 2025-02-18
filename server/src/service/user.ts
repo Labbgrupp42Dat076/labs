@@ -87,9 +87,14 @@ export class UserService {
     }
 
     public async addTodoId(id: number, todoId: number): Promise<User> {
+        console.log("adding todo id " + todoId)
+ 
+
         let user = this.users.find((item) => item.id === id);
+       
         if (user) {
             if (user.todoIds.includes(todoId)) {
+                console.log("hello")
                 throw new ErrorMessage('Todo already added', 400);
             }
             user.todoIds.push(todoId);
@@ -98,6 +103,7 @@ export class UserService {
             throw new ErrorMessage('User not found', 404);
         }
         await this.updateUser(user);
+        console.log(user)
         return await user;
     }
 

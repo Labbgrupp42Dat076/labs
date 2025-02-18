@@ -118,11 +118,13 @@ userRouter.delete("/todos", async (req: Request, res: Response) => {
 // add link between todo and user
 userRouter.post("/todo/", async (req: Request, res: Response) => {
   try {
-    console.log("added todo link")
+    console.log("added todo link " + req.body.todoId)
+    const todoId: number = parseInt(req.body.todoId);
+    console .log(todoId)
 
     let userId: number = getUserIdFromCookies(req);
-
-    await userService.addTodoId(userId, parseInt(req.params.todoId));
+    
+    await userService.addTodoId(userId, todoId);
     await updateUserCookie(req, userId);
 
 
