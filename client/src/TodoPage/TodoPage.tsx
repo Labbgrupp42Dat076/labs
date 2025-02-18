@@ -18,20 +18,21 @@ const TodoPage: React.FC = () => {
 
 
 
-    
-   
+
+
 
     const fetchTodos = async () => {
-    
+        let localTodos: Todo[] = [];
         const response = await axios.get('http://localhost:8080/todo')
         const data = await response.data
-        console.log(data);
-        setTodos(data);
-        
+        localTodos = data
+        console.log(localTodos)
+        setTodos(localTodos);
+
     }
 
     useEffect(() => {
- 
+
         fetchTodos();
     }, []);
 
@@ -51,34 +52,31 @@ const TodoPage: React.FC = () => {
         }
     };
 
-    const addTodo = () => {
-        let todoId: number;
+    const addTodo = async () => {
         console.log(newTodo);
         if (newTodo.trim() === '') return;
 
-        axios.post('http://localhost:8080/todo', {
+        await  axios.post('http://localhost:8080/todo', {
             title: newTodo,
         })
-        .then(response => {
-            if (!response.data.message) {
-            throw new Error('Failed to add todo');
-            }
-            todoId = response.data.id;
-            console.log(response.data.id);
-            return response.data;
-        }).then(async() => {
-            //add todo to the user
-            const response  = await axios.post('http://localhost:8080/user/todo', {
-                todoId: todoId,
+            .then(async (response) => {
+                if (!response.data.message) {
+                    throw new Error('Failed to add todo');
+                }
+    
+                return await axios.post('http://localhost:8080/user/todo', {
+                    todoId: response.data.id,
+                });
             })
-            console.log(response);}
-           
-        )
-        .then(() => {
-            fetchTodos()
-            setNewTodo('');
-        })
-        .catch(error => console.error('Error:', error));
+            .then(() => {
+                fetchTodos();
+                setNewTodo('');
+                window.location.reload()
+                window.location.reload()    
+            })
+            .catch(error => console.error('Error:', error));
+
+
     };
 
     const toggleTodo = (id: number) => {
@@ -89,43 +87,9 @@ const TodoPage: React.FC = () => {
         fetch(endpoint, {
             method: 'POST',
         })
-        .then(response => {
-            if (!response.ok) {
-            throw new Error('Failed to toggle todo');
-            }
-            return response.json();
-        })
-        .then(() => {
-            fetchTodos();
-        })
-        .catch(error => console.error('Error:', error));
-    };
-
-    const deleteTodo = (id: number) => {
-        fetch(`http://localhost:8080/todo/${id}`, {
-            method: 'DELETE',
-        })
-        .then(response => {
-            if (!response.ok) {
-            throw new Error('Failed to delete todo');
-            }
-            return response.json();
-        })
-        .then(() => {
-            fetchTodos();
-        })
-        .catch(error => console.error('Error:', error));
-    };
-
-    const clearCompleted = () => {
-        const completedTodos = todos.filter(todo => todo.completed);
-        completedTodos.forEach(todo => {
-            fetch(`http://localhost:8080/todo/${todo.id}`, {
-                method: 'DELETE',
-            })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to delete todo');
+                    throw new Error('Failed to toggle todo');
                 }
                 return response.json();
             })
@@ -133,6 +97,40 @@ const TodoPage: React.FC = () => {
                 fetchTodos();
             })
             .catch(error => console.error('Error:', error));
+    };
+
+    const deleteTodo = (id: number) => {
+        axios.delete(`http://localhost:8080/todo/${id}`)
+            .then(response => {
+                if (!response.data.message) {
+                    console.log(response);
+                    throw new Error('Failed to delete todo');
+                }
+                return response.data;
+            })
+            .then(() => {
+                fetchTodos();
+            })
+            .catch(error => console.error('Error:', error));
+    };
+
+    const clearCompleted = () => {
+        const completedTodos = todos.filter(todo => todo.completed);
+        completedTodos.forEach(todo => {
+            axios.delete(`http://localhost:8080/todo/${todo.id}`)
+                .then(response => {
+                    if (!response.data.message) {
+                        throw new Error('Failed to delete todo');
+                    }
+                    return response.data
+                }).then(async () => {
+                    // ake a call to delete the todo on the user
+                    await axios.delete(`http://localhost:8080/user/todo/${todo.id}`)
+                })
+                .then(() => {
+                    fetchTodos();
+                })
+                .catch(error => console.error('Error:', error));
         });
     }
 
@@ -150,20 +148,20 @@ const TodoPage: React.FC = () => {
             </header>
 
             <div className='display-buttons'>
-                <button 
-                    className={display === 'all' ? 'active-filter' : ''} 
+                <button
+                    className={display === 'all' ? 'active-filter' : ''}
                     onClick={() => setDisplay('all')}
                 >
                     All
                 </button>
-                <button 
-                    className={display === 'active' ? 'active-filter' : ''} 
+                <button
+                    className={display === 'active' ? 'active-filter' : ''}
                     onClick={() => setDisplay('active')}
                 >
                     Active
                 </button>
-                <button 
-                    className={display === 'completed' ? 'active-filter' : ''} 
+                <button
+                    className={display === 'completed' ? 'active-filter' : ''}
                     onClick={() => setDisplay('completed')}
                 >
                     Completed
