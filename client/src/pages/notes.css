@@ -1,0 +1,120 @@
+.notes_body{
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+
+.notes{
+    margin-top: 8vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items:center;   
+    width: 100vw;
+    height: auto;
+    position: relative;
+}
+
+.add_notes{
+    position: fixed;
+    bottom: 2vh;
+    z-index: 2;
+    right: 2vw;
+}
+
+.note{
+    display : flex;
+    margin: 2vw;
+    flex-direction: column;
+
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    width: 350px;
+    min-height: 100px;
+    max-height: 300px;
+    position: relative;
+
+    align-items: center;
+}
+
+.note p{
+    display: block;
+    margin-right: 2vw;
+    margin-left: 2vw;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    max-height: 150px;
+    text-overflow: ellipsis;
+
+}
+
+.note h2{
+    position: relative;
+    z-index: 1;
+
+}
+.note .action_buttons{
+    display: flex;
+    justify-content: space-between;
+
+    position: relative ;
+    z-index: 1;
+    width: 340px;
+    height: 50px;
+    padding: 5px;
+    
+    margin-top: auto;
+
+    margin-bottom: 1vh;
+}
+
+.expanded{
+    min-height: fit-content; 
+    max-height: 500px;
+}
+
+.expanded p{
+    max-height: 500px;
+    overflow: scroll;
+}
+
+#overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+.overlayToggler{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#main-submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    position: relative;
+    z-index: 1001;
+    top: 350px;  
+    background-color: chartreuse !important;
+}
