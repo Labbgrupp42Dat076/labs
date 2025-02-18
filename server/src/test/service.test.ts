@@ -20,7 +20,7 @@ test("If a task is added to the list then it should be in the list", async () =>
 test("If a note is created then it should be in the list", async () => {
     const noteService = new NoteService();
 
-    await noteService.createNote("testNote", "id3");
+    await noteService.createNote("testNote", "id3", [1,2,3]);
     const notes: Note[] = await noteService.getNotes();
 
     expect(notes.length == 1);
