@@ -50,6 +50,7 @@ export class TodoService {
     public async addTodos(todo: TodoObject): Promise<number> {
         //this should be db things
         // generate id
+        todo.id = Date.now();
         this.todoList.push(todo);
         return todo.id;
     }
