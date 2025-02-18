@@ -53,7 +53,7 @@ todoRouter.post("/", async (req: Request, res: Response) => {
             completed: false
         };
         const id: number = await todoService.addTodos(todo);
-        res.status(200).json({ message: 'Todo added' + id });
+        res.status(200).json({ message: 'Todo added', id: id });
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }

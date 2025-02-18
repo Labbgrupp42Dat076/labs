@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './TodoPage.css';
+import axios from 'axios';
+
+
 
 interface Todo {
     id: number;
@@ -13,14 +16,22 @@ const TodoPage: React.FC = () => {
     const [newTodo, setNewTodo] = useState<string>('');
     const [display, setDisplay] = useState<string>('all');
 
+
+
+    
+   
+
     const fetchTodos = async () => {
-        const response = await fetch('http://localhost:8080/todo');
-        const data = await response.json();
+    
+        const response = await axios.get('http://localhost:8080/todo')
+        const data = await response.data
         console.log(data);
         setTodos(data);
+        
     }
 
     useEffect(() => {
+ 
         fetchTodos();
     }, []);
 
@@ -41,23 +52,28 @@ const TodoPage: React.FC = () => {
     };
 
     const addTodo = () => {
+        let todoId: number;
+        console.log(newTodo);
         if (newTodo.trim() === '') return;
 
-        fetch('http://localhost:8080/todo', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        axios.post('http://localhost:8080/todo', {
             title: newTodo,
-            })
         })
         .then(response => {
-            if (!response.ok) {
+            if (!response.data.message) {
             throw new Error('Failed to add todo');
             }
-            return response.json();
-        })
+            todoId = response.data.id;
+            console.log(response.data.id);
+            return response.data;
+        }).then(() => {
+            //add todo to the user
+            const response =axios.post('http://localhost:8080/user/todo', {
+                todoId: todoId,
+            })
+            console.log(response);}
+           
+        )
         .then(() => {
             fetchTodos()
             setNewTodo('');
