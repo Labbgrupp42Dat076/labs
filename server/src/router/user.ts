@@ -100,13 +100,15 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
 
 
 //delete link between todo and user
-userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
+userRouter.delete("/todos", async (req: Request, res: Response) => {
   try {
 
 
     let userId: number = getUserIdFromCookies(req);
+
     await userService.deleteTodoId(userId, parseInt(req.params.todoId));
     await updateUserCookie(req, userId);
+
     res.status(200).json({ message: 'Todo deleted' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
@@ -114,13 +116,16 @@ userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
 });
 
 // add link between todo and user
-userRouter.post("/:userId/todos/:todoId", async (req: Request, res: Response) => {
+userRouter.post("/todo/", async (req: Request, res: Response) => {
   try {
-
+    console.log("added todo link")
     let userId: number = getUserIdFromCookies(req);
+
     await userService.addTodoId(userId, parseInt(req.params.todoId));
     await updateUserCookie(req, userId);
-    res.status(200).json({ message: 'Todo added' });
+
+    res.status(200).json({ message: 'Todo added', id: req.body.todoId });
+
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }
