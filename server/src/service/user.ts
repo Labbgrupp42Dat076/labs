@@ -63,7 +63,7 @@ export class UserService {
         }
     }
 
-    private async updateUser(user: User): Promise<void> {
+    private updateUser(user: User): void  {
         this.users = this.users.map((item) => {
             return user.id === item.id ? user : item;
         });
@@ -97,7 +97,7 @@ export class UserService {
         } else {
             throw new ErrorMessage('User not found', 404);
         }
-        this.updateUser(user);
+        await this.updateUser(user);
         return await user;
     }
 

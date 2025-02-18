@@ -119,10 +119,12 @@ userRouter.delete("/todos", async (req: Request, res: Response) => {
 userRouter.post("/todo/", async (req: Request, res: Response) => {
   try {
     console.log("added todo link")
+
     let userId: number = getUserIdFromCookies(req);
 
     await userService.addTodoId(userId, parseInt(req.params.todoId));
     await updateUserCookie(req, userId);
+
 
     res.status(200).json({ message: 'Todo added', id: req.body.todoId });
 

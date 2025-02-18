@@ -17,10 +17,6 @@ const TodoPage: React.FC = () => {
     const [display, setDisplay] = useState<string>('all');
 
 
-
-
-
-
     const fetchTodos = async () => {
         let localTodos: Todo[] = [];
         const response = await axios.get('http://localhost:8080/todo')
@@ -68,11 +64,9 @@ const TodoPage: React.FC = () => {
                     todoId: response.data.id,
                 });
             })
-            .then(() => {
-                fetchTodos();
-                setNewTodo('');
-                window.location.reload()
-                window.location.reload()    
+            .then(async () => {
+                setAllTodos([...todos, { id: todos.length + 1, title: newTodo, completed: false }]);
+                setNewTodo('')
             })
             .catch(error => console.error('Error:', error));
 
