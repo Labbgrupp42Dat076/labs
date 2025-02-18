@@ -6,6 +6,7 @@ import { ErrorMessage } from "../../utilities/error_message";
 const todoRouter = express.Router();
 
 import { check_session } from "../../utilities/session_checker";
+import { User } from "../model/user";
 
 // get all todos 
 todoRouter.get("/", async (req: Request, res: Response) => {
@@ -36,7 +37,13 @@ todoRouter.get("/list", async (req: Request, res: Response) => {
 // delete a todo
 todoRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
-        check_session(req)
+        const user: User =  await  check_session(req)
+
+        user.todoIds = user.todoIds.filter((id: number) => id !== parseInt(req.params.id));
+
+
+        req.session.user = user;
+
         await todoService.deleteTodos(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo deleted' });
     } catch (error: unknown) {
