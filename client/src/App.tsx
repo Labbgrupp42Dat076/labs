@@ -1,18 +1,23 @@
+
 import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+
 import './App.css'
+import Pomodoro from './pomodoro'
+import axios from 'axios'
 
 import TodoPage from './TodoPage/TodoPage'
-import axios from 'axios'
-import { Notes } from './pages/Notes'
+
+import {useRoutes} from 'react-router-dom'
+import Pomodoro from './pomodoro'
+
 axios.defaults.withCredentials = true;
 
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  async function login() {
+const App = () => {
+  
+    async function login() {
     //logs you in for now
     await axios.post('http://localhost:8080/user/login', {
       name: 'admin',
@@ -24,13 +29,16 @@ function App() {
   useEffect(() => {
     login()
   }, [])
+  const routes = useRoutes([
+      { path: '/', element: <TodoPage /> },
+      {path: '/pomodoro', element: <Pomodoro />}
+  ]);
 
-  return (
-    <>
+  return routes;
+};
 
-      <TodoPage></TodoPage>
-    </>
-  )
-}
+
+
+
 
 export default App
