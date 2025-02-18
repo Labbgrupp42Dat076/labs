@@ -1,0 +1,12 @@
+{
+    "pomodoroTimer": {
+        "studyTime": {
+            "minutes": 25,
+            "seconds": 0
+        },
+        "breakTime": {
+            "minutes": 5,
+            "seconds": 0
+        }
+    }
+}
