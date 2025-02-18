@@ -6,6 +6,7 @@ import { ErrorMessage } from "../../utilities/error_message";
 const todoRouter = express.Router();
 
 import { check_session } from "../../utilities/session_checker";
+import { User } from "../model/user";
 
 // get all todos 
 todoRouter.get("/", async (req: Request, res: Response) => {
@@ -36,7 +37,13 @@ todoRouter.get("/list", async (req: Request, res: Response) => {
 // delete a todo
 todoRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
-        check_session(req)
+        const user: User =  await  check_session(req)
+
+        user.todoIds = user.todoIds.filter((id: number) => id !== parseInt(req.params.id));
+
+
+        req.session.user = user;
+
         await todoService.deleteTodos(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo deleted' });
     } catch (error: unknown) {
@@ -46,6 +53,7 @@ todoRouter.delete("/:id", async (req: Request, res: Response) => {
 
 // add a todo
 todoRouter.post("/", async (req: Request, res: Response) => {
+    console.log("added todo")
     try {
         const todo: TodoObject = {
             id: 0,
@@ -53,7 +61,7 @@ todoRouter.post("/", async (req: Request, res: Response) => {
             completed: false
         };
         const id: number = await todoService.addTodos(todo);
-        res.status(200).json({ message: 'Todo added' + id });
+        res.status(200).json({ message: 'Todo added', id: id });
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
@@ -62,7 +70,7 @@ todoRouter.post("/", async (req: Request, res: Response) => {
 // done a todo
 todoRouter.post("/:id/done", async (req: Request, res: Response) => {
     try {
-        check_session(req)
+        // check_session(req)
         await todoService.setTodoDone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo done' });
     } catch (error: unknown) {
@@ -76,7 +84,7 @@ todoRouter.post("/:id/done", async (req: Request, res: Response) => {
 
 todoRouter.post("/:id/undone", async (req: Request, res: Response) => {
     try {
-        check_session(req)
+        // check_session(req)
         await todoService.setTodoUndone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo undone' });
     } catch (error: unknown) {

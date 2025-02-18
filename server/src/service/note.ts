@@ -15,7 +15,10 @@ export class NoteService {
             
 
             return JSON.parse(JSON.stringify(this.notes.find(note => note.id === id)));
-     
+        } catch (error) {
+            throw new ErrorMessage("Note not found", 404);
+        }
+
     }
 
     public async getNotesByListOfIDs(ids : number[]) : Promise<Note[]> {
@@ -24,7 +27,14 @@ export class NoteService {
         
 
         return this.notes.filter(note => ids.includes(note.id));
-    
+
+
+
+        }
+        catch (error) {
+            throw new ErrorMessage("Notes not found", 404);
+        }
+
     }
 
     public async getNotes() : Promise<Note[]> {
@@ -37,6 +47,7 @@ export class NoteService {
         try {
             //maybe validate the fileID here as well
             preview = await this.getPreview(fileID);
+
         } catch (error) {
             throw new ErrorMessage("File not found", 404);
         }

@@ -5,6 +5,7 @@ import { Note } from "../model/note";
 
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker";
+import { User } from "../model/user";
 
 const noteRouter = express.Router();
 
@@ -13,9 +14,12 @@ const noteRouter = express.Router();
 noteRouter.get("/", async (req: Request, res: Response) => {
     try {
 
-        check_session(req)  
+        const response: User = check_session(req)  
+
+
         let notes: Note[] = []
-        const noteIds = await req.session.user?.noteIds 
+        const noteIds = response.noteIds
+        console.log(noteIds)
         if (noteIds) {
           notes = await noteService.getNotesByListOfIDs(noteIds)
         }
@@ -41,7 +45,7 @@ noteRouter.post("/", async (req: Request, res: Response) => {
 
 
         const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content);
-            res.status(200).json({ message: 'Note created' + id });
+            res.status(200).json({ message: 'Note created', id:  id });
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
