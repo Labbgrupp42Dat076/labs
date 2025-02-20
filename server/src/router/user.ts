@@ -100,7 +100,7 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
 
 
 //delete link between todo and user
-userRouter.delete("/todos", async (req: Request, res: Response) => {
+userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
   try {
 
 
@@ -108,6 +108,7 @@ userRouter.delete("/todos", async (req: Request, res: Response) => {
 
     await userService.deleteTodoId(userId, parseInt(req.params.todoId));
     await updateUserCookie(req, userId);
+    console.log("deleted todo link " + req.params.todoId)
 
     res.status(200).json({ message: 'Todo deleted' });
   } catch (error: unknown) {

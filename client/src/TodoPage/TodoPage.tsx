@@ -66,7 +66,7 @@ const TodoPage: React.FC = () => {
                 todoId: responseTodo.data.id,
             });
             setAllTodos([...todos, { id: responseTodo.data.id, title: newTodo, completed: false }]);
-            setTodos([...todos, { id:  responseTodo.data.id, title: newTodo, completed: false }]);
+            setTodos([...todos, { id: responseTodo.data.id, title: newTodo, completed: false }]);
             setNewTodo('')
         } catch (error) {
             console.error('Error:', error);
@@ -86,7 +86,7 @@ const TodoPage: React.FC = () => {
             method: 'POST',
         })
             .then(response => {
-    
+
                 if (!response.ok) {
                     throw new Error('Failed to toggle todo');
                 }
@@ -98,25 +98,27 @@ const TodoPage: React.FC = () => {
             .catch(error => console.error('Error:', error));
     };
 
-    const deleteTodo = (id: number) => {
-        axios.delete(`http://localhost:8080/todo/${id}`)
-            .then(response => {
-                if (!response.data.message) {
-                    console.log(response);
-                    throw new Error('Failed to delete todo');
-                }
-                return response.data;
-            })
-            .then(() => {
-                fetchTodos();
-            })
-            .catch(error => console.error('Error:', error));
+    const deleteTodo = async (id: number) => {
+        const response = await axios.delete(`http://localhost:8080/todo/${id}`)
+
+        if (!response.data.message) {
+            console.log(response);
+            throw new Error('Failed to delete todo');
+        } 
+
+        // then delete it for the user
+        try{
+        await axios.delete(`http://localhost:8080/user/todos/${id}`)
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        fetchTodos();
     };
 
-    const clearCompleted = () => {
+    const clearCompleted = async () => {
         const completedTodos = todos.filter(todo => todo.completed);
-        completedTodos.forEach(todo => {
-            deleteTodo(todo.id);
+        await completedTodos.forEach(async (todo) => {
+            await deleteTodo(todo.id);
         })
     }
 
