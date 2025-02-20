@@ -72,6 +72,7 @@ todoRouter.post("/", async (req: Request, res: Response) => {
 todoRouter.post("/:id/done", async (req: Request, res: Response) => {
     try {
         // check_session(req)
+        console.log("done")
         await todoService.setTodoDone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo done' });
     } catch (error: unknown) {

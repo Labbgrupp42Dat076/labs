@@ -49,32 +49,36 @@ const TodoPage: React.FC = () => {
     };
 
     const addTodo = async () => {
-        console.log(newTodo);
+
+
         if (newTodo.trim() === '') return;
 
-        await  axios.post('http://localhost:8080/todo', {
-            title: newTodo,
-        })
-            .then(async (response) => {
-                if (!response.data.message) {
-                    throw new Error('Failed to add todo');
-                }
-    
-                return await axios.post('http://localhost:8080/user/todo', {
-                    todoId: response.data.id,
-                });
+        try {
+            const responseTodo = await axios.post('http://localhost:8080/todo', {
+                title: newTodo,
             })
-            .then(async () => {
-                setAllTodos([...todos, { id: todos.length + 1, title: newTodo, completed: false }]);
-                setNewTodo('')
-            })
-            .catch(error => console.error('Error:', error));
+
+            if (!responseTodo.data.message) {
+                throw new Error('Failed to add todo');
+            }
+
+            await axios.post('http://localhost:8080/user/todo', {
+                todoId: responseTodo.data.id,
+            });
+            setAllTodos([...todos, { id: responseTodo.data.id, title: newTodo, completed: false }]);
+            setTodos([...todos, { id:  responseTodo.data.id, title: newTodo, completed: false }]);
+            setNewTodo('')
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
 
 
     };
 
     const toggleTodo = (id: number) => {
         const todo = todos.find(todo => todo.id === id);
+        console.log(todo)
         if (!todo) return;
 
         const endpoint = todo.completed ? `http://localhost:8080/todo/${id}/undone` : `http://localhost:8080/todo/${id}/done`;
@@ -82,6 +86,7 @@ const TodoPage: React.FC = () => {
             method: 'POST',
         })
             .then(response => {
+    
                 if (!response.ok) {
                     throw new Error('Failed to toggle todo');
                 }
@@ -111,21 +116,8 @@ const TodoPage: React.FC = () => {
     const clearCompleted = () => {
         const completedTodos = todos.filter(todo => todo.completed);
         completedTodos.forEach(todo => {
-            axios.delete(`http://localhost:8080/todo/${todo.id}`)
-                .then(response => {
-                    if (!response.data.message) {
-                        throw new Error('Failed to delete todo');
-                    }
-                    return response.data
-                }).then(async () => {
-                    // ake a call to delete the todo on the user
-                    await axios.delete(`http://localhost:8080/user/todo/${todo.id}`)
-                })
-                .then(() => {
-                    fetchTodos();
-                })
-                .catch(error => console.error('Error:', error));
-        });
+            deleteTodo(todo.id);
+        })
     }
 
     return (
