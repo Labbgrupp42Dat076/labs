@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './TodoPage.css';
 import axios from 'axios';
+import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from '../api/todoOperations';
 
 
 
@@ -19,9 +20,12 @@ const TodoPage: React.FC = () => {
 
     const fetchTodos = async () => {
         let localTodos: Todo[] = [];
-        const response = await axios.get('http://localhost:8080/todo')
-        const data = await response.data
-        localTodos = data
+        try{
+            localTodos = await requestAllTodos(localTodos);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+      
         console.log(localTodos)
         setTodos(localTodos);
 
@@ -49,22 +53,10 @@ const TodoPage: React.FC = () => {
     };
 
     const addTodo = async () => {
-
-
         if (newTodo.trim() === '') return;
 
         try {
-            const responseTodo = await axios.post('http://localhost:8080/todo', {
-                title: newTodo,
-            })
-
-            if (!responseTodo.data.message) {
-                throw new Error('Failed to add todo');
-            }
-
-            await axios.post('http://localhost:8080/user/todo', {
-                todoId: responseTodo.data.id,
-            });
+            const responseTodo = await requestAddTodo(newTodo);
             setAllTodos([...todos, { id: responseTodo.data.id, title: newTodo, completed: false }]);
             setTodos([...todos, { id: responseTodo.data.id, title: newTodo, completed: false }]);
             setNewTodo('')
@@ -80,34 +72,21 @@ const TodoPage: React.FC = () => {
         const todo = todos.find(todo => todo.id === id);
         console.log(todo)
         if (!todo) return;
-
-        const endpoint = todo.completed ? `http://localhost:8080/todo/${id}/undone` : `http://localhost:8080/todo/${id}/done`;
         try {
-            const response = await fetch(endpoint, {
-                method: 'POST',
-            })
+            await toggleTodoDone(todo, id);
 
-            if (!response.ok) {
-                throw new Error('Failed to toggle todo');
-            }
-            fetchTodos();
         } catch (error) {
             console.error('Error:', error);
         }
+        fetchTodos();
 
     };
 
     const deleteTodo = async (id: number) => {
-        const response = await axios.delete(`http://localhost:8080/todo/${id}`)
 
-        if (!response.data.message) {
-            console.log(response);
-            throw new Error('Failed to delete todo');
-        }
 
-        // then delete it for the user
         try {
-            await axios.delete(`http://localhost:8080/user/todos/${id}`)
+            await requestDeleteTodo(id);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -185,3 +164,9 @@ const TodoPage: React.FC = () => {
 };
 
 export default TodoPage;
+
+
+
+
+
+
