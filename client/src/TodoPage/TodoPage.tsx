@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './TodoPage.css';
-import axios from 'axios';
 import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from '../api/todoOperations';
 
 
@@ -26,9 +25,7 @@ const TodoPage: React.FC = () => {
             console.error('Error:', error);
         }
       
-        console.log(localTodos)
         setTodos(localTodos);
-
     }
 
     useEffect(() => {
@@ -70,7 +67,6 @@ const TodoPage: React.FC = () => {
 
     const toggleTodo = async (id: number) => {
         const todo = todos.find(todo => todo.id === id);
-        console.log(todo)
         if (!todo) return;
         try {
             await toggleTodoDone(todo, id);
