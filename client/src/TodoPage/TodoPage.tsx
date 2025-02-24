@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './TodoPage.css';
 import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from '../api/todoOperations';
 
-
-
 interface Todo {
     id: number;
     title: string;
@@ -11,37 +9,22 @@ interface Todo {
 }
 
 const TodoPage: React.FC = () => {
-    const [allTodos, setAllTodos] = useState<Todo[]>([]);
     const [todos, setTodos] = useState<Todo[]>([]);
     const [newTodo, setNewTodo] = useState<string>('');
     const [display, setDisplay] = useState<string>('all');
 
-
     const fetchTodos = async () => {
-        let localTodos: Todo[] = [];
-        try{
-            localTodos = await requestAllTodos(localTodos);
+        try {
+            const localTodos = await requestAllTodos();
+            setTodos(localTodos);
         } catch (error) {
             console.error('Error:', error);
         }
-      
-        setTodos(localTodos);
-    }
+    };
 
     useEffect(() => {
-
         fetchTodos();
     }, []);
-
-    useEffect(() => {
-        if (display === 'all') {
-            setAllTodos(todos);
-        } else if (display === 'active') {
-            setAllTodos(todos.filter(todo => !todo.completed));
-        } else if (display === 'completed') {
-            setAllTodos(todos.filter(todo => todo.completed));
-        }
-    }, [display, todos]);
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -54,15 +37,11 @@ const TodoPage: React.FC = () => {
 
         try {
             const responseTodo = await requestAddTodo(newTodo);
-            setAllTodos([...todos, { id: responseTodo.data.id, title: newTodo, completed: false }]);
             setTodos([...todos, { id: responseTodo.data.id, title: newTodo, completed: false }]);
-            setNewTodo('')
+            setNewTodo('');
         } catch (error) {
             console.error('Error:', error);
         }
-
-
-
     };
 
     const toggleTodo = async (id: number) => {
@@ -70,31 +49,32 @@ const TodoPage: React.FC = () => {
         if (!todo) return;
         try {
             await toggleTodoDone(todo, id);
-
+            fetchTodos();
         } catch (error) {
             console.error('Error:', error);
         }
-        fetchTodos();
-
     };
 
     const deleteTodo = async (id: number) => {
-
-
         try {
             await requestDeleteTodo(id);
+            fetchTodos();
         } catch (error) {
             console.error('Error:', error);
         }
-        fetchTodos();
     };
 
     const clearCompleted = async () => {
         const completedTodos = todos.filter(todo => todo.completed);
-        await completedTodos.forEach(async (todo) => {
-            await deleteTodo(todo.id);
-        })
-    }
+        await Promise.all(completedTodos.map(todo => deleteTodo(todo.id)));
+    };
+
+    const filteredTodos = todos.filter(todo => {
+        if (display === 'all') return true;
+        if (display === 'active') return !todo.completed;
+        if (display === 'completed') return todo.completed;
+        return true;
+    });
 
     return (
         <div className='todo-page'>
@@ -130,19 +110,17 @@ const TodoPage: React.FC = () => {
                 </button>
             </div>
 
-            <hr style={{ borderColor: "#fff", width: "100%" }} />
+            <hr />
 
             <ul>
-                {allTodos.map(todo => (
+                {filteredTodos.map(todo => (
                     <li className={`todo-item ${todo.completed ? 'completed' : ''}`} key={todo.id}>
                         <input
                             type="checkbox"
                             checked={todo.completed}
                             onChange={() => toggleTodo(todo.id)}
                         />
-                        <span
-                            onClick={() => toggleTodo(todo.id)}
-                        >
+                        <span onClick={() => toggleTodo(todo.id)}>
                             {todo.title}
                         </span>
                         <button className='delete-button' onClick={() => deleteTodo(todo.id)}>
@@ -152,17 +130,16 @@ const TodoPage: React.FC = () => {
                 ))}
             </ul>
 
-            <button onClick={clearCompleted} className='clear-completed-button'>
-                Clear completed todos
-            </button>
+            {todos.some(todo => todo.completed) && (
+                <>
+                    <hr />
+                    <button onClick={clearCompleted} className='clear-completed-button'>
+                        Clear completed todos
+                    </button>
+                </>
+            )}
         </div>
     );
 };
 
 export default TodoPage;
-
-
-
-
-
-
