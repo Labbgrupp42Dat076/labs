@@ -34,7 +34,7 @@ describe("TodoPage Component", () => {
     const input = screen.getByPlaceholderText("Add a new todo");
     const addButton = screen.getByText("Add");
 
-    userEvent.type(input, "New Todo");
+    await userEvent.type(input, "New Todo");
     fireEvent.click(addButton);
 
     await waitFor(() => expect(requestAddTodo).toHaveBeenCalledWith("New Todo"));
