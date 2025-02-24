@@ -15,7 +15,7 @@ noteRouter.get("/", async (req: Request, res: Response) => {
     try {
 
         const response: User = check_session(req)  
-
+    
 
         let notes: Note[] = []
         const noteIds = response.noteIds

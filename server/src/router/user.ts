@@ -56,14 +56,19 @@ userRouter.post("/logout", async (req: Request, res: Response) => {
 userRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const user: User = {
-      id: 0,
+      id: await userService.getNewUserId(),
       name: req.body.name,
       password: req.body.password,
       noteIds: [],
       todoIds: [],
       lastPomodoroSession: 0
     };
+
+    console.log(req.body)
+
+
     await userService.register(user);
+    req.session.user = user;
     res.status(200).json({ message: 'Registration successful' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);

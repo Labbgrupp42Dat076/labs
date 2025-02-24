@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import TodoPage from "./TodoPage";
-import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from "../api/todoOperations";
+import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from "../../api/todoOperations";
 import userEvent from "@testing-library/user-event";
 
 jest.mock("../api/todoOperations", () => ({
