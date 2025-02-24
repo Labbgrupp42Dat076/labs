@@ -40,7 +40,7 @@ export const RegisterCard: React.FC = () => {
         return true
     }
     return (<div>
-        <Card>
+        <Card className='registerCard m-5'>
             <Card.Title>
                 Register
             </Card.Title>
@@ -88,7 +88,7 @@ export const RegisterCard: React.FC = () => {
                     and must not contain spaces, special characters, or emoji.
                 </Form.Text> */}
                 
-                <Form.Control type="submit" value="Register" />
+                <Form.Control type="submit" value="Register" className="btn btn-primary mt-1"/>
             </Form>
         </Card>
     </div>)
