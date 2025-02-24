@@ -7,6 +7,8 @@ import { PomodoroObject } from "../model/pomodoroObject";
 
 import { ErrorMessage } from "../../utilities/error_message";
 
+// ------------------------ Todos ------------------------
+
 test("If a task is added to the list then it should be in the list", async () => {
     
     const todoService = new TodoService();
@@ -21,6 +23,8 @@ test("If a task is added to the list then it should be in the list", async () =>
     expect(todo.some((todo) => todo === todoObj)).toBeTruthy();
 })
 
+// ------------------------ Notes ------------------------
+
 test("If a note is created then it should be in the list", async () => {
     const noteService = new NoteService();
 
@@ -30,6 +34,8 @@ test("If a note is created then it should be in the list", async () => {
     expect(notes.length == 1);
     expect(notes[0].title == "testNote").toBeTruthy();
 })
+
+// ------------------------ Pomodoro ------------------------
 
 test("If a timer session is created then it should be in the list", async () => {
     const pomodoroService = new PomodoroService();
