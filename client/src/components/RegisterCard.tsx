@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import React, { useState, useEffect } from 'react';
 import axios, { Axios, AxiosError } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { register } from '../api/loginRegisterOperation';
 axios.defaults.withCredentials = true;
 
 
@@ -15,30 +16,6 @@ export const RegisterCard: React.FC = () => {
 
     // try doing something to check if the user is logged in
 
-
-    async function register() {
-            
-            try{
-            const res = await axios.post('http://localhost:8080/user/register', {
-                name: username,
-                password: password
-            })
-        } catch (e) {
-            console.error(e)
-            const axioserror: AxiosError = e as AxiosError
-            
-            if (axioserror.response?.status === 400){
-                alert("user already exists")
-                return false
-            }else{
-                alert("Invalid username or password")
-                return false
-            }
-
-          
-        }
-        return true
-    }
     return (<div>
         <Card className='registerCard m-5'>
             <Card.Title>
@@ -48,11 +25,11 @@ export const RegisterCard: React.FC = () => {
                 
                 e.preventDefault()
 
-                if(await register()) {
+                if(await register(username, password)) {
                     window.location.href = '/todo'
                 }
 
-                //Redirect to todos
+
             
 
             }}>

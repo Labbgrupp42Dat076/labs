@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 axios.defaults.withCredentials = true;
+import { login } from '../api/loginRegisterOperation';
 
 
 export const LoginCard: React.FC = () => {
@@ -16,22 +17,7 @@ export const LoginCard: React.FC = () => {
     // try doing something to check if the user is logged in
 
 
-    async function login(): Promise<boolean> {
-
-        //logs you in for now
-        try {
-            const res = await axios.post('http://localhost:8080/user/login', {
-                name: username,
-                password: password
-            })
-        } catch (e) {
-            console.error(e)
-            alert("Invalid username or password")
-            return false
-        }
-        return true
-
-    }
+ 
     return (<div>
         <Card className='mt-5 m-2'>
             <Card.Title>
@@ -40,7 +26,7 @@ export const LoginCard: React.FC = () => {
             <Form onSubmit={async (e) => {
 
                 e.preventDefault()
-                if (await login()) {
+                if (await login(username, password)) {
                     window.location.href = '/todo'
                 }
             }}>
