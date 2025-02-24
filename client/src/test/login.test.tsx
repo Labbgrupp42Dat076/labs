@@ -19,6 +19,9 @@ jest.mock('../api/loginRegisterOperation', () => ({
         if(username === 'admin' && password === 'admin'){
             window.location.href = '/todo';
             return true;
+        }else
+        {
+            return false;
         }
     }
 }));

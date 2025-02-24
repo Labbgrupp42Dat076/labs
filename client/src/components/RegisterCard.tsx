@@ -1,8 +1,8 @@
 // imort bootstrap card
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import React, { useState, useEffect } from 'react';
-import axios, { Axios, AxiosError } from 'axios';
+import React, { useState } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { register } from '../api/loginRegisterOperation';
 axios.defaults.withCredentials = true;
@@ -17,9 +17,9 @@ export const RegisterCard: React.FC = () => {
     // try doing something to check if the user is logged in
 
     return (<div>
-        <Card className='registerCard m-5'>
+        <Card className='registerCard m-5' id="register-card">
             <Card.Title>
-                Register
+                Register Here
             </Card.Title>
             <Form onSubmit={async (e)=>{
                 
@@ -39,7 +39,7 @@ export const RegisterCard: React.FC = () => {
                     type="username"
                     id="inputUsername6"
                     aria-describedby="usernameHelpBlock"
-                    onChange={(e) => {
+                    onChange={() => {
                         const   usernamebox= document.getElementById('inputUsername6')
                         setUsername( usernamebox ? ( usernamebox as HTMLInputElement).value : '')
                     }}
@@ -55,7 +55,7 @@ export const RegisterCard: React.FC = () => {
                     type="password"
                     id="inputPassword6"
                     aria-describedby="passwordHelpBlock"
-                    onChange={(e) => {
+                    onChange={() => {
                         const passwordbox= document.getElementById('inputPassword6')
                         setPassword(passwordbox ? (passwordbox as HTMLInputElement).value : '')
                     }}
@@ -65,7 +65,7 @@ export const RegisterCard: React.FC = () => {
                     and must not contain spaces, special characters, or emoji.
                 </Form.Text> */}
                 
-                <Form.Control type="submit" value="Register" className="btn btn-primary mt-1"/>
+                <Form.Control type="submit" value="Register Now" className="btn btn-primary mt-1" id="register"/>
             </Form>
         </Card>
     </div>)

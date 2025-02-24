@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { LoginCard } from '../../components/LoginCard';
 import { RegisterCard } from '../../components/RegisterCard';
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 axios.defaults.withCredentials = true;
 import { testIfLogin } from '../../api/loginRegisterOperation';
 
