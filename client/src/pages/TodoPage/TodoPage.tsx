@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './TodoPage.css';
-import axios from 'axios';
 import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from '../../api/todoOperations';
 
 

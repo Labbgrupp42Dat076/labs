@@ -1,7 +1,7 @@
 // imort bootstrap card
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 axios.defaults.withCredentials = true;
@@ -21,7 +21,7 @@ export const LoginCard: React.FC = () => {
     return (<div>
         <Card className='mt-5 m-2'>
             <Card.Title>
-                Log In
+                <h1>Login</h1>
             </Card.Title>
             <Form onSubmit={async (e) => {
 
@@ -36,7 +36,7 @@ export const LoginCard: React.FC = () => {
                     type="username"
                     id="inputUsername5"
                     aria-describedby="usernameHelpBlock"
-                    onChange={(e) => {
+                    onChange={() => {
                         const usernamebox = document.getElementById('inputUsername5')
                         setUsername(usernamebox ? (usernamebox as HTMLInputElement).value : '')
                     }}
@@ -52,7 +52,7 @@ export const LoginCard: React.FC = () => {
                     type="password"
                     id="inputPassword5"
                     aria-describedby="passwordHelpBlock"
-                    onChange={(e) => {
+                    onChange={() => {
                         const passwordbox = document.getElementById('inputPassword5')
                         setPassword(passwordbox ? (passwordbox as HTMLInputElement).value : '')
                     }}

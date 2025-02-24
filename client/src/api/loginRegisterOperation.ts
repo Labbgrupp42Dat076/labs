@@ -4,7 +4,7 @@ export async function login(username: string, password:string): Promise<boolean>
 
     //logs you in for now
     try {
-        const res = await axios.post('http://localhost:8080/user/login', {
+       await axios.post('http://localhost:8080/user/login', {
             name: username,
             password: password
         })
@@ -33,7 +33,7 @@ export function testIfLogin() {
 export async function register(username:string, password:string): Promise<boolean> {
         
         try{
-        const res = await axios.post('http://localhost:8080/user/register', {
+        await axios.post('http://localhost:8080/user/register', {
             name: username,
             password: password
         })
