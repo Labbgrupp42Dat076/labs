@@ -15,13 +15,13 @@ noteRouter.get("/", async (req: Request, res: Response) => {
     try {
 
         const response: User = check_session(req)  
-
+    
 
         let notes: Note[] = []
         const noteIds = response.noteIds
         console.log(noteIds)
         if (noteIds) {
-          notes = await noteService.getNotesByListOfIDs(noteIds)
+          notes = await noteUservice.getNotesByListOfIDs(noteIds)
         }
 
         res.status(200).json(notes);

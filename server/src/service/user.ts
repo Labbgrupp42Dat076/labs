@@ -19,6 +19,7 @@ export class UserService {
 
         // doe some db check later
         let user = this.users.find((item) => item.name === name && item.password === password);
+        console.log("logged in as " + user) 
         if (user) {
             return await user;
         } else {

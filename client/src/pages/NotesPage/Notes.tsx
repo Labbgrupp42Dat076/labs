@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import './notes.css'
-import { Note } from '../components/Note'
-import { AddNoteOverlay } from '../components/CreateNote'
+import { Note } from '../../components/Note'
+import { AddNoteOverlay } from '../../components/CreateNote'
 
 export function Notes() {
   const [notes, setNotes] = useState([])

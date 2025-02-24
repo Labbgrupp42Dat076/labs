@@ -64,6 +64,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       lastPomodoroSession: 0
     };
     await userService.register(user);
+    req.session.user = user;
     res.status(200).json({ message: 'Registration successful' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
