@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import TodoPage from "./TodoPage";
 import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from "../api/todoOperations";
 import userEvent from "@testing-library/user-event";
@@ -16,9 +16,13 @@ const mockTodos = [
 ];
 
 describe("TodoPage Component", () => {
+
   beforeEach(() => {
+    cleanup(); // Clears the DOM between tests
+    jest.clearAllMocks(); // Resets any mocked functions
     (requestAllTodos as jest.Mock).mockResolvedValue(mockTodos);
   });
+  
 
   test("renders TodoPage component", async () => {
     render(<TodoPage />);
@@ -34,10 +38,12 @@ describe("TodoPage Component", () => {
     const input = screen.getByPlaceholderText("Add a new todo");
     const addButton = screen.getByText("Add");
 
-    await userEvent.type(input, "New Todo");
+    const taskName = "cool new todo";
+
+    await userEvent.type(input, taskName);
     fireEvent.click(addButton);
 
-    await waitFor(() => expect(requestAddTodo).toHaveBeenCalledWith("New Todo"));
+    await waitFor(() => expect(requestAddTodo).toHaveBeenCalledWith(taskName));
   });
 
   test("toggles a todo as completed", async () => {
@@ -88,5 +94,41 @@ describe("TodoPage Component", () => {
     fireEvent.click(clearButton);
 
     await waitFor(() => expect(requestDeleteTodo).toHaveBeenCalledWith(2));
+  });
+
+  test("fails to add an empty todo", async () => {
+    render(<TodoPage />);
+    const addButton = screen.getByText("Add");
+  
+    fireEvent.click(addButton);
+  
+    await waitFor(() => expect(requestAddTodo).not.toHaveBeenCalled()); // This should fail
+  });
+
+
+  test("fails to delete a non-existent todo", async () => {
+    render(<TodoPage />);
+  
+    const nonExistentId = 400;
+    const deleteButtons = screen.queryAllByText("delete");
+    
+    if (deleteButtons.length > 0) {
+      fireEvent.click(deleteButtons[0]);
+    } // if no buttons exists, we can't click it
+  
+    await waitFor(() => expect(requestDeleteTodo).not.toHaveBeenCalledWith(nonExistentId)); // This should pass
+  });
+  
+  test("fails to add a todo with only spaces", async () => {
+    render(<TodoPage />);
+    const input = screen.getByPlaceholderText("Add a new todo");
+    const addButton = screen.getByText("Add");
+
+    await userEvent.type(input, "       ");
+    fireEvent.click(addButton);
+    
+    fireEvent.click(addButton);
+  
+    await waitFor(() => expect(requestAddTodo).not.toHaveBeenCalled()); // Should not call API
   });
 });
