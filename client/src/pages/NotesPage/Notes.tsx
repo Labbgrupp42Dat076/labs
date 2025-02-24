@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useEffect } from 'react';
 // import for requests
-import axios from 'axios'
+import { getNotes } from '../../api/noteOperations'
 import Button from 'react-bootstrap/Button';
 import './notes.css'
 import { Note } from '../../components/Note'
 import { AddNoteOverlay } from '../../components/CreateNote'
+import { NoteData } from '../../types/NoteData'
 
 export function Notes() {
   const [notes, setNotes] = useState([])
@@ -13,7 +14,7 @@ export function Notes() {
 
   //initial fetch of notes
   const fetchNotes = async () => {
-    const response = await axios.get('http://localhost:8080/note')
+    const response = await getNotes()
     console.log(response.data)
     setNotes(response.data)
   }
@@ -43,7 +44,11 @@ export function Notes() {
       <section className="notes">
         {
 
-        notes.map((note: any) => {
+        notes.map((note: {
+            title: string,
+            preview: string,
+            id: string
+        }) => { 
 
             return <Note name={note.title} content={note.preview} key={note.id} id={note.id} />
 

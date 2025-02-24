@@ -53,6 +53,7 @@ async function uploadNote(title: string, todos: string[], fileId: string | null)
 
         console.error(error);
         alert('Error adding note');
+        return '';
     }
 
 }
@@ -67,5 +68,9 @@ export async function uploadFile(formData: FormData, fileIdLocal: string | null)
     return fileIdLocal;
 }
 
-
+export async function getNotes() {
+    return await axios.get('http://localhost:8080/note');
+  }
+  
+  
 
