@@ -61,6 +61,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       password: req.body.password,
       noteIds: [],
       todoIds: [],
+      pomodoroIds: [],
       lastPomodoroSession: 0
     };
 
@@ -98,6 +99,19 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
     await userService.addNoteId(userId, parseInt(req.body.noteId));
     await updateUserCookie(req, userId);
     res.status(200).json({ message: 'Note added' });
+  } catch (error: unknown) {
+    ErrorMessage.setResponseToErrorMessage(error, res);
+  }
+});
+
+// delete link between pomodoro and user
+userRouter.delete("/pomodoros/:pomodoroId", async (req: Request, res: Response) => {
+  try {
+
+    let userId: number = getUserIdFromCookies(req);
+    await userService.deletePomodoroId(userId, parseInt(req.params.pomodoroId));
+    await updateUserCookie(req, userId);
+    res.status(200).json({ message: 'Pomodoro deleted' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }

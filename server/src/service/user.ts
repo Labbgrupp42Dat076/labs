@@ -12,6 +12,7 @@ export class UserService {
             password: "admin",
             noteIds: [0],
             todoIds: [],
+            pomodoroIds: [],
             lastPomodoroSession: 0
         }
     ];
@@ -130,6 +131,17 @@ export class UserService {
         } else {
             throw new ErrorMessage('User not found', 404);
         }
+    }
+
+    public async deletePomodoroId(id: number, pomodoroId: number): Promise<void> {
+        let user = this.users.find((item) => item.id === id);
+        if (user) {
+            user.pomodoroIds = user.pomodoroIds.filter((item) => item !== pomodoroId);
+        }
+        else {
+            throw new ErrorMessage('User not found', 404);
+        }
+        this.updateUser(user);
     }
 
     public async getNoteIds(id: number): Promise<number[]> {
