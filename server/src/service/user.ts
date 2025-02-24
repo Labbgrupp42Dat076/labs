@@ -1,6 +1,7 @@
 import { User } from '../model/user';
 import { ErrorMessage } from '../../utilities/error_message';
 import session from 'express-session';
+import { time } from 'console';
 export class UserService {
     users: User[] = [
 
@@ -29,9 +30,10 @@ export class UserService {
 
     public async register(user: User): Promise<number> {
         // might need a db check later :)
-        if (this.users.find((item) => item.id === user.id)) {
+        if (this.users.find((item) => item.name === user.name)) {
             throw new ErrorMessage('User already exists', 400);
         }
+        console.log("registering user " + user)
         this.users.push(user);
         return user.id;
     }
@@ -191,6 +193,11 @@ export class UserService {
         }
         this.updateUser(user);
 
+    }
+
+    public async getNewUserId(): Promise<number> {
+        //return todays time
+        return Date.now();
     }
 
 

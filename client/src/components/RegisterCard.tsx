@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 axios.defaults.withCredentials = true;
 
 
-export const LoginCard: React.FC = () => {
+export const RegisterCard: React.FC = () => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -23,35 +23,47 @@ export const LoginCard: React.FC = () => {
                 name: username,
                 password: password
             })
-        } catch (e: AxiosError) {
+        } catch (e) {
             console.error(e)
-            if (e.response.status === 400){
+            const axioserror: AxiosError = e as AxiosError
+            
+            if (axioserror.response?.status === 400){
                 alert("user already exists")
+                return false
+            }else{
+                alert("Invalid username or password")
+                return false
             }
-            return false
+
+          
         }
+        return true
+    }
     return (<div>
         <Card>
             <Card.Title>
                 Register
             </Card.Title>
-            <Form onSubmit={(e)=>{
+            <Form onSubmit={async (e)=>{
                 
                 e.preventDefault()
-                register()
+
+                if(await register()) {
+                    window.location.href = '/todo'
+                }
 
                 //Redirect to todos
-                window.location.href = '/todo'
+            
 
             }}>
 
-    <Form.Label htmlFor="inputUsername5">username</Form.Label>
+    <Form.Label htmlFor="inputUsername6">username</Form.Label>
                 <Form.Control
                     type="username"
-                    id="inputUsername5"
+                    id="inputUsername6"
                     aria-describedby="usernameHelpBlock"
                     onChange={(e) => {
-                        const   usernamebox= document.getElementById('inputUsername5')
+                        const   usernamebox= document.getElementById('inputUsername6')
                         setUsername( usernamebox ? ( usernamebox as HTMLInputElement).value : '')
                     }}
                 />
@@ -61,13 +73,13 @@ export const LoginCard: React.FC = () => {
                 </Form.Text> */}
 
     
-                <Form.Label htmlFor="inputPassword5">Password</Form.Label>
+                <Form.Label htmlFor="inputPassword6">Password</Form.Label>
                 <Form.Control
                     type="password"
-                    id="inputPassword5"
+                    id="inputPassword6"
                     aria-describedby="passwordHelpBlock"
                     onChange={(e) => {
-                        const passwordbox= document.getElementById('inputPassword5')
+                        const passwordbox= document.getElementById('inputPassword6')
                         setPassword(passwordbox ? (passwordbox as HTMLInputElement).value : '')
                     }}
                 />

@@ -21,7 +21,7 @@ noteRouter.get("/", async (req: Request, res: Response) => {
         const noteIds = response.noteIds
         console.log(noteIds)
         if (noteIds) {
-          notes = await noteUservice.getNotesByListOfIDs(noteIds)
+          notes = await noteService.getNotesByListOfIDs(noteIds)
         }
 
         res.status(200).json(notes);

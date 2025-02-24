@@ -1,6 +1,7 @@
 
 import axios from 'axios'
 import { LoginCard } from '../../components/LoginCard';
+import { RegisterCard } from '../../components/RegisterCard';
 import { useEffect, useState } from 'react'
 axios.defaults.withCredentials = true;
 
@@ -28,7 +29,9 @@ const LoginPage: React.FC = () => {
             <LoginCard>
 
             </LoginCard>
-            
+            <RegisterCard>
+            </RegisterCard>
+
 
         </div>
     )
