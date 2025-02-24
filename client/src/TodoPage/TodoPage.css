@@ -7,10 +7,30 @@
 
     width: max-content;
     padding: 3rem;
-    border: #ffffff94 solid 1px;
+    border: #c7c7c7 solid 1px;
     border-radius: 1rem;
 
     width: 50vw;
+    min-height: 60vh;
+}
+
+.todo-page input {
+    background-color: var(--bs-body-bg) !important;
+    color: #000;
+
+    border: 1px solid #c7c7c7;
+    border-radius: .5rem;
+}
+
+.todo-page button {
+    background-color: #ebebeb;
+    color: #000;
+    border-color: #c7c7c7;
+}
+
+.todo-page hr {
+    width: 100%;
+    border: 1px solid #747474;
 }
 
 .todo-page header {
@@ -48,6 +68,8 @@ margin-right: .5rem;
 }
 
 .todo-page .active-filter {
+    background-color: #a7a7a7;
+    
     padding-top: 1rem;
 }
 
@@ -67,8 +89,6 @@ margin-right: .5rem;
 }
 
 .todo-page .todo-item {
-    background-color: #3e3e3e;
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -76,8 +96,8 @@ margin-right: .5rem;
 
     width: 100%;
     padding: .2rem;
+    border: 1px solid #c7c7c7;
     border-radius: .5rem;
-
 }
 
 .todo-page .completed {
@@ -85,9 +105,14 @@ margin-right: .5rem;
 }
 
 .todo-page .delete-button {
+    background-color: transparent;
+
+    padding: .5rem;
+    border: none;
     margin-left: auto;   
 }
 
 .todo-page .clear-completed-button {
     background-color: brown;
+    color: #fff;
 }

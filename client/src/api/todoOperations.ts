@@ -48,9 +48,8 @@ export async function requestDeleteTodo(id: number) {
 }
 
 
-export async function requestAllTodos(localTodos: Todo[]) {
+export async function requestAllTodos() {
     const response = await axios.get('http://localhost:8080/todo');
     const data = await response.data;
-    localTodos = data;
-    return localTodos;
+    return data;
 }
