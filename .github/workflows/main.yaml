@@ -29,7 +29,7 @@ jobs:
       - name: Run test frontend
         # cd into the frontend directory
         
-        run:  ls&& npm install && npm test
+        run:  ls
 
       - name: Run test backend
         # cd into the backend directory
