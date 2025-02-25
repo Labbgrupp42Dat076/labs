@@ -47,10 +47,11 @@ export function Notes() {
         notes.map((note: {
             title: string,
             preview: string,
-            id: string
+            id: string,
+            todoIds: string[]
         }) => { 
 
-            return <Note name={note.title} content={note.preview} key={note.id} id={note.id} />
+            return <Note name={note.title} content={note.preview} key={note.id} id={note.id} connectedTodos={note.todoIds}/>
 
         })
 

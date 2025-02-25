@@ -4,22 +4,35 @@ import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'react-bootstrap';
 
-import { useState, FormEvent, useRef } from 'react';
+import { useState, FormEvent, useRef, useEffect} from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
+import {requestAllTodos} from '../api/todoOperations';
 
-axios.defaults.withCredentials = true;
 
 import { addNote, uploadFile } from '../api/noteOperations';
 
-
-
+interface TodoData {
+    id: number;
+    title: string;
+    completed: boolean;
+}
 
 export function AddNoteOverlay() {
 
     const [fileId, setFileId] = useState<string | null>(null)
-   
+    const [todos, setTodos] = useState<TodoData[]>([])
+    async function fetchTodos() {
+        // fetch the todos from the server
+        const localtodos = await requestAllTodos()
+        setTodos(localtodos)
+        
+        
+    }
 
-
+    useEffect(() => {
+        // fetch the todos from the server
+        fetchTodos()
+    }, [])
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleSubmitFile = async (e: FormEvent<HTMLFormElement>) => {
@@ -57,19 +70,19 @@ export function AddNoteOverlay() {
         }
 
         const todoIdsElement: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type=checkbox]')
-    
-        const todos: string[] = []
+
+        const todosToNotes: string[] = []
         todoIdsElement.forEach((todo) => {
             if (todo.checked) {
                 if (todo.labels && todo.labels[0]) {
-                    todos.push(todo.labels[0].textContent || '');
+                    todosToNotes.push(todo.id.split('-')[1])
                 }
             }
         })
 
 
 
-        await addNote(title, todos, fileId);
+        await addNote(title, todosToNotes, fileId);
 
 
     }
@@ -83,28 +96,20 @@ export function AddNoteOverlay() {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label id="list of todos">Linked Todos</Form.Label>
-                    <div key={`inline-checkbox`} className="mb-3">
-                        <Form.Check
-                            inline
-                            label="1"
-                            name="group1"
-                            type={'checkbox' as FormCheckType}
-                            id={`inline-checkbox-1`}
-                        />
-                        <Form.Check
-                            inline
-                            label="2"
-                            name="group1"
-                            type={'checkbox' as FormCheckType}
-                            id={`inline-checkbox-2`}
-                        />
-                        <Form.Check
-                            inline
 
-                            label="3"
-                            type={'checkbox' as FormCheckType}
-                            id={`inline-checkbox-3`}
-                        />
+                    <div key={`inline-checkbox`} className="mb-3">
+                        {
+                            todos.map((i) => {
+                                return (
+                                    <Form.Check
+                                        key={i.id}
+                                        type={'checkbox' as FormCheckType}
+                                        id={`checkbox-${i.id}`}
+                                        label={`${i.title}`}
+                                    />
+                                )
+                            })
+                        }
                     </div>
                 </Form.Group>
 
