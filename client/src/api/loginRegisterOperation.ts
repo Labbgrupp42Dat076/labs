@@ -13,7 +13,9 @@ export async function login(username: string, password:string): Promise<boolean>
         alert("Invalid username or password")
         return false
     }
+    localStorage.setItem('username', username)
     return true
+
 
 }
 
@@ -52,4 +54,9 @@ export async function register(username:string, password:string): Promise<boolea
       
     }
     return true
+}
+
+export async function logout() {
+    await axios.post('http://localhost:8080/user/logout')
+    window.location.href = '/'
 }
