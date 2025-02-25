@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios"
-
+axios.defaults.withCredentials = true;
 export async function login(username: string, password:string): Promise<boolean> {
 
     //logs you in for now
@@ -53,10 +53,12 @@ export async function register(username:string, password:string): Promise<boolea
 
       
     }
+    localStorage.setItem('username', username)
     return true
 }
 
 export async function logout() {
     await axios.post('http://localhost:8080/user/logout')
     window.location.href = '/'
+    localStorage.setItem('username',"")
 }

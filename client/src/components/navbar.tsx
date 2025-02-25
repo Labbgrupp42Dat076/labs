@@ -18,35 +18,59 @@ export function NavigationPanel() {
                 <Navbar.Brand href="todo">Brand name</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
-                    <Nav
-                        className="me-auto my-2 my-lg-0"
-                        style={{ maxHeight: '100px' }}
-                        navbarScroll
-                    >
-                        <Nav.Link href="/todo" >
-                            Todo
-                        </Nav.Link>
-                        <Nav.Link href="/notes" >
-                            Notes
-                        </Nav.Link>
-                        <Nav.Link href="/pomodoro" >
-                            Pomodoro
-                        </Nav.Link>
+                    {(function() {
+                        if (localStorage.getItem('username')) {
+                            return (
+                                <Nav
+                                className="me-auto my-2 my-lg-0"
+                                style={{ maxHeight: '100px' }}
+                                navbarScroll
+                            >
+                                <Nav.Link href="/todo" >
+                                    Todo
+                                </Nav.Link>
+                                <Nav.Link href="/notes" >
+                                    Notes
+                                </Nav.Link>
+                                <Nav.Link href="/pomodoro" >
+                                    Pomodoro
+                                </Nav.Link>
+        
+        
+        
+        
+                            </Nav>
+                            );
+                        }
+                        else {
+                            return (
+                                <Nav
+                                className="me-auto my-2 my-lg-0"
+                                style={{ maxHeight: '100px' }}
+                                navbarScroll
+                            >
 
-
-
-
-                    </Nav>
+                            </Nav>
+                            );
+                        }
+                    })()}
 
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text className="logged-in-text">
                     Logged in as: {localStorage.getItem('username')}
                     </Navbar.Text>
-               
-                    <Button variant="outline-success" onClick={logout}>
-                        Logout
-                    </Button>
+                    {(()=>{if (localStorage.getItem('username')) {
+                        return (<Button variant="outline-success" onClick={logout}>
+                            Logout
+                        </Button>)
+                    }
+                    else{
+                        return (<Button variant="outline-success" href="/">
+                            Login
+                        </Button>)
+                    }
+                    })()}
                 </Navbar.Collapse>
             </Container>
         </Navbar>
