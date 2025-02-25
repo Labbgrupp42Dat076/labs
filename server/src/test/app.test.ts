@@ -1,6 +1,24 @@
 import * as SuperTest from "supertest";
 import { app } from "../start";
 import { TodoObject } from "../model/todoObject";
+import { User } from "../model/user";
+
+// mock the check that the user is logged in with the method check session
+const user: User = {
+    id: 0,
+    name: "admin",
+    password: "admin",
+    noteIds: [0],
+    todoIds: [],
+    pomodoroIds: [],
+    lastPomodoroSession: 0
+}
+jest.mock("../../utilities/session_checker", () => ({
+    check_session: jest.fn().mockImplementation(() => {
+        return user;
+    })
+}));
+
 
 const request = SuperTest.default(app);
 
@@ -8,6 +26,8 @@ const startTodoTitle = "Test title";
 
 beforeAll(async () => {
     const res1 = await request.post("/todo").send({title : startTodoTitle});
+    // add the todo id to the user
+    user.todoIds.push(res1.body.id);
 });
 
 test("Check that the get request works", async () => {
