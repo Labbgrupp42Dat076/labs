@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import './notes.css'
 import { Note } from '../../components/Note'
 import { AddNoteOverlay } from '../../components/CreateNote'
-import { NoteData } from '../../types/NoteData'
+
 
 export function Notes() {
   const [notes, setNotes] = useState([])
