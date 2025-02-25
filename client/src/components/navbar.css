@@ -1,0 +1,11 @@
+.navbar{
+    width: 100vw  !important;
+    position: relative;
+    z-index: 1000;
+
+
+}
+
+.logged-in-text{
+    margin-right:1em;
+}
