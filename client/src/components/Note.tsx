@@ -2,13 +2,8 @@
 import { Button } from 'react-bootstrap';
 // import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
-interface NoteData {
-    name: string;
-    content: string;
-    id: string;
-}
-
+import { NoteData } from '../types/NoteData';
+import { deleteNote } from '../api/noteOperations';
 
 export function Note(props: NoteData) {
     return (
@@ -32,20 +27,9 @@ export function Note(props: NoteData) {
                 <Button variant='primary'>Edit</Button>
                 <Button variant='primary'>Download</Button>
                 <Button variant='danger'
-                onClick={() => {
-                    axios.delete('http://localhost:8080/note/' + props.id)
-                    .then(() => {
-                        const note = document.getElementById(props.id)
-                        if (note) {
-                            note.remove()
-                        }
-                    })
-
-                    // delete it from the user as well
-                    axios.delete('http://localhost:8080/user/notes/' + props.id)
-                    .then(() => {
-                        console.log('note deleted from user')
-                    })
+                onClick={async () => {
+                        await deleteNote(props);
+  
                     
                 }}
                 >Delete</Button>
@@ -53,3 +37,5 @@ export function Note(props: NoteData) {
         </div>
     )
 }
+
+
