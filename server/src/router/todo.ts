@@ -60,6 +60,9 @@ todoRouter.post("/", async (req: Request, res: Response) => {
             title: req.body.title,
             completed: false
         };
+        if (!todo.title) {
+            throw new ErrorMessage("Title is required", 404);
+        }
         const id: number = await todoService.addTodos(todo);
         res.status(200).json({ message: 'Todo added', id: id });
         
