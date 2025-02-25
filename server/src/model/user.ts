@@ -4,5 +4,6 @@ export interface User{
     password: string;
     noteIds: number[];
     todoIds: number[];
+    pomodoroIds: number[];
     lastPomodoroSession: number;
 }
