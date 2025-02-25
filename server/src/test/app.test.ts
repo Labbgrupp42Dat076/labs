@@ -26,6 +26,7 @@ const startTodoTitle = "Test title";
 
 beforeAll(async () => {
     const res1 = await request.post("/todo").send({title : startTodoTitle});
+    // add the todo id to the user
     user.todoIds.push(res1.body.id);
 });
 
