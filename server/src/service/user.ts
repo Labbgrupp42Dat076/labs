@@ -2,14 +2,16 @@ import { User } from '../model/user';
 import { ErrorMessage } from '../../utilities/error_message';
 import session from 'express-session';
 import { time } from 'console';
+import bcrypt from 'bcrypt';
 export class UserService {
+    salt = bcrypt.genSaltSync(10);
     users: User[] = [
 
 
         {
             id: 0,
             name: "admin",
-            password: "admin",
+            password: bcrypt.hashSync("admin", this.salt),
             noteIds: [0],
             todoIds: [],
             pomodoroIds: [],
@@ -20,7 +22,7 @@ export class UserService {
     public async login(name: string, password: string): Promise<User> {
 
         // doe some db check later
-        let user = this.users.find((item) => item.name === name && item.password === password);
+        let user = this.users.find((item: User) => item.name === name && bcrypt.compareSync(password, item.password));
         console.log("logged in as " + user) 
         if (user) {
             return await user;
@@ -35,6 +37,7 @@ export class UserService {
             throw new ErrorMessage('User already exists', 400);
         }
         console.log("registering user " + user)
+        user.password = bcrypt.hashSync(user.password, this.salt);
         this.users.push(user);
         return user.id;
     }

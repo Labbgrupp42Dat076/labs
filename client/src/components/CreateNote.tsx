@@ -6,7 +6,11 @@ import { Form } from 'react-bootstrap';
 
 import { useState, FormEvent, useRef } from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
+
+axios.defaults.withCredentials = true;
+
 import { addNote, uploadFile } from '../api/noteOperations';
+
 
 
 
