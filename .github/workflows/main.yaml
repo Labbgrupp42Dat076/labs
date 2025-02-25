@@ -28,7 +28,12 @@ jobs:
           npm install --force
           cd ../server
           npm install --force
-
+      
+      - name: Create .env file
+        run: |
+          cd server
+          echo "SESSION_SECRET=${{ secrets.SESSION_SECRET}}" >> .env
+      
       - name: Build and test client
         run: |
           cd client
