@@ -3,10 +3,14 @@ import Card from 'react-bootstrap/Card';
 // import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'react-bootstrap';
-import axios from 'axios';
+
 import { useState, FormEvent, useRef } from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
+
 axios.defaults.withCredentials = true;
+
+import { addNote, uploadFile } from '../api/noteOperations';
+
 
 
 
@@ -30,12 +34,7 @@ export function AddNoteOverlay() {
             formData.append('file', file)
 
             try {
-                const response = await axios.post('http://localhost:8080/file', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                fileIdLocal = response.data.message
+                fileIdLocal = await uploadFile(formData, fileIdLocal);
                 await setFileId(fileIdLocal)
 
                 const submitButton = document.getElementById('main-submit')
@@ -70,35 +69,7 @@ export function AddNoteOverlay() {
 
 
 
-        let localNoteId
-        await axios.post('http://localhost:8080/note', {
-            title: title,
-            content: todos,
-            fileId: fileId
-        }).then((response) => {
-            console.log(response)
-            localNoteId = response.data.id
-
-        }).catch((error) => {
-            console.error(error)
-            alert('Error adding note')
-        })
-
-
-        console.log("local note id" + localNoteId)
-        // add note to the user
-        axios.post('http://localhost:8080/user/notes',
-        { noteId: localNoteId }
-        ).then((response) => {
-            console.log(response)
-            alert('Note added')
-
-            window.location.reload()
-        }).catch((error) => {
-            console.error(error)
-            // alert('Error linking note to user')
-        }
-        )
+        await addNote(title, todos, fileId);
 
 
     }
@@ -158,3 +129,4 @@ export function AddNoteOverlay() {
         </Card>
     )
 }
+
