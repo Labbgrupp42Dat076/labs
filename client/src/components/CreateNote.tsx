@@ -7,15 +7,10 @@ import { Form } from 'react-bootstrap';
 import { useState, FormEvent, useRef, useEffect} from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
 import {requestAllTodos} from '../api/todoOperations';
-
+import { TodoData } from '../api/todoOperations';
 
 import { addNote, uploadFile } from '../api/noteOperations';
 
-interface TodoData {
-    id: number;
-    title: string;
-    completed: boolean;
-}
 
 export function AddNoteOverlay() {
 

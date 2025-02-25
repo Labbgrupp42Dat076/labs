@@ -53,3 +53,10 @@ export async function requestAllTodos() {
     const data = await response.data;
     return data;
 }
+
+
+export interface TodoData {
+    id: number;
+    title: string;
+    completed: boolean;
+}

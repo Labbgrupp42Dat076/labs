@@ -4,14 +4,38 @@ import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NoteData } from '../types/NoteData';
 import { deleteNote } from '../api/noteOperations';
+import { useEffect, useState} from 'react';
+import { requestAllTodos } from '../api/todoOperations';
+import { TodoData } from '../api/todoOperations';
 
 export function Note(props: NoteData) {
+
+    const [todos, setTodos] = useState<TodoData[]>([])
+
+    async function fetchTodos() {
+        // fetch the todos from the server
+        const localtodos = await requestAllTodos()
+        setTodos(localtodos)
+        console.log(localtodos)
+    }
+
+    useEffect(() => {
+        fetchTodos()
+    }, [])
     return (
         <div className='note' id ={props.id}>
             <h2>{props.name}</h2>
             <p>{props.content}</p>
             <div>
-                something for the todo list
+                {props.connectedTodos.map((todo) => {
+                    const todoObject = todos.find((todoObject) => todoObject.id.toString() === todo)
+                    if (todoObject) {
+                        return <div key={todo}>{todoObject.title}</div>
+                    } else {
+                        return <div key={todo}>{todo}</div>
+                    }
+                }
+                )}
             </div>
 
             <div className='action_buttons  shadow-sm bg-white rounded'>
