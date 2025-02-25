@@ -1,6 +1,6 @@
 export interface PomodoroObject {
     id: number;
-    startTime: Date;
-    endTime: Date;
+    startTime: number;
+    endTime: number;
     duration: number; // duration in minutes
 }

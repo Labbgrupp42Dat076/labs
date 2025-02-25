@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 
-import {PomodoroService} from "../service/pomodoro";
+import pomodoroService, {PomodoroService} from "../service/pomodoro";
 import { PomodoroObject } from "../model/pomodoroObject";
 
 import { ErrorMessage } from "../../utilities/error_message";
@@ -12,7 +12,6 @@ const pomodoroRouter = express.Router();
 pomodoroRouter.post("/", async (req: Request, res: Response) => {
     try {
         const user: User = await check_session(req);
-        const pomodoroService: PomodoroService = new PomodoroService();
         const id: number = await pomodoroService.initPomodoroSession();
         res.status(200).json({ message: 'Pomodoro session created', id: id });
 
@@ -25,7 +24,6 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
 pomodoroRouter.post("/end", async (req: Request, res: Response) => {
     try {
         const user: User = await check_session(req);
-        const pomodoroService: PomodoroService = new PomodoroService();
         await pomodoroService.setPomodoroSessionEndTime(req.body.id);
         res.status(200).json({ message: 'Pomodoro session ended' });
 
@@ -38,7 +36,6 @@ pomodoroRouter.post("/end", async (req: Request, res: Response) => {
 pomodoroRouter.get("/", async (req: Request, res: Response) => {
     try {
         const user: User = await check_session(req);
-        const pomodoroService: PomodoroService = new PomodoroService();
         const pomodoroSessions: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
         res.status(200).json(pomodoroSessions);
 
@@ -51,12 +48,10 @@ pomodoroRouter.get("/", async (req: Request, res: Response) => {
 pomodoroRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
         const user: User = await check_session(req);
-        const pomodoroService: PomodoroService = new PomodoroService();
         await pomodoroService.deletePomodoroSession(parseInt(req.params.id));
         res.status(200).json({ message: 'Pomodoro session deleted' });
 
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
-}
-);
+});

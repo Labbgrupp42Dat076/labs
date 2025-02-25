@@ -7,8 +7,8 @@ export class PomodoroService {
 
     public initPomodoroSession() {
         const id = this._pomodoroSessions.length;
-        const startTime = new Date();
-        const endTime = new Date();
+        const startTime = Date.now();
+        const endTime = 0;
         const duration = 0;
 
         const pomodoroSession: PomodoroObject = {
@@ -25,7 +25,8 @@ export class PomodoroService {
     public async setPomodoroSessionEndTime(id: number) {
         const pomodoroSession = this._pomodoroSessions.find((item) => item.id === id);
         if (pomodoroSession) {
-            pomodoroSession.endTime = new Date();
+            pomodoroSession.endTime = Date.now();
+            pomodoroSession.duration = (pomodoroSession.endTime - pomodoroSession.startTime) / 60000;
         } else {
             throw new ErrorMessage('Pomodoro session not found', 404);
         }
