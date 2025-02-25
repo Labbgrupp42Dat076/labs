@@ -5,7 +5,7 @@ import noteRouter from "./router/note";
 import userRouter from "./router/user";
 import fileRouter from "./router/file";
 import session from 'express-session';
-
+import dotenv from 'dotenv';
 
 export const app = express();
 

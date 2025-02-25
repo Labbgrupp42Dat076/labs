@@ -6,6 +6,7 @@ import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useState, FormEvent, useRef } from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
+axios.defaults.withCredentials = true;
 
 
 
