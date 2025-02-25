@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { NoteData } from '../types/NoteData';
-
+axios.defaults.withCredentials = true;
 export async function deleteNote(props: NoteData) {
     await axios.delete('http://localhost:8080/note/' + props.id);
 
