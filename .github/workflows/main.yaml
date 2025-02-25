@@ -25,9 +25,9 @@ jobs:
       - name: Install dependencies
         run: |
           cd client
-          npm install
+          npm install --force
           cd ../server
-          npm install
+          npm install --force
 
       - name: Build and test client
         run: |
