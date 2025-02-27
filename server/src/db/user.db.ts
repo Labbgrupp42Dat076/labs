@@ -1,5 +1,10 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import { sequelize } from './conn';
+import  {ForeignKey} from 'sequelize'
+import { Note } from './note.db';
+import { TodoObject } from './todoObject.db';
+import { PomodoroObject } from './pomodoroObject.db';
+
 
 
 // export interface User{
@@ -16,9 +21,9 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
     public id!: number;
     public name!: string;
     public password!: string;
-    public noteIds!: number[];
-    public todoIds!: number[];
-    public pomodoroIds!: number[];
+    declare noteIds: ForeignKey<Note['id']>[];
+    declare todoIds: ForeignKey<TodoObject['id']>[];
+    declare pomodoroIds: ForeignKey<PomodoroObject['id']>[];
     public lastPomodoroSession!: number;
 }
 
@@ -38,7 +43,7 @@ User.init({
         allowNull: false
     },
     noteIds: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER
+        type: DataTypes.ARRAY(  DataTypes.INTEGER
         ),
         allowNull: false
     },
