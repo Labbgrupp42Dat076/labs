@@ -47,6 +47,3 @@ export class PomodoroService implements IPomodoroService {
 
 }
 
-const pomodoroService = new PomodoroService();
-
-export default pomodoroService;
