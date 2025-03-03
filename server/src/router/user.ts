@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 import { User } from "../model/user";
-import userService from "../service/user";
+import { IUserService } from "../service/userInterface";
+import { UserService } from "../service/user";
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker"
 
+const userService: IUserService = new UserService();
 declare module 'express-session' {
   interface SessionData {
     user?: User;
