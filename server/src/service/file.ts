@@ -101,5 +101,4 @@ export class FileService implements IFileService{
   }
 }
 
-const fileService: IFileService = new FileService();
-export default fileService;
+
