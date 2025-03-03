@@ -4,7 +4,7 @@ import multer from "multer";
 import { v4 as uuidv4 } from 'uuid';
 import { FileObject } from "../model/fileObject";
 import { ErrorMessage } from "../../utilities/error_message";
-import { InterfaceFile } from "./interfaceFile";
+import { IFileService } from "./interfaceFile";
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
 
@@ -14,7 +14,7 @@ if (!fs.existsSync(UPLOADS_DIR)) {
 }
 
 
-export class FileService implements InterfaceFile{
+export class FileService implements IFileService{
   fileList: Array<FileObject> = [];
 
   private storage = multer.diskStorage({
@@ -101,5 +101,5 @@ export class FileService implements InterfaceFile{
   }
 }
 
-const fileService = new FileService();
+const fileService: IFileService = new FileService();
 export default fileService;
