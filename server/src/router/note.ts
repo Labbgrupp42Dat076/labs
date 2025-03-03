@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 
-import noteService from "../service/note";
+import { INoteService } from "../service/noteInterface";
+import {NoteService } from "../service/note";
 import { Note } from "../model/note";
 
 import { ErrorMessage } from "../../utilities/error_message";
@@ -8,6 +9,7 @@ import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";
 
 const noteRouter = express.Router();
+const noteService: INoteService = new NoteService();
 
 // get all notes from a list of ids
 
@@ -44,7 +46,7 @@ noteRouter.post("/", async (req: Request, res: Response) => {
         );
 
 
-        const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content);
+        const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content, );
             res.status(200).json({ message: 'Note created', id:  id });
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
