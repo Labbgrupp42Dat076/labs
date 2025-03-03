@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 
-import noteService from "../service/note";
+import { INoteService } from "../service/noteInterface";
+import {NoteService } from "../service/note";
 import { Note } from "../model/note";
 
 import { ErrorMessage } from "../../utilities/error_message";
@@ -8,6 +9,7 @@ import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";
 
 const noteRouter = express.Router();
+const noteService: INoteService = new NoteService();
 
 // get all notes from a list of ids
 

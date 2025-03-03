@@ -1,9 +1,9 @@
 import {Note} from '../model/note'
 import fileService from './file';
 import { ErrorMessage } from '../../utilities/error_message';
+import { INoteService } from './noteInterface';
 
-
-export class NoteService {
+export class NoteService implements INoteService {
     private notes : Note[] = [
 
     ]
@@ -134,6 +134,3 @@ export class NoteService {
     }
 }
 
-const noteService = new NoteService();
-
-export default noteService;
