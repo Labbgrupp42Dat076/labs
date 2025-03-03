@@ -5,6 +5,7 @@ import { INoteService } from './noteInterface';
 
 import { IFileService } from './interfaceFile';
 import { FileService } from './file';
+import fileService from './file';
 
 
 
@@ -13,7 +14,7 @@ export class NoteService implements INoteService {
 
     ]
 
-    fileService : IFileService = new FileService();
+    fileService : IFileService = fileService
 
     private getNotesFromID(id : number) : Note {
 
