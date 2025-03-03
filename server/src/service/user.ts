@@ -3,7 +3,8 @@ import { ErrorMessage } from '../../utilities/error_message';
 import session from 'express-session';
 import { time } from 'console';
 import bcrypt from 'bcrypt';
-export class UserService {
+import { IUserService } from './userInterface';
+export class UserService implements IUserService {
     salt = bcrypt.genSaltSync(10);
     users: User[] = [
 
@@ -221,7 +222,3 @@ export class UserService {
 
 
 }
-
-
-const userService = new UserService();
-export default userService;
