@@ -79,7 +79,8 @@ export class NoteService implements INoteService {
 
     private async getPreview(fileID: string): Promise<string> {
         try {
-            return this.fileService.readFile(fileID).substring(0, 100);
+            const ret: string = await this.fileService.readFile(fileID)
+            return ret.substring(0, 100);
         } catch (error) {
             return "No preview available"; // Default preview
         }
