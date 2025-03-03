@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
 import { IFileService } from "../service/interfaceFile";
-import { FileService } from "../service/file";
+
 import fileService from "../service/file";
 
 import { ErrorMessage } from "../../utilities/error_message";
