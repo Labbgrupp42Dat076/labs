@@ -44,7 +44,7 @@ noteRouter.post("/", async (req: Request, res: Response) => {
         );
 
 
-        const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content);
+        const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content, );
             res.status(200).json({ message: 'Note created', id:  id });
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);

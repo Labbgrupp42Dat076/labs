@@ -1,12 +1,18 @@
 import {Note} from '../model/note'
+
 import { ErrorMessage } from '../../utilities/error_message';
+import { INoteService } from './noteInterface';
 import { IFileService } from './interfaceFile';
+import { FileService } from './file';
 
 
-export class NoteService {
+
+export class NoteService implements INoteService {
     private notes : Note[] = [
 
     ]
+
+    fileService : IFileService = new FileService();
 
     private getNotesFromID(id : number) : Note {
 
@@ -41,12 +47,12 @@ export class NoteService {
         return this.notes;
     }
 
-    async createNote(title : string, fileID : string, todoIds: number[], fileService:IFileService) : Promise<number> {
+    async createNote(title : string, fileID : string, todoIds: number[]) : Promise<number> {
         let preview : string;
         
         try {
             //maybe validate the fileID here as well
-            preview = await this.getPreview(fileID, fileService);
+            preview = await this.getPreview(fileID);
 
         } catch (error) {
             throw new ErrorMessage("File not found", 404);
@@ -69,20 +75,20 @@ export class NoteService {
     }
 
 
-    private async getPreview(fileID: string, fileService:IFileService): Promise<string> {
+    private async getPreview(fileID: string): Promise<string> {
         try {
-            return fileService.readFile(fileID).substring(0, 100);
+            return this.fileService.readFile(fileID).substring(0, 100);
         } catch (error) {
             return "No preview available"; // Default preview
         }
     }
 
-    async deleteNoteByID(id : number, fileService:IFileService) : Promise<boolean> {
+    async deleteNoteByID(id : number) : Promise<boolean> {
         //delete the note with the id
         //delete the linked file
         let note = this.notes.find(note => note.id === id);
         if (note) {
-            if (await this.deleteLinkedFile(note.fileID, fileService)){}else
+            if (await this.deleteLinkedFile(note.fileID)){}else
             {
                 throw new ErrorMessage("File not found", 404);
             }
@@ -104,11 +110,11 @@ export class NoteService {
         }
     }
 
-    private async deleteLinkedFile(fileID : string, fileService:IFileService) : Promise<boolean> {
+    private async deleteLinkedFile(fileID : string) : Promise<boolean> {
         //delete the file with the fileID
 
         try {
-            fileService.deleteFile(fileID);
+            this.fileService.deleteFile(fileID);
             return true;
         } catch (error) {
             return false;
@@ -134,6 +140,3 @@ export class NoteService {
     }
 }
 
-const noteService = new NoteService();
-
-export default noteService;
