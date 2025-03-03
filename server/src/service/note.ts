@@ -1,6 +1,6 @@
 import {Note} from '../model/note'
-import fileService from './file';
 import { ErrorMessage } from '../../utilities/error_message';
+import { IFileService } from './interfaceFile';
 
 
 export class NoteService {
@@ -41,12 +41,12 @@ export class NoteService {
         return this.notes;
     }
 
-    async createNote(title : string, fileID : string, todoIds: number[]) : Promise<number> {
+    async createNote(title : string, fileID : string, todoIds: number[], fileService:IFileService) : Promise<number> {
         let preview : string;
         
         try {
             //maybe validate the fileID here as well
-            preview = await this.getPreview(fileID);
+            preview = await this.getPreview(fileID, fileService);
 
         } catch (error) {
             throw new ErrorMessage("File not found", 404);
@@ -69,7 +69,7 @@ export class NoteService {
     }
 
 
-    private async getPreview(fileID: string): Promise<string> {
+    private async getPreview(fileID: string, fileService:IFileService): Promise<string> {
         try {
             return fileService.readFile(fileID).substring(0, 100);
         } catch (error) {
@@ -77,12 +77,12 @@ export class NoteService {
         }
     }
 
-    async deleteNoteByID(id : number) : Promise<boolean> {
+    async deleteNoteByID(id : number, fileService:IFileService) : Promise<boolean> {
         //delete the note with the id
         //delete the linked file
         let note = this.notes.find(note => note.id === id);
         if (note) {
-            if (await this.deleteLinkedFile(note.fileID)){}else
+            if (await this.deleteLinkedFile(note.fileID, fileService)){}else
             {
                 throw new ErrorMessage("File not found", 404);
             }
@@ -104,7 +104,7 @@ export class NoteService {
         }
     }
 
-    private async deleteLinkedFile(fileID : string) : Promise<boolean> {
+    private async deleteLinkedFile(fileID : string, fileService:IFileService) : Promise<boolean> {
         //delete the file with the fileID
 
         try {
