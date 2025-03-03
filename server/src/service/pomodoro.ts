@@ -1,7 +1,8 @@
 import { ErrorMessage } from '../../utilities/error_message';
 import { PomodoroObject} from '../model/pomodoroObject'
+import { IPomodoroService } from './pomodoroInterface';
 
-export class PomodoroService {
+export class PomodoroService implements IPomodoroService {
 
     private _pomodoroSessions: PomodoroObject[] = [];
 
@@ -46,6 +47,3 @@ export class PomodoroService {
 
 }
 
-const pomodoroService = new PomodoroService();
-
-export default pomodoroService;

@@ -1,12 +1,15 @@
 import express, { Request, Response } from "express";
 
-import pomodoroService, {PomodoroService} from "../service/pomodoro";
-import { PomodoroObject } from "../model/pomodoroObject";
 
+import { PomodoroObject } from "../model/pomodoroObject";
+import { PomodoroService } from "../service/pomodoro";
+import { IPomodoroService } from "../service/pomodoroInterface";
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";
 
+
+const pomodoroService: IPomodoroService = new PomodoroService();
 const pomodoroRouter = express.Router();
 
 pomodoroRouter.post("/", async (req: Request, res: Response) => {
