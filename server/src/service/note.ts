@@ -1,12 +1,19 @@
 import {Note} from '../model/note'
-import fileService from './file';
+
 import { ErrorMessage } from '../../utilities/error_message';
 import { INoteService } from './noteInterface';
+
+import { IFileService } from './interfaceFile';
+import { FileService } from './file';
+
+
 
 export class NoteService implements INoteService {
     private notes : Note[] = [
 
     ]
+
+    fileService : IFileService = new FileService();
 
     private getNotesFromID(id : number) : Note {
 
@@ -71,7 +78,7 @@ export class NoteService implements INoteService {
 
     private async getPreview(fileID: string): Promise<string> {
         try {
-            return fileService.readFile(fileID).substring(0, 100);
+            return this.fileService.readFile(fileID).substring(0, 100);
         } catch (error) {
             return "No preview available"; // Default preview
         }
@@ -108,7 +115,7 @@ export class NoteService implements INoteService {
         //delete the file with the fileID
 
         try {
-            fileService.deleteFile(fileID);
+            this.fileService.deleteFile(fileID);
             return true;
         } catch (error) {
             return false;
