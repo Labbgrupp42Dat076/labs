@@ -60,7 +60,19 @@ export class UserDbService implements IUserService {
 
     private async updateUser(user: User)  {
         console.log("updating user")
-        await UserModel.update(user, { where: { id: user.id } });
+        await UserModel.update(
+            {
+                name: user.name,
+                password: user.password,
+                noteIds: user.noteIds,
+                todoIds: user.todoIds,
+                pomodoroIds: user.pomodoroIds,
+                lastPomodoroSession: user.lastPomodoroSession
+            },
+            {
+                where: { id: user.id }
+            }
+        )
         console.log("updated user")
     }
 
@@ -71,8 +83,7 @@ export class UserDbService implements IUserService {
                 throw new ErrorMessage('Note already added', 400);
             }
             user.noteIds.push(noteId);
-        
-
+      
         } else {
             throw new ErrorMessage('User not found', 404);
         }
