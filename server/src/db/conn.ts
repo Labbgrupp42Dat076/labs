@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-
+import sqlite3 from 'sqlite3';
 export let sequelize : Sequelize;
 
 if (process.env.NODE_ENV === "test") {
