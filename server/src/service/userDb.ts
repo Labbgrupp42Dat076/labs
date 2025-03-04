@@ -13,10 +13,13 @@ export class UserDbService implements IUserService {
     public async login(name: string, password: string): Promise<User> {
 
         // doe some db check later
-        const user = await UserModel.findOne({ where: { name: name } });
+        const user: User | null = await UserModel.findOne({ where: { name: name } });
+    
+        console.log("user found " + user)
         if (user) {
+            
             if (bcrypt.compareSync(password, user.password)) {
-                return await user;
+                return  user;
             }
         }
         throw new ErrorMessage('User not found', 404);
@@ -28,7 +31,7 @@ export class UserDbService implements IUserService {
         if (await UserModel.findOne({ where: { name: user.name } })) {
             throw new ErrorMessage('User already exists', 400);
         }
-        console.log("registering user " + user)
+        console.log("registering user " + user.name)
         user.password = bcrypt.hashSync(user.password, this.salt);
         await UserModel.create(user);
         return user.id;
@@ -55,9 +58,10 @@ export class UserDbService implements IUserService {
         }
     }
 
-    private updateUser(user: User): void  {
+    private async updateUser(user: User)  {
         console.log("updating user")
-        UserModel.update(user, { where: { id: user.id } });
+        await UserModel.update(user, { where: { id: user.id } });
+        console.log("updated user")
     }
 
     async addNoteId(id: number, noteId: number): Promise<User> {
@@ -67,13 +71,14 @@ export class UserDbService implements IUserService {
                 throw new ErrorMessage('Note already added', 400);
             }
             user.noteIds.push(noteId);
+        
 
         } else {
             throw new ErrorMessage('User not found', 404);
         }
 
         this.updateUser(user);
-        
+        console.log("added note id to user " + user.noteIds)
         return await user;
     }
 
@@ -196,7 +201,7 @@ export class UserDbService implements IUserService {
 
     public async getNewUserId(): Promise<number> {
         //return todays time
-        return Date.now();
+        return Math.floor(Date.now()/1000)
     }
 
 
