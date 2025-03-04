@@ -10,7 +10,7 @@ import { FileModel } from './fileObject.db';
 // todoIds : number[]
 
 
-export class Note extends Model<InferAttributes<Note>, InferCreationAttributes<Note>> {
+export class NoteModel extends Model<InferAttributes<NoteModel>, InferCreationAttributes<NoteModel>> {
     public id!: number;
     public title!: string;
     public  preview!: string;
@@ -18,7 +18,7 @@ export class Note extends Model<InferAttributes<Note>, InferCreationAttributes<N
     declare todoIds: ForeignKey<TodoObject['id']>[];
 }
 
-Note.init({
+NoteModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

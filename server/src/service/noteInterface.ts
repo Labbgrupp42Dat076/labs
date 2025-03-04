@@ -9,7 +9,7 @@ export interface INoteService {
 
     getNotes() : Promise<Note[]> 
 
-    createNote(title : string, fileID : string, todoIds: number[]) : Promise<number> 
+    createNote(title : string, fileID : number, todoIds: number[]) : Promise<number> 
 
     deleteNoteByID(id : number) : Promise<boolean> 
 

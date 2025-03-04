@@ -15,7 +15,7 @@ const fileRouter = express.Router();
 // get a file
 fileRouter.get("/:id", async (req: Request, res: Response) => {
   try {
-    const file = await fileServiceLocal.readFile(req.params.id);
+    const file = await fileServiceLocal.readFile(parseInt(req.params.id));
     res.status(200).json(file);
   } catch (error: unknown) {
    ErrorMessage.setResponseToErrorMessage(error, res);
