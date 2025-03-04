@@ -65,7 +65,7 @@ export class NoteServiceWithDb implements INoteService {
             title: title,
             preview: preview,
             fileID: fileID,
-            id: Date.now(),
+            id: Math.floor(Date.now() / 1000),
             todoIds: todoIds
         }
 
