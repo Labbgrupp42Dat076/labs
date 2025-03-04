@@ -6,6 +6,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
+import { INTEGER } from "sequelize";
 
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
@@ -30,12 +31,12 @@ class FileServiceDbInt implements IFileService {
         filename: (req, file, cb) => {
 
             let uniqueName = path.extname(file.originalname) + uuidv4();
-            this.currentWorkingFileId = Date.now();
+            this.currentWorkingFileId= Math.round(Date.now() / 1000);
             // made into db now
-            new FileModel({
+            FileModel.create({
                 path: uniqueName,
                 id: this.currentWorkingFileId
-            }).save();
+            });
 
 
 
@@ -123,3 +124,6 @@ class FileServiceDbInt implements IFileService {
     }
 
 }
+
+const fileServiceDbInt: IFileService = new FileServiceDbInt();
+export default fileServiceDbInt;
