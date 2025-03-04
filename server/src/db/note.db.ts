@@ -1,7 +1,7 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey } from 'sequelize';
 import { sequelize } from './conn';
 import { TodoObject } from './todoObject.db';
-import { FileObject } from './fileObject.db';
+import { FileModel } from './fileObject.db';
 
 // title : string,
 // preview : string,
@@ -10,15 +10,15 @@ import { FileObject } from './fileObject.db';
 // todoIds : number[]
 
 
-export class Note extends Model<InferAttributes<Note>, InferCreationAttributes<Note>> {
+export class NoteModel extends Model<InferAttributes<NoteModel>, InferCreationAttributes<NoteModel>> {
     public id!: number;
     public title!: string;
     public  preview!: string;
-    declare fileID: ForeignKey<FileObject['id']>;
+    declare fileID: ForeignKey<FileModel['id']>;
     declare todoIds: ForeignKey<TodoObject['id']>[];
 }
 
-Note.init({
+NoteModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

@@ -18,7 +18,7 @@ export async function deleteNote(props: NoteData) {
 
 
 
-export async function addNote(title: string, todos: string[], fileId: string | null) {
+export async function addNote(title: string, todos: string[], fileId: number | null) {
    
     const localNoteId = await uploadNote(title, todos, fileId);
     await linkNoteToUser(localNoteId);
@@ -37,7 +37,7 @@ async function linkNoteToUser(localNoteId: string) {
     window.location.reload();
 }
 
-async function uploadNote(title: string, todos: string[], fileId: string | null): Promise<string> {
+async function uploadNote(title: string, todos: string[], fileId: number| null): Promise<string> {
 
     try {
         const response: AxiosResponse = await axios.post('http://localhost:8080/note', {
@@ -58,7 +58,7 @@ async function uploadNote(title: string, todos: string[], fileId: string | null)
 
 }
 
-export async function uploadFile(formData: FormData, fileIdLocal: string | null) {
+export async function uploadFile(formData: FormData, fileIdLocal: number | null) {
     const response = await axios.post('http://localhost:8080/file', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'

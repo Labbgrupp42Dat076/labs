@@ -5,7 +5,7 @@ import { INoteService } from './noteInterface';
 
 import { IFileService } from './interfaceFile';
 
-import fileService from './file';
+import fileServiceDbInt from './fileServiceDbInt';
 
 
 
@@ -14,7 +14,7 @@ export class NoteService implements INoteService {
 
     ]
 
-    fileService : IFileService = fileService
+    fileService : IFileService = fileServiceDbInt;
 
     private getNotesFromID(id : number) : Note {
 
@@ -49,7 +49,7 @@ export class NoteService implements INoteService {
         return this.notes;
     }
 
-    async createNote(title : string, fileID : string, todoIds: number[]) : Promise<number> {
+    async createNote(title : string, fileID : number, todoIds: number[]) : Promise<number> {
         let preview : string;
         
         try {
@@ -79,7 +79,8 @@ export class NoteService implements INoteService {
 
     private async getPreview(fileID: string): Promise<string> {
         try {
-            return this.fileService.readFile(fileID).substring(0, 100);
+            const ret: string = await this.fileService.readFile(fileID)
+            return ret.substring(0, 100);
         } catch (error) {
             return "No preview available"; // Default preview
         }
