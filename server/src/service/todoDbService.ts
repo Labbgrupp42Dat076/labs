@@ -1,5 +1,5 @@
 import { TodoObject } from "../model/todoObject"
-import { TodoObject as TodoModel } from "../db/todoObject.db"
+import { TodoModel as TodoModel } from "../db/todoObject.db"
 import { ITodoService } from "./todo.service"
 
 

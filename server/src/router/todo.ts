@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 
 import { TodoDBService } from "../service/todoDbService";
+import { ITodoService } from "../service/todo.service";
 import { TodoObject } from "../model/todoObject";
 import { ErrorMessage } from "../../utilities/error_message";
 const todoRouter = express.Router();
@@ -8,7 +9,7 @@ const todoRouter = express.Router();
 import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";
 
-const todoService = new TodoDBService();
+const todoService:ITodoService = new TodoDBService();
 
 // get all todos 
 todoRouter.get("/", async (req: Request, res: Response) => {

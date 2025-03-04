@@ -1,6 +1,6 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey } from 'sequelize';
 import { sequelize } from './conn';
-import { TodoObject } from './todoObject.db';
+import { TodoModel } from './todoObject.db';
 import { FileModel } from './fileObject.db';
 
 // title : string,
@@ -15,7 +15,7 @@ export class NoteModel extends Model<InferAttributes<NoteModel>, InferCreationAt
     public title!: string;
     public  preview!: string;
     declare fileID: ForeignKey<FileModel['id']>;
-    declare todoIds: ForeignKey<TodoObject['id']>[];
+    declare todoIds: ForeignKey<TodoModel['id']>[];
 }
 
 NoteModel.init({

@@ -2,6 +2,7 @@ import * as SuperTest from "supertest";
 import { app } from "../start";
 import { TodoObject } from "../model/todoObject";
 import { User } from "../model/user";
+import { TodoModel } from "../db/todoObject.db";
 
 // mock the check that the user is logged in with the method check session
 const user: User = {
@@ -18,6 +19,49 @@ jest.mock("../../utilities/session_checker", () => ({
         return user;
     })
 }));
+
+
+
+// mock the TodoDBService
+jest.mock("../service/todoDbService", () => {
+    let todoMock = {
+        id: 0,
+        title: "Test description",
+        completed: false
+    }
+    return {
+        // mock todo
+      
+        TodoDBService: jest.fn().mockImplementation(() => {
+            return {
+                getTodos: jest.fn().mockImplementation(() => {
+                    return [
+                        todoMock
+                    ]
+                }),
+                getTodo: jest.fn().mockImplementation((id: number) => {
+                    return todoMock;
+                }),
+                getTodoById: jest.fn().mockImplementation((id: number) => {
+                    return todoMock;
+                }),
+                getTodosByListOfIds: jest.fn().mockImplementation((ids: number[]) => {
+                    return [
+                        todoMock
+                    ]
+                }),
+                addTodos: jest.fn().mockImplementation((todo: TodoObject) => {
+                    todoMock = todo;
+                    return 1;
+                }),
+                deleteTodos: jest.fn().mockImplementation((id: number) => {
+                    return;
+                })
+            }
+        })
+    }
+})
+
 
 
 const request = SuperTest.default(app);
