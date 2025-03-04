@@ -1,12 +1,12 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import { sequelize } from './conn';
 
-export class FileObject extends Model<InferAttributes<FileObject>, InferCreationAttributes<FileObject>> {
+export class FileModel extends Model<InferAttributes<FileModel>, InferCreationAttributes<FileModel>> {
     public id!: number;
     public path!: string;
 }   
 
-FileObject.init({
+FileModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

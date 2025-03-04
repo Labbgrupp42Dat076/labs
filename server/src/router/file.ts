@@ -3,11 +3,12 @@ import express, { Request, Response } from "express";
 import { IFileService } from "../service/interfaceFile";
 
 import fileService from "../service/file";
+import fileServiceDbInt from "../service/fileServiceDbInt";
 
 import { ErrorMessage } from "../../utilities/error_message";
 import e from "express";
 
-const fileServiceLocal: IFileService = fileService;
+const fileServiceLocal: IFileService = fileServiceDbInt;
 
 const fileRouter = express.Router();
 
