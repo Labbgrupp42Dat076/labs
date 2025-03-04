@@ -43,7 +43,7 @@ export class TodoDBService implements ITodoService {
     }
 
     public async getTodosByListOfIds(ids: number[]): Promise<TodoObject[]> {
-        let todos = await TodoModel.findAll({
+        let todos: TodoObject[] | null = await TodoModel.findAll({
             where: {
                 id: ids
             }

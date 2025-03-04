@@ -28,9 +28,10 @@ export function Note(props: NoteData) {
             <p>{props.content}</p>
             <div>
                 {props.connectedTodos.map((todo) => {
-                    const todoObject = todos.find((todoObject) => todoObject.id.toString() === todo)
+                    const todoObject = todos.find((todoObject) => todoObject.id.toString() == todo)
+                    console.log(todoObject)
                     if (todoObject) {
-                        return <div key={todo}>{todoObject.title}</div>
+                        return <div key={todo}>{todoObject.title }</div>
                     } else {
                         return <div key={todo}>{todo}</div>
                     }

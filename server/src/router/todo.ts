@@ -56,7 +56,6 @@ todoRouter.delete("/:id", async (req: Request, res: Response) => {
 
 // add a todo
 todoRouter.post("/", async (req: Request, res: Response) => {
-    console.log("added todo")
     try {
         const todo: TodoObject = {
             id: 0,
