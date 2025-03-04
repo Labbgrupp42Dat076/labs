@@ -6,14 +6,14 @@ import { NoteModel } from '../db/note.db';
 
 import { IFileService } from './interfaceFile';
 
-import fileService from './file';
+import fileServiceDbInt from './fileServiceDbInt';
 
 
 
 export class NoteServiceWithDb implements INoteService {
 
 
-    fileService: IFileService = fileService
+    fileService: IFileService = fileServiceDbInt
 
     private async getNotesFromID(id: number): Promise<Note> {
 
@@ -79,7 +79,8 @@ export class NoteServiceWithDb implements INoteService {
 
     private async getPreview(fileID: number): Promise<string> {
         try {
-            return this.fileService.readFile(fileID).substring(0, 100);
+            const ret = await this.fileService.readFile(fileID)
+            return ret.substring(0, 100);
         } catch (error) {
             return "No preview available"; // Default preview
         }
