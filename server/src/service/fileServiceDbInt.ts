@@ -59,8 +59,8 @@ class FileServiceDbInt implements IFileService {
                     callback(null);
                 }
             });
-        } catch (error) { 
-            
+        } catch (error) {
+
         }
 
         return this.currentWorkingFileId.toString();
@@ -71,9 +71,55 @@ class FileServiceDbInt implements IFileService {
     }
     async deleteFile(fileId: string) {
 
+        console.log(fileId)
+        const file = await FileModel.findOne({
+            where: {
+                id: fileId
+            }
+        });
+        if (!file) {
+            throw new ErrorMessage("File not found", 404);
+        }
+        const fileName = file?.path;
+
+        // delete file from db
+        await file?.destroy();
+
+        if (!fileName) {
+            console.log("file not found");
+            throw new ErrorMessage("File not found", 404);
+        }
+
+        const filePath = path.join(UPLOADS_DIR, fileName);
+        console.log("file name " + fileName);
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        } else {
+            throw new ErrorMessage("File not found", 404);
+        }
     }
     async readFile(fileId: string): Promise<string> {
-        return "penis2"
+        
+        const file = await FileModel.findOne({
+            where: {
+                id: fileId
+            }
+        });
+        if (!file) {
+            throw new ErrorMessage("File not found", 404);
+        }
+        const fileName = file?.path;
+
+        if (!fileName) {
+            throw new ErrorMessage("File not found", 404);
+        }
+
+        const filePath = path.join(UPLOADS_DIR, fileName);
+        if (fs.existsSync(filePath)) {
+            return fs.readFileSync(filePath, "utf-8");
+        } else {
+            throw new ErrorMessage("File not found", 404);
+        }
     }
 
 }
