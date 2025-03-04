@@ -2,18 +2,20 @@ import { User } from "../src/model/user";
 import { ErrorMessage } from "./error_message";
 import { Request } from "express"
 
-import userService  from "../src/service/user";
+import { UserDbService } from "../src/service/userDb";
 
-export function check_session(req: Request): User {
+const userDbService = new UserDbService();
+export async  function check_session(req: Request): Promise<User> {
 
     // proper method used later
-        const user = req.session.user as User | undefined;
+        let user = req.session.user as User | undefined;
+       
         console.log("user is " + user)
         if (!user) {
             console.log("user not logged in")
             throw new ErrorMessage('User not logged in', 400);
         }
-
+        user = await userDbService.getUser(user.id)
         return user;
 
      

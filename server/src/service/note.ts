@@ -49,7 +49,7 @@ export class NoteService implements INoteService {
         return this.notes;
     }
 
-    async createNote(title : string, fileID : string, todoIds: number[]) : Promise<number> {
+    async createNote(title : string, fileID : number, todoIds: number[]) : Promise<number> {
         let preview : string;
         
         try {

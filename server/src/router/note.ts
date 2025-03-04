@@ -17,7 +17,7 @@ const noteService: INoteService = new NoteServiceWithDb();
 noteRouter.get("/", async (req: Request, res: Response) => {
     try {
 
-        const response: User = check_session(req)  
+        const response: User = await  check_session(req)  
     
 
         let notes: Note[] = []

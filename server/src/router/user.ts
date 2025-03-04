@@ -2,10 +2,11 @@ import express, { Request, Response } from "express";
 import { User } from "../model/user";
 import { IUserService } from "../service/userInterface";
 import { UserService } from "../service/user";
+import { UserDbService } from "../service/userDb";
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker"
 
-const userService: IUserService = new UserService();
+const userService: IUserService = new UserDbService();
 declare module 'express-session' {
   interface SessionData {
     user?: User;
@@ -82,7 +83,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
 userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
   try {
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     await userService.deleteNoteId(userId, parseInt(req.params.noteId));
     await updateUserCookie(req, userId);
     res.status(200).json({ message: 'Note deleted' });
@@ -96,7 +97,7 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
   try {
 
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     console.log("note id" + req.body.noteId)
     await userService.addNoteId(userId, parseInt(req.body.noteId));
     await updateUserCookie(req, userId);
@@ -110,7 +111,7 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
 userRouter.delete("/pomodoros/:pomodoroId", async (req: Request, res: Response) => {
   try {
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     await userService.deletePomodoroId(userId, parseInt(req.params.pomodoroId));
     await updateUserCookie(req, userId);
     res.status(200).json({ message: 'Pomodoro deleted' });
@@ -125,7 +126,7 @@ userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
   try {
 
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
 
     await userService.deleteTodoId(userId, parseInt(req.params.todoId));
     await updateUserCookie(req, userId);
@@ -144,7 +145,7 @@ userRouter.post("/todo/", async (req: Request, res: Response) => {
     const todoId: number = parseInt(req.body.todoId);
     console .log(todoId)
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     
     await userService.addTodoId(userId, todoId);
     await updateUserCookie(req, userId);
@@ -162,7 +163,7 @@ userRouter.post("/todo/", async (req: Request, res: Response) => {
 userRouter.put("/name", async (req: Request, res: Response) => {
   try {
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     await userService.updateUserNames(userId, req.body.name);
     await updateUserCookie(req, userId);
     res.status(200).json({ message: 'Name updated' });
@@ -175,7 +176,7 @@ userRouter.put("/name", async (req: Request, res: Response) => {
 userRouter.put("/password", async (req: Request, res: Response) => {
   try {
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     await userService.updateUserPasswords(userId, req.body.password);
     await updateUserCookie(req, userId);
     res.status(200).json({ message: 'Password updated' });
@@ -189,7 +190,7 @@ userRouter.put("/password", async (req: Request, res: Response) => {
 userRouter.post("/pomodoro", async (req: Request, res: Response) => {
   try {
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     await userService.setLastPomodoroSessionToNow(userId);
     await updateUserCookie(req, userId);
     res.status(200).json({ message: 'Pomodoro session updated' });
@@ -202,7 +203,7 @@ userRouter.post("/pomodoro", async (req: Request, res: Response) => {
 userRouter.get("/pomodoro", async (req: Request, res: Response) => {
   try {
 
-    let userId: number = getUserIdFromCookies(req);
+    let userId: number = await getUserIdFromCookies(req);
     const lastPomodoroSession = await userService.getLastPomodoroSession(userId);
     await updateUserCookie(req, userId);
     res.status(200).json(lastPomodoroSession);
@@ -213,10 +214,10 @@ userRouter.get("/pomodoro", async (req: Request, res: Response) => {
 
 
 export default userRouter;
-function getUserIdFromCookies(req: Request) {
+async function getUserIdFromCookies(req: Request) {
 
 
-  const user:User = check_session(req);
+  const user:User = await check_session(req);
   let userId: number;
   if (user) {
     userId = user.id;

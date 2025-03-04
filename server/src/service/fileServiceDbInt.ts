@@ -70,7 +70,7 @@ class FileServiceDbInt implements IFileService {
     async updateFileContent(fileName: string, newContent: string) {
 
     }
-    async deleteFile(fileId: string) {
+    async deleteFile(fileId: number) {
 
         console.log(fileId)
         const file = await FileModel.findOne({
@@ -99,7 +99,7 @@ class FileServiceDbInt implements IFileService {
             throw new ErrorMessage("File not found", 404);
         }
     }
-    async readFile(fileId: string): Promise<string> {
+    async readFile(fileId: number): Promise<string> {
         
         const file = await FileModel.findOne({
             where: {
