@@ -3,18 +3,19 @@ import express, { Request, Response } from "express";
 import { IFileService } from "../service/interfaceFile";
 
 import fileService from "../service/file";
+import fileServiceDbInt from "../service/fileServiceDbInt";
 
 import { ErrorMessage } from "../../utilities/error_message";
 import e from "express";
 
-const fileServiceLocal: IFileService = fileService;
+const fileServiceLocal: IFileService = fileServiceDbInt;
 
 const fileRouter = express.Router();
 
 // get a file
 fileRouter.get("/:id", async (req: Request, res: Response) => {
   try {
-    const file = await fileServiceLocal.readFile(req.params.id);
+    const file = await fileServiceLocal.readFile(parseInt(req.params.id));
     res.status(200).json(file);
   } catch (error: unknown) {
    ErrorMessage.setResponseToErrorMessage(error, res);

@@ -57,7 +57,7 @@ export class FileService implements IFileService{
   }
   
 
-  public updateFileContent(fileName: string, newContent: string): void {
+  public async updateFileContent(fileName: string, newContent: string): Promise<void> {
     const filePath = path.join(UPLOADS_DIR, fileName);
 
     if (fs.existsSync(filePath)) {
@@ -68,7 +68,7 @@ export class FileService implements IFileService{
     }
   }
 
-  public deleteFile(fileId: string): void {
+  public async deleteFile(fileId: string) {
     console.log(this.fileList)
     console.log(fileId)
     const fileName = this.fileList.find((file) => file.id === parseInt(fileId))?.path;
@@ -86,8 +86,9 @@ export class FileService implements IFileService{
     }
   }
   
-  public readFile(fileId: string): string {
-    const fileName = this.fileList.find((file) => file.id === parseInt(fileId))?.path;
+
+  public readFile(fileId: number): string {
+    const fileName = this.fileList.find((file) => file.id === fileId)?.path;
     if (!fileName) {
       throw new ErrorMessage("File not found", 404);
     }
