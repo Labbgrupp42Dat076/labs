@@ -17,22 +17,7 @@ import { ErrorMessage } from "../../utilities/error_message";
 
 // mock NoteModel
 // mock sequelize 
-jest.mock('sequelize', () => {
-    return {
-        Sequelize: jest.fn().mockImplementation(() => {
-            return {
-                define: jest.fn().mockImplementation(() => {
-                    return {
-                        sync: jest.fn().mockImplementation(() => {
-                            return;
-                        })
-                    }
-                })
-            }
-        })
-    }
-}
-)
+
 
 
 jest.mock("../db/todoObject.db", () => {

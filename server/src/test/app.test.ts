@@ -20,22 +20,7 @@ jest.mock("../../utilities/session_checker", () => ({
     })
 }));
 
-jest.mock('sequelize', () => {
-    return {
-        Sequelize: jest.fn().mockImplementation(() => {
-            return {
-                define: jest.fn().mockImplementation(() => {
-                    return {
-                        sync: jest.fn().mockImplementation(() => {
-                            return;
-                        })
-                    }
-                })
-            }
-        })
-    }
-}
-)
+
 
 // mock the TodoDBService
 jest.mock("../service/todoDbService", () => {
