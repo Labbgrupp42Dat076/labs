@@ -1,7 +1,7 @@
 export interface Note {
     title : string,
     preview : string,
-    fileID : string,
+    fileID : number,
     id : number
     todoIds : number[]
 }

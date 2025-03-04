@@ -16,7 +16,7 @@ import { addNote, uploadFile } from '../api/noteOperations';
 
 export function AddNoteOverlay() {
 
-    const [fileId, setFileId] = useState<string | null>(null)
+    const [fileId, setFileId] = useState<number| null>(null)
     const [todos, setTodos] = useState<TodoData[]>([])
     async function fetchTodos() {
         // fetch the todos from the server
@@ -34,7 +34,7 @@ export function AddNoteOverlay() {
 
     const handleSubmitFile = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        let fileIdLocal: string | null = null
+        let fileIdLocal: number | null = null
         if (fileInputRef.current && fileInputRef.current.files) {
             const file = fileInputRef.current.files[0]
             if (!file) {
