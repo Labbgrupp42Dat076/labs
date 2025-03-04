@@ -2,7 +2,7 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Data
 import { sequelize } from './conn';
 import  {ForeignKey} from 'sequelize'
 import { NoteModel } from './note.db';
-import { TodoObject } from './todoObject.db';
+import { TodoModel } from './todoObject.db';
 import { PomodoroObject } from './pomodoroObject.db';
 
 
@@ -22,7 +22,7 @@ export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAt
     public name!: string;
     public password!: string;
     declare noteIds: ForeignKey<NoteModel['id']>[];
-    declare todoIds: ForeignKey<TodoObject['id']>[];
+    declare todoIds: ForeignKey<TodoModel['id']>[];
     declare pomodoroIds: ForeignKey<PomodoroObject['id']>[];
     public lastPomodoroSession!: number;
 }

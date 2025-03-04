@@ -8,13 +8,13 @@ import { sequelize } from './conn';
 //     completed: boolean;
 // }
 
-export class TodoObject extends Model<InferAttributes<TodoObject>, InferCreationAttributes<TodoObject>> {
+export class TodoModel extends Model<InferAttributes<TodoModel>, InferCreationAttributes<TodoModel>> {
     public id!: number;
     public title!: string;
     public completed!: boolean;
 }
 
-TodoObject.init({
+TodoModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
