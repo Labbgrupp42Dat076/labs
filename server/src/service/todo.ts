@@ -1,15 +1,17 @@
 import { TodoObject } from '../model/todoObject';
+import { ITodoService } from './todo.service';
 
 import { ErrorMessage } from '../../utilities/error_message';
 
-export class TodoService {
+
+export class TodoService implements ITodoService {
     todoList: Array<TodoObject> = [];
     
 
     // internal methods
     private  getTodoById(id: number): TodoObject {
         let output = this.todoList.find((item) => item.id === id);
-        if (output) {
+        if (output) {   
             return output;
         } else {
             throw new ErrorMessage("Todo not found", 404);
