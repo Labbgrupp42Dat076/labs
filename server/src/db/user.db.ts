@@ -17,7 +17,7 @@ import { PomodoroObject } from './pomodoroObject.db';
 //     lastPomodoroSession: number;
 // }
 
-export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
     public id!: number;
     public name!: string;
     public password!: string;
@@ -28,7 +28,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 }
 
 
-User.init({
+UserModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
