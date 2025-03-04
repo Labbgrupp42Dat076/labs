@@ -1,12 +1,14 @@
 import express, { Request, Response } from "express";
 
-import todoService from "../service/todo";
+import { TodoDBService } from "../service/todoDbService";
 import { TodoObject } from "../model/todoObject";
 import { ErrorMessage } from "../../utilities/error_message";
 const todoRouter = express.Router();
 
 import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";
+
+const todoService = new TodoDBService();
 
 // get all todos 
 todoRouter.get("/", async (req: Request, res: Response) => {
