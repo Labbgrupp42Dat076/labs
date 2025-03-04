@@ -5,7 +5,7 @@ import { ITodoService } from "./todo.service"
 
 export class TodoDBService implements ITodoService {
 
-    async getTodos(): Promise<TodoObject[]> {
+    public async getTodos(): Promise<TodoObject[]> {
         let todos = await TodoModel.findAll();
         return todos.map(todo => {
             return {
@@ -16,7 +16,7 @@ export class TodoDBService implements ITodoService {
         })
     }
 
-    async getTodo(id: number): Promise<TodoObject> {
+    public async getTodo(id: number): Promise<TodoObject> {
         let todo = await TodoModel.findByPk(id);
         if (todo) {
             return {
@@ -29,7 +29,7 @@ export class TodoDBService implements ITodoService {
         }
     }
 
-    async getTodoById(id: number): Promise<TodoObject> {
+    public async getTodoById(id: number): Promise<TodoObject> {
         let todo = await TodoModel.findByPk(id);
         if (todo) {
             return {
@@ -42,7 +42,7 @@ export class TodoDBService implements ITodoService {
         }
     }
 
-    async getTodosByListOfIds(ids: number[]): Promise<TodoObject[]> {
+    public async getTodosByListOfIds(ids: number[]): Promise<TodoObject[]> {
         let todos = await TodoModel.findAll({
             where: {
                 id: ids
@@ -57,7 +57,7 @@ export class TodoDBService implements ITodoService {
         })
     }
 
-    async addTodos(todo: TodoObject): Promise<number> {
+    public async addTodos(todo: TodoObject): Promise<number> {
         let newTodo = await TodoModel.create({
             id: todo.id,
             title: todo.title,
@@ -66,7 +66,7 @@ export class TodoDBService implements ITodoService {
         return newTodo.id;
     }
 
-    async deleteTodos(id: number): Promise<TodoObject[]> {
+    public async deleteTodos(id: number): Promise<TodoObject[]> {
         let todo = await TodoModel.findByPk(id);
         if (todo) {
             await todo.destroy();
@@ -76,7 +76,7 @@ export class TodoDBService implements ITodoService {
         }
     }
 
-    async setTodoDone(id: number): Promise<TodoObject[]> {
+    public async setTodoDone(id: number): Promise<TodoObject[]> {
         let todo = await TodoModel.findByPk(id);
         if (todo) {
             todo.completed = true;
@@ -87,7 +87,7 @@ export class TodoDBService implements ITodoService {
         }
     }
 
-    async setTodoUndone(id: number): Promise<TodoObject[]> {
+    public async setTodoUndone(id: number): Promise<TodoObject[]> {
         let todo = await TodoModel.findByPk(id);
         if (todo) {
             todo.completed = false;
@@ -97,6 +97,4 @@ export class TodoDBService implements ITodoService {
             throw new Error("Todo not found");
         }
     }
-
-
 }
