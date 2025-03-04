@@ -42,7 +42,7 @@ fileRouter.post("/", async (req: Request, res: Response) => {
 // delete a file
 fileRouter.delete("/:id", async (req: Request, res: Response) => {
   try {
-    await fileServiceLocal.deleteFile(req.params.id);
+    await fileServiceLocal.deleteFile(parseInt(req.params.id));
     res.status(200).json({ message: 'File deleted' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
