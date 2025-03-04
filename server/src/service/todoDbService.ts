@@ -43,7 +43,7 @@ export class TodoDBService implements ITodoService {
     }
 
     public async getTodosByListOfIds(ids: number[]): Promise<TodoObject[]> {
-        let todos = await TodoModel.findAll({
+        let todos: TodoObject[] | null = await TodoModel.findAll({
             where: {
                 id: ids
             }
@@ -59,10 +59,12 @@ export class TodoDBService implements ITodoService {
 
     public async addTodos(todo: TodoObject): Promise<number> {
         let newTodo = await TodoModel.create({
-            id: todo.id,
+            id: Math.floor(Date.now() / 1000),
             title: todo.title,
             completed: todo.completed
         });
+
+        console.log("new todo id " + newTodo.id)
         return newTodo.id;
     }
 

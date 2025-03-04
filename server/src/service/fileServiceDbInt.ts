@@ -90,6 +90,8 @@ class FileServiceDbInt implements IFileService {
             console.log("file not found");
             throw new ErrorMessage("File not found", 404);
         }
+        console.log("deleting file")
+        console.log("file name " + fileName);
 
         const filePath = path.join(UPLOADS_DIR, fileName);
         console.log("file name " + fileName);
