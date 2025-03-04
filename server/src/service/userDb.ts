@@ -110,7 +110,7 @@ export class UserDbService implements IUserService {
             throw new ErrorMessage('User not found', 404);
         }
         await this.updateUser(user);
-        console.log(user)
+        console.log(" user after adding todo id " + user.todoIds)
         return await user;
     }
 
