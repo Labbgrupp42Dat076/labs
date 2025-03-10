@@ -6,9 +6,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
-import { INTEGER } from "sequelize";
-import {PdfReader} from "pdfreader";
-
+import { readPdf, readPng, readJpg, readTxt} from "../../utilities/fileParser";
 
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
@@ -118,26 +116,15 @@ class FileServiceDbInt implements IFileService {
         if (fs.existsSync(filePath)) {
             if (filePath.endsWith(".pdf")) {
                 // read the text from the pdf file
-                let output = "";
-                const pdfReader = new PdfReader();
-                await pdfReader.parseFileItems("src/service/uploads/" + fileName, function (_err, item) {
-                   
-                        if (item && item.text)
-                            output += item.text;
-                
-                });
-                while (output == "") {
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                }
-                return output;
+                return await readPdf(fileName);
              
             }else if (filePath.endsWith(".png")) {
-                return "PNG file"
+                return await readPng(fileName);
             }else if (filePath.endsWith(".jpg")) {
-                return "JPG file"
+                return await readJpg(fileName);
             }
 
-            return fs.readFileSync(filePath , "utf-8");
+            return await readTxt(fileName);
         } else {
             throw new ErrorMessage("File not found", 404);
         }
@@ -147,3 +134,4 @@ class FileServiceDbInt implements IFileService {
 
 const fileServiceDbInt: IFileService = new FileServiceDbInt();
 export default fileServiceDbInt;
+
