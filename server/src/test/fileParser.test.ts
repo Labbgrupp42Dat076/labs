@@ -7,8 +7,9 @@ import fs from "fs";
 test("readPdf", async () => {
     // save a sample pdf file in the src/service/uploads folder containitg the pdf encoded text " PDF file"
 
-    fs.writeFileSync("src/service/uploads/test.pdf" , "");
-    
-    const result = await readPdf("test.pdf");
-    expect(result).toBe("PDF file");
+    const testtext = fs.readFileSync("src/test/Test.pdf");
+
+    fs.writeFileSync("src/service/uploads/Test.pdf", testtext);
+    const result = await readPdf("Test.pdf");
+    expect(result).toBe("Test ");
 })
