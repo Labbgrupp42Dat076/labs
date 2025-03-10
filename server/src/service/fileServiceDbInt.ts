@@ -7,6 +7,8 @@ import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
 import { INTEGER } from "sequelize";
+import {PdfReader} from "pdfreader";
+
 
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
@@ -30,7 +32,7 @@ class FileServiceDbInt implements IFileService {
         },
         filename: (req, file, cb) => {
 
-            let uniqueName = path.extname(file.originalname) + uuidv4();
+            let uniqueName = uuidv4() + path.extname(file.originalname) ;
             this.currentWorkingFileId= Math.round(Date.now() / 1000);
             // made into db now
             FileModel.create({
@@ -72,7 +74,6 @@ class FileServiceDbInt implements IFileService {
     }
     async deleteFile(fileId: number) {
 
-        console.log(fileId)
         const file = await FileModel.findOne({
             where: {
                 id: fileId
@@ -87,14 +88,10 @@ class FileServiceDbInt implements IFileService {
         await file?.destroy();
 
         if (!fileName) {
-            console.log("file not found");
             throw new ErrorMessage("File not found", 404);
         }
-        console.log("deleting file")
-        console.log("file name " + fileName);
 
         const filePath = path.join(UPLOADS_DIR, fileName);
-        console.log("file name " + fileName);
         if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
         } else {
@@ -119,7 +116,28 @@ class FileServiceDbInt implements IFileService {
 
         const filePath = path.join(UPLOADS_DIR, fileName);
         if (fs.existsSync(filePath)) {
-            return fs.readFileSync(filePath, "utf-8");
+            if (filePath.endsWith(".pdf")) {
+                // read the text from the pdf file
+                let output = "";
+                const pdfReader = new PdfReader();
+                await pdfReader.parseFileItems("src/service/uploads/" + fileName, function (_err, item) {
+                   
+                        if (item && item.text)
+                            output += item.text;
+                
+                });
+                while (output == "") {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+                return output;
+             
+            }else if (filePath.endsWith(".png")) {
+                return "PNG file"
+            }else if (filePath.endsWith(".jpg")) {
+                return "JPG file"
+            }
+
+            return fs.readFileSync(filePath , "utf-8");
         } else {
             throw new ErrorMessage("File not found", 404);
         }

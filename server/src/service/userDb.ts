@@ -15,7 +15,7 @@ export class UserDbService implements IUserService {
         // doe some db check later
         const user: User | null = await UserModel.findOne({ where: { name: name } });
     
-        console.log("user found " + user)
+
         if (user) {
             
             if (bcrypt.compareSync(password, user.password)) {
@@ -31,7 +31,6 @@ export class UserDbService implements IUserService {
         if (await UserModel.findOne({ where: { name: user.name } })) {
             throw new ErrorMessage('User already exists', 400);
         }
-        console.log("registering user " + user.name)
         user.password = bcrypt.hashSync(user.password, this.salt);
         await UserModel.create(user);
         return user.id;
@@ -59,7 +58,6 @@ export class UserDbService implements IUserService {
     }
 
     private async updateUser(user: User)  {
-        console.log("updating user")
         await UserModel.update(
             {
                 name: user.name,
@@ -73,7 +71,6 @@ export class UserDbService implements IUserService {
                 where: { id: user.id }
             }
         )
-        console.log("updated user")
     }
 
     async addNoteId(id: number, noteId: number): Promise<User> {
@@ -89,19 +86,17 @@ export class UserDbService implements IUserService {
         }
 
         this.updateUser(user);
-        console.log("added note id to user " + user.noteIds)
+
         return await user;
     }
 
     public async addTodoId(id: number, todoId: number): Promise<User> {
-        console.log("adding todo id " + todoId)
- 
+
 
         let user = await UserModel.findByPk(id);
        
         if (user) {
             if (user.todoIds.includes(todoId)) {
-                console.log("hello")
                 throw new ErrorMessage('Todo already added', 400);
             }
             user.todoIds.push(todoId);
@@ -110,7 +105,6 @@ export class UserDbService implements IUserService {
             throw new ErrorMessage('User not found', 404);
         }
         await this.updateUser(user);
-        console.log(" user after adding todo id " + user.todoIds)
         return await user;
     }
 
