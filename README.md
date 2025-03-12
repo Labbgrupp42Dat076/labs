@@ -45,10 +45,10 @@ npm run test-client
 
 ```
 
-# Deployment
-
 
 # Configuration
+
+## Server
 Any necessary environment variables or configuration steps.
 
 Create a `.env` file in the `server` directory with the following content:
@@ -58,6 +58,16 @@ SESSION_SECRET=your_session_secret_here
 ```
 
 Replace `your_session_secret_here` with a strong, unique secret key.
+
+## Client
+
+**Optional:** You can set the API URL by creating a `.env` file in the `client` directory with the following content:
+
+```
+VITE_API_URL=your_api_url_here
+```
+
+If not set, the client will default to `http://localhost:8080` for API calls.
 
 
 
