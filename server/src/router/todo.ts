@@ -17,7 +17,6 @@ todoRouter.get("/", async (req: Request, res: Response) => {
 
         //todo move this to note?? maybe functionally decompose
         const user = await check_session(req);
-        console .log("user is " + user.id)
 
         const todoIds: number[] = await user.todoIds
         const todos: TodoObject[]= await todoService.getTodosByListOfIds(todoIds);
@@ -67,7 +66,6 @@ todoRouter.post("/", async (req: Request, res: Response) => {
             throw new ErrorMessage("Title is required", 404);
         }
         const id: number = await todoService.addTodos(todo);
-        console.log("added todo id " + id)
         res.status(200).json({ message: 'Todo added', id: id });
         
     } catch (error: unknown) {
@@ -79,7 +77,6 @@ todoRouter.post("/", async (req: Request, res: Response) => {
 todoRouter.post("/:id/done", async (req: Request, res: Response) => {
     try {
         // check_session(req)
-        console.log("done")
         await todoService.setTodoDone(parseInt(req.params.id));
         res.status(200).json({ message: 'Todo done' });
     } catch (error: unknown) {

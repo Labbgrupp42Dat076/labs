@@ -19,7 +19,7 @@ export async function deleteNote(props: NoteData) {
 
 
 export async function addNote(title: string, todos: string[], fileId: number | null) {
-   
+
     const localNoteId = await uploadNote(title, todos, fileId);
     await linkNoteToUser(localNoteId);
 
@@ -37,7 +37,7 @@ async function linkNoteToUser(localNoteId: string) {
     window.location.reload();
 }
 
-async function uploadNote(title: string, todos: string[], fileId: number| null): Promise<string> {
+async function uploadNote(title: string, todos: string[], fileId: number | null): Promise<string> {
 
     try {
         const response: AxiosResponse = await axios.post('http://localhost:8080/note', {
@@ -45,10 +45,10 @@ async function uploadNote(title: string, todos: string[], fileId: number| null):
             content: todos,
             fileId: fileId
         });
-        const localNoteId:string = response.data.id;
+        const localNoteId: string = response.data.id;
         return localNoteId;
 
-     
+
     } catch (error) {
 
         console.error(error);
@@ -59,17 +59,31 @@ async function uploadNote(title: string, todos: string[], fileId: number| null):
 }
 
 export async function uploadFile(formData: FormData, fileIdLocal: number | null) {
-    const response = await axios.post('http://localhost:8080/file', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
+    try {
+        const response = await axios.post('http://localhost:8080/file', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        fileIdLocal = response.data.message;
+        console.log(response.status);
+        if (response.status != 200) {
+            alert('Error uploading file');
         }
-    });
-    fileIdLocal = response.data.message;
-    return fileIdLocal;
+        return fileIdLocal;
+    } catch (error) {
+        console.error(error);
+        alert('Error uploading file');
+        throw error;
+    }
 }
 
 export async function getNotes() {
     return await axios.get('http://localhost:8080/note');
+
+
+
   }
   
 export async function downloadFile(fileId: number){

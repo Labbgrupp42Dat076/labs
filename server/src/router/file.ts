@@ -45,14 +45,20 @@ fileRouter.post("/", async (req: Request, res: Response) => {
   try {
 
     // look for a file name in the request
-
+    let errLocal:any
     const resp = await fileServiceLocal.uploadFile(req, res, (err: any) => {
       if (err) {
-        throw new ErrorMessage(err.message, 404);
+        errLocal = err;
+        // throw new ErrorMessage(err.message, 400);  
       }
     });
+    if (errLocal) {
+      console.log("error in upload file") 
+      throw new ErrorMessage(errLocal.message, 400);
+    }
     res.status(200).json({ message: resp }); 
-  } catch (error: unknown) {
+  } catch (error) {
+    console.log("caught error")
     ErrorMessage.setResponseToErrorMessage(error, res);
   }
 });
