@@ -1,4 +1,4 @@
-import { readPdf } from "../../utilities/fileParser";
+import { readPdf, readTex } from "../../utilities/fileParser";
 import { readJpg } from "../../utilities/fileParser";
 import { readPng } from "../../utilities/fileParser";
 import { readTxt } from "../../utilities/fileParser";
@@ -12,4 +12,12 @@ test("readPdf", async () => {
     fs.writeFileSync("src/service/uploads/Test.pdf", testtext);
     const result = await readPdf("Test.pdf");
     expect(result).toBe("Test ");
+})
+
+
+test("read latex", async ()=>{
+    fs.writeFileSync("src/service/uploads/Test.tex", "\\begin{document}\ntest tex")
+    const result:string = await readTex("Test.tex")
+
+    expect(result).toContain("test tex")
 })

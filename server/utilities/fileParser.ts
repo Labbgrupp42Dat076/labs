@@ -28,3 +28,25 @@ export async function readTxt(fileName: string) {
     const filePath = "src/service/uploads/" + fileName;
     return fs.readFileSync(filePath, "utf-8");
 }
+
+export async function readTex(fileName: string):Promise<string>{
+    // traverse until \begin{document} is found
+    const filePath = "src/service/uploads/" + fileName;
+    const text:string = fs.readFileSync(filePath, "utf-8");
+    const testlines:string[]= text.split("\n")
+    let readNext:boolean = false
+    let output = "a latex document"
+    testlines.forEach((line)=>{
+        if(readNext){
+            output = line
+        }
+        if(line.includes("begin{document}")){
+
+            readNext = true
+            
+        }
+
+       
+    })
+    return output
+}
