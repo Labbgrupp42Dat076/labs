@@ -1,8 +1,10 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { NoteData } from '../types/NoteData';
-axios.defaults.withCredentials = true;
+import axiosInstance from './axiosInstance';
+
+
 export async function deleteNote(props: NoteData) {
-    await axios.delete('http://localhost:8080/note/' + props.id);
+    await axiosInstance.delete('/note/' + props.id);
 
     const note = document.getElementById(props.id);
     if (note) {
@@ -11,7 +13,7 @@ export async function deleteNote(props: NoteData) {
 
 
     // delete it from the user as well
-    await axios.delete('http://localhost:8080/user/notes/' + props.id);
+    await axiosInstance.delete('/user/notes/' + props.id);
 
     console.log('note deleted from user');
 }
@@ -28,7 +30,7 @@ export async function addNote(title: string, todos: string[], fileId: number | n
 async function linkNoteToUser(localNoteId: string) {
     console.log("local note id" + localNoteId);
     // add note to the user
-    const responseUser: AxiosResponse = await axios.post('http://localhost:8080/user/notes',
+    const responseUser: AxiosResponse = await axiosInstance.post('/user/notes',
         { noteId: localNoteId }
     );
     console.log(responseUser);
@@ -40,7 +42,7 @@ async function linkNoteToUser(localNoteId: string) {
 async function uploadNote(title: string, todos: string[], fileId: number| null): Promise<string> {
 
     try {
-        const response: AxiosResponse = await axios.post('http://localhost:8080/note', {
+        const response: AxiosResponse = await axiosInstance.post('/note', {
             title: title,
             content: todos,
             fileId: fileId
@@ -59,7 +61,7 @@ async function uploadNote(title: string, todos: string[], fileId: number| null):
 }
 
 export async function uploadFile(formData: FormData, fileIdLocal: number | null) {
-    const response = await axios.post('http://localhost:8080/file', formData, {
+    const response = await axiosInstance.post('/file', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -69,7 +71,7 @@ export async function uploadFile(formData: FormData, fileIdLocal: number | null)
 }
 
 export async function getNotes() {
-    return await axios.get('http://localhost:8080/note');
+    return await axiosInstance.get('/note');
   }
   
   

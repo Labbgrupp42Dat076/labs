@@ -1,5 +1,6 @@
-import axios from 'axios';
-axios.defaults.withCredentials = true;
+import axiosInstance from "./axiosInstance";
+
+
 export interface Todo {
     id: number;
     title: string;
@@ -7,7 +8,7 @@ export interface Todo {
 }
 
 export async function requestAddTodo(newTodo: string) {
-    const responseTodo = await axios.post('http://localhost:8080/todo', {
+    const responseTodo = await axiosInstance.post('/todo', {
         title: newTodo,
     });
 
@@ -15,7 +16,7 @@ export async function requestAddTodo(newTodo: string) {
         throw new Error('Failed to add todo');
     }
 
-    await axios.post('http://localhost:8080/user/todo', {
+    await axiosInstance.post('/user/todo', {
         todoId: responseTodo.data.id,
     });
     return responseTodo;
@@ -24,7 +25,7 @@ export async function requestAddTodo(newTodo: string) {
 
 
 export async function toggleTodoDone(todo: Todo, id: number) {
-    const endpoint = todo.completed ? `http://localhost:8080/todo/${id}/undone` : `http://localhost:8080/todo/${id}/done`;
+    const endpoint = todo.completed ? `/todo/${id}/undone` : `/todo/${id}/done`;
     const response = await fetch(endpoint, {
         method: 'POST',
     });
@@ -36,7 +37,7 @@ export async function toggleTodoDone(todo: Todo, id: number) {
 
 
 export async function requestDeleteTodo(id: number) {
-    const response = await axios.delete(`http://localhost:8080/todo/${id}`);
+    const response = await axiosInstance.delete(`/todo/${id}`);
 
     if (!response.data.message) {
         console.log(response);
@@ -44,12 +45,12 @@ export async function requestDeleteTodo(id: number) {
     }
 
     // then delete it for the user
-    await axios.delete(`http://localhost:8080/user/todos/${id}`);
+    await axiosInstance.delete(`/user/todos/${id}`);
 }
 
 
 export async function requestAllTodos() {
-    const response = await axios.get('http://localhost:8080/todo');
+    const response = await axiosInstance.get('/todo');
     const data = await response.data;
     return data;
 }

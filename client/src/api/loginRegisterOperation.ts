@@ -1,10 +1,11 @@
-import axios, { AxiosError } from "axios"
-axios.defaults.withCredentials = true;
+import { AxiosError } from "axios"
+import axiosInstance from "./axiosInstance"
+
 export async function login(username: string, password:string): Promise<boolean> {
 
     //logs you in for now
     try {
-       await axios.post('http://localhost:8080/user/login', {
+       await axiosInstance.post('/user/login', {
             name: username,
             password: password
         })
@@ -21,7 +22,7 @@ export async function login(username: string, password:string): Promise<boolean>
 
 
 export function testIfLogin() {
-    axios.get('http://localhost:8080/note')
+    axiosInstance.get('/note')
         .then((res) => {
             console.log(res);
             if (res.status === 200) {
@@ -35,7 +36,7 @@ export function testIfLogin() {
 export async function register(username:string, password:string): Promise<boolean> {
         
         try{
-        await axios.post('http://localhost:8080/user/register', {
+        await axiosInstance.post('/user/register', {
             name: username,
             password: password
         })
@@ -58,7 +59,7 @@ export async function register(username:string, password:string): Promise<boolea
 }
 
 export async function logout() {
-    await axios.post('http://localhost:8080/user/logout')
+    await axiosInstance.post('/user/logout')
     window.location.href = '/'
     localStorage.setItem('username',"")
 }
