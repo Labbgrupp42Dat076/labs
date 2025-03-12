@@ -32,7 +32,7 @@ class FileServiceDbInt implements IFileService {
 
             let uniqueName = uuidv4() + path.extname(file.originalname) ;
             if(!(uniqueName.endsWith (".pdf") || uniqueName.endsWith(".png") || uniqueName.endsWith(".jpg") || uniqueName.endsWith(".tex") || uniqueName.endsWith(".txt") )){
-                cb(new ErrorMessage("File type not supported", 400), "")
+                cb(new ErrorMessage("File type not supported", 400), "");
             }
             this.currentWorkingFileId= Math.round(Date.now() / 1000);
             // made into db now
@@ -50,6 +50,7 @@ class FileServiceDbInt implements IFileService {
         try {
             await this.upload(req, res, (err: any) => {
                 if (err) {
+                    console.log("erroe")
                     callback(err);
                 } else if (!req.file) {
                     callback(new ErrorMessage('No file uploaded', 400));

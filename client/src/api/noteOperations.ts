@@ -65,6 +65,9 @@ export async function uploadFile(formData: FormData, fileIdLocal: number | null)
         }
     });
     fileIdLocal = response.data.message;
+    if (response.status != 200) {
+        alert('Error uploading file');
+    }
     return fileIdLocal;
 }
 
