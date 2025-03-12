@@ -4,18 +4,27 @@ import './TodoPage.css';
 import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from '../../api/todoOperations';
 
 
-
+/**
+ * Represents a single todo item.
+ */
 interface Todo {
     id: number;
     title: string;
     completed: boolean;
 }
 
+/**
+ * The TodoPage component is a React functional component that manages a list of todo items.
+ * It allows users to add, toggle, delete, and filter todos.
+ */
 const TodoPage: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [newTodo, setNewTodo] = useState<string>('');
     const [display, setDisplay] = useState<string>('all');
 
+    /**
+     * Fetches all todos from the server and updates the state.
+     */
     const fetchTodos = async () => {
         try {
             const localTodos = await requestAllTodos();
@@ -29,12 +38,21 @@ const TodoPage: React.FC = () => {
         fetchTodos();
     }, []);
 
+    /**
+     * Handles the key press event for the input field.
+     * Adds a new todo when the Enter key is pressed.
+     * 
+     * @param e - The keyboard event.
+     */
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             addTodo();
         }
     };
 
+    /**
+     * Adds a new todo to the list.
+     */
     const addTodo = async () => {
         if (newTodo.trim() === '') return;
 
@@ -47,6 +65,11 @@ const TodoPage: React.FC = () => {
         }
     };
 
+    /**
+     * Toggles the completion status of a todo.
+     * 
+     * @param id - The ID of the todo to toggle.
+     */
     const toggleTodo = async (id: number) => {
         const todo = todos.find(todo => todo.id === id);
         if (!todo) return;
@@ -58,6 +81,11 @@ const TodoPage: React.FC = () => {
         }
     };
 
+    /**
+     * Deletes a todo from the list.
+     * 
+     * @param id - The ID of the todo to delete.
+     */
     const deleteTodo = async (id: number) => {
         try {
             await requestDeleteTodo(id);
@@ -67,17 +95,24 @@ const TodoPage: React.FC = () => {
         }
     };
 
+    /**
+     * Clears all completed todos from the list.
+     */
     const clearCompleted = async () => {
         const completedTodos = todos.filter(todo => todo.completed);
         await Promise.all(completedTodos.map(todo => deleteTodo(todo.id)));
     };
 
+    /**
+     * Filters the todos based on the current display filter.
+     */
     const filteredTodos = todos.filter(todo => {
         if (display === 'all') return true;
         if (display === 'active') return !todo.completed;
         if (display === 'completed') return todo.completed;
         return true;
     });
+
 
     return (
         <div className='todo-page'>
