@@ -150,8 +150,9 @@ class FileServiceDbInt implements IFileService {
         const filePath = path.join(UPLOADS_DIR, fileName);
         if (fs.existsSync(filePath)) {
             // return a file blob
-            const buffer = fs.readFileSync(filePath);
-            let type = getFileType(filePath);
+            const type = getFileType(filePath);
+            const buffer=  fs.readFileSync(filePath);
+            console.log("buffer " + buffer);
             return new Blob([buffer], { type: type });
         } else {
             throw new ErrorMessage("File not found", 404);
@@ -180,7 +181,7 @@ function getFileType(fileName: string) {
             break;
         case ".tex":
             console.log("tex file");
-            type = "application/x-tex";
+            type = "application/x-latex";
             break;
         case ".png":
             type = "image/png";

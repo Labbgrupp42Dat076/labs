@@ -88,17 +88,14 @@ export async function getNotes() {
   
 export async function downloadFile(fileId: number){
     try{
-        const response = await axios.get('http://localhost:8080/file/download/' + fileId, {
-            responseType: 'blob',
-        });
-        alert(response.headers)
-        const blob: Blob = response.data;
-        const url = window.URL.createObjectURL(blob);
+  
+
+        // call the backend directly to download the file
+        const url = 'http://localhost:8080/file/download/' + fileId;
         const a = document.createElement('a');
         a.href = url;
         a.download = 'file';
         a.click();
-        window.URL.revokeObjectURL(url);
     }catch(error){
         alert('Error downloading file ' + error);
     }

@@ -28,11 +28,11 @@ fileRouter.get("/download/:id", async (req: Request, res: Response) => {
     const file = await fileServiceLocal.downloadFile(parseInt(req.params.id));
     const type = file.type;
 
-    console.log("filetype " + type);
+    const text = await file.text();
+   
 
     // set the response header
     res.setHeader('Content-Type',type);
-    res.setHeader('Content-Disposition', `attachment; filename=${'file'}`);
     
     res.send(file);
   } catch (error: unknown) {

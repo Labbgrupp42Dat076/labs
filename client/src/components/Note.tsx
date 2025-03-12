@@ -55,7 +55,7 @@ export function Note(props: NoteData) {
                 }}>Download</Button>
                 <Button variant='danger'
                 onClick={async () => {
-                        await deleteNote(props);
+                        
   
                     
                 }}
