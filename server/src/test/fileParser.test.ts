@@ -20,4 +20,23 @@ test("read latex", async ()=>{
     const result:string = await readTex("Test.tex")
 
     expect(result).toContain("test tex")
+    fs.rmSync("src/service/uploads/Test.tex")
+})
+
+test("not read latex commands", async () =>{
+    fs.writeFileSync("src/service/uploads/Test.tex", "\\begin{document}\ntest tex\n\\section{something}")
+    const result:string = await readTex("Test.tex")
+
+    expect(result).not.toContain("\\subsection")
+    fs.rmSync("src/service/uploads/Test.tex")
+
+})
+
+test("empty latex", async () =>{
+    fs.writeFileSync("src/service/uploads/Test.tex", "")
+    const result:string = await readTex("Test.tex")
+
+    expect(result).not.toContain("a latex file")
+    fs.rmSync("src/service/uploads/Test.tex")
+
 })

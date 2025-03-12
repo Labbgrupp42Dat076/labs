@@ -38,7 +38,11 @@ export async function readTex(fileName: string):Promise<string>{
     let output = "a latex document"
     testlines.forEach((line)=>{
         if(readNext){
-            output = line
+            if(!line.includes("\\")){
+                output += "\n" + line
+            }
+          
+
         }
         if(line.includes("begin{document}")){
 
