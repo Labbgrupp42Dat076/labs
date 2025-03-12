@@ -74,10 +74,11 @@ export async function getNotes() {
   
 export async function downloadFile(fileId: number){
     try{
-        const response = await axios.get('http://localhost:8080/file/' + fileId, {
-            responseType: 'blob'
+        const response = await axios.get('http://localhost:8080/file/download/' + fileId, {
+            responseType: 'blob',
         });
-        const blob: Blob = new Blob([response.data])
+        alert(response.headers)
+        const blob: Blob = response.data;
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;

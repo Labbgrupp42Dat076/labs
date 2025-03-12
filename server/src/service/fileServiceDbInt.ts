@@ -31,7 +31,7 @@ class FileServiceDbInt implements IFileService {
         filename: (req, file, cb) => {
 
             let uniqueName = path.extname(file.originalname) + uuidv4();
-            this.currentWorkingFileId= Math.round(Date.now() / 1000);
+            this.currentWorkingFileId = Math.round(Date.now() / 1000);
             // made into db now
             FileModel.create({
                 path: uniqueName,
@@ -102,7 +102,7 @@ class FileServiceDbInt implements IFileService {
         }
     }
     async readFile(fileId: number): Promise<string> {
-        
+
         const file = await FileModel.findOne({
             where: {
                 id: fileId
@@ -125,7 +125,65 @@ class FileServiceDbInt implements IFileService {
         }
     }
 
+    public async downloadFile(fileId: number): Promise<Blob> {
+        const file = await FileModel.findOne({
+            where: {
+                id: fileId
+            }
+        });
+        if (!file) {
+            throw new ErrorMessage("File not found", 404);
+        }
+        const fileName = file?.path;
+
+        if (!fileName) {
+            throw new ErrorMessage("File not found", 404);
+        }
+
+        const filePath = path.join(UPLOADS_DIR, fileName);
+        if (fs.existsSync(filePath)) {
+            // return a file blob
+            const buffer = fs.readFileSync(filePath);
+            let type = getFileType(filePath);
+            return new Blob([buffer], { type: type });
+        } else {
+            throw new ErrorMessage("File not found", 404);
+        }
+    }
 }
 
 const fileServiceDbInt: IFileService = new FileServiceDbInt();
 export default fileServiceDbInt;
+
+function getFileType(fileName: string) {
+    let type = "";
+    console.log("file name " + fileName);
+    switch (path.extname(fileName)) {
+        case ".txt":
+            type = "text/plain";
+            break;
+        case ".pdf":
+            type = "application/pdf";
+            break;
+        case ".doc":
+            type = "application/msword";
+            break;
+        case ".docx":
+            type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            break;
+        case ".tex":
+            console.log("tex file");
+            type = "application/x-tex";
+            break;
+        case ".png":
+            type = "image/png";
+            break;
+        case ".jpg":
+            type = "image/jpeg";
+            break
+        default:
+            type = "application/octet-stream";
+            break;
+    }
+    return type;
+}

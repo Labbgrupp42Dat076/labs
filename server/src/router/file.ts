@@ -22,6 +22,24 @@ fileRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// download a file
+fileRouter.get("/download/:id", async (req: Request, res: Response) => {
+  try {
+    const file = await fileServiceLocal.downloadFile(parseInt(req.params.id));
+    const type = file.type;
+
+    console.log("filetype " + type);
+
+    // set the response header
+    res.setHeader('Content-Type',type);
+    res.setHeader('Content-Disposition', `attachment; filename=${'file'}`);
+    
+    res.send(file);
+  } catch (error: unknown) {
+    ErrorMessage.setResponseToErrorMessage(error, res);
+  }
+});
+
 // upload a file
 fileRouter.post("/", async (req: Request, res: Response) => {
   try {
