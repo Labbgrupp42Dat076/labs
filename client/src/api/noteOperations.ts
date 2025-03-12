@@ -72,4 +72,24 @@ export async function getNotes() {
     return await axios.get('http://localhost:8080/note');
   }
   
+export async function downloadFile(fileId: number){
+    try{
+        const response = await axios.get('http://localhost:8080/file/' + fileId, {
+            responseType: 'blob'
+        });
+        const blob: Blob = new Blob([response.data])
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'file';
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }catch(error){
+        alert('Error downloading file ' + error);
+    }
+
+    
+
+  }
+
   
