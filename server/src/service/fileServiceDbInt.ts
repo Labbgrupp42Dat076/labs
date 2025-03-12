@@ -31,16 +31,15 @@ class FileServiceDbInt implements IFileService {
         filename: (req, file, cb) => {
 
             let uniqueName = uuidv4() + path.extname(file.originalname) ;
+            if(!(uniqueName.endsWith (".pdf") || uniqueName.endsWith(".png") || uniqueName.endsWith(".jpg") || uniqueName.endsWith(".tex") || uniqueName.endsWith(".txt") )){
+                cb(new ErrorMessage("File type not supported", 400), "")
+            }
             this.currentWorkingFileId= Math.round(Date.now() / 1000);
             // made into db now
             FileModel.create({
                 path: uniqueName,
                 id: this.currentWorkingFileId
             });
-
-
-
-
 
             cb(null, uniqueName);
         },

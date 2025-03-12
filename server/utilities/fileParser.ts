@@ -35,10 +35,10 @@ export async function readTex(fileName: string):Promise<string>{
     const text:string = fs.readFileSync(filePath, "utf-8");
     const testlines:string[]= text.split("\n")
     let readNext:boolean = false
-    let output = "a latex document"
+    let output = ""
     testlines.forEach((line)=>{
         if(readNext){
-            if(!line.includes("\\")){
+            if(!line.includes("\\") && !line.includes("%")){
                 output += "\n" + line
             }
           
@@ -52,5 +52,8 @@ export async function readTex(fileName: string):Promise<string>{
 
        
     })
+    if(output === ""){
+        return "a latex document"
+    }
     return output
 }
