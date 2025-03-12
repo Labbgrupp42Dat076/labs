@@ -41,6 +41,11 @@ export function AddNoteOverlay() {
                 return alert('No file selected')
             }
             const formData = new FormData()
+// check file type
+            if (!file.type.includes('image') && !file.type.includes('pdf') && !file.type.includes('text')){
+                return alert('Invalid file type')
+            }
+
             formData.append('file', file)
 
             try {
