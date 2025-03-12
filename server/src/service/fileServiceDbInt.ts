@@ -6,7 +6,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
-import { readPdf, readPng, readJpg, readTxt} from "../../utilities/fileParser";
+import { readPdf, readPng, readJpg, readTxt, readTex} from "../../utilities/fileParser";
 
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
@@ -122,6 +122,8 @@ class FileServiceDbInt implements IFileService {
                 return await readPng(fileName);
             }else if (filePath.endsWith(".jpg")) {
                 return await readJpg(fileName);
+            }else if (filePath.endsWith(".tex")){
+                return await readTex(fileName)
             }
 
             return await readTxt(fileName);
