@@ -14,14 +14,21 @@ Instructions on how to install and set up the project.
 git clone https://github.com/Labbgrupp42Dat076/labs.git
 
 # Install dependencies
-npm install
+npm install --force
 ```
 
 # Usage
 
 ```sh
-# Start the application
-npm run dev
+# Start the server in the server folder
+npm run 
+```
+```sh
+# Start the client in the client folder
+npm run
+```
+```sh
+# Start the postgres database on localhost:5432
 ```
 
 # Tesing
