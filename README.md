@@ -17,6 +17,27 @@ git clone https://github.com/Labbgrupp42Dat076/labs.git
 npm install --force
 ```
 
+## Docker Installation
+Ensure you have docker installed as it will be used for the database. If not, follow the install instructions on [Docker's official website](https://www.docker.com/products/docker-desktop).
+
+
+# Configuration
+Any necessary environment variables or configuration steps.
+
+## Server
+
+In the `server` directory, copy the `.env.example` file or create a new `.env` file with the following content:
+
+```
+SESSION_SECRET=your_session_secret_here
+DATABASE_URL=your_postgres_url_here
+DATABASE_USER=your_postgres_username_here
+DATABASE_PASSWORD=your_postgres_password_here
+```
+
+*Replace the example environment variable values with your unique values.*
+
+
 # Usage
 
 ```sh
@@ -27,8 +48,10 @@ npm run
 # Start the client in the client folder
 npm run
 ```
+
 ```sh
 # Start the postgres database on localhost:5432
+docker run --env POSTGRES_USER=<usernane_in_your_file> --env POSTGRES_PASSWORD=<password_in_your_env_file> --publish 5432:5432 --name web_apps_db --detach postgres:17
 ```
 
 # Tesing
@@ -39,25 +62,14 @@ The project uses jest for testing
 # Test both frontend and backend
 npm run test
 
-# alternatively test both separetly
+# alternatively run test separetly
 npm run test-server
 npm run test-client
 
 ```
 
-# Deployment
 
 
-# Configuration
-Any necessary environment variables or configuration steps.
-
-Create a `.env` file in the `server` directory with the following content:
-
-```
-SESSION_SECRET=your_session_secret_here
-```
-
-Replace `your_session_secret_here` with a strong, unique secret key.
 
 
 
