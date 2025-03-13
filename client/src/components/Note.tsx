@@ -49,7 +49,6 @@ export function Note(props: NoteData) {
                         }
                     }
                 } >Expand</Button>
-                <Button variant='primary'>Edit</Button>
                 <Button variant='primary' onClick={async () =>{
                     await downloadFile(props.fileID)
                 }}>Download</Button>
