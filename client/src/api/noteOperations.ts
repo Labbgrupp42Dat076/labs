@@ -88,7 +88,7 @@ export async function getNotes() {
   
 export async function downloadFile(fileId: number){
     try{
-        const response = await axios.get('http://localhost:8080/file/download/' + fileId);
+        const response = await axios.get('http://localhost:8080/file/download/' + fileId, { responseType: 'arraybuffer' });
 
         const blob = new Blob([response.data], { type: response.headers['content-type'] });
         const url = window.URL.createObjectURL(blob);
