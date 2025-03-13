@@ -6,7 +6,9 @@
     "scripts": {
         "server": "cd server && npm run dev",
         "client": "cd client && npm run dev",
-        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "database": "docker start web_apps_db",
+        "stop-database": "docker stop web_apps_db",
+        "dev": "concurrently \"npm run database\" \"npm run server\" \"npm run client\"",
         "test-server": "cd server && npm run test",
         "test-client": "cd client && npm run test",
         "test": "concurrently \"npm run test-server\" \"npm run test-client\"",
