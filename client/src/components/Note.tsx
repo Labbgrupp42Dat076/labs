@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 // import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NoteData } from '../types/NoteData';
-import { deleteNote } from '../api/noteOperations';
+import { deleteNote, downloadFile} from '../api/noteOperations';
 import { useEffect, useState} from 'react';
 import { requestAllTodos } from '../api/todoOperations';
 import { TodoData } from '../api/todoOperations';
@@ -60,7 +60,9 @@ export function Note(props: NoteData): JSX.Element {
                     }
                 } >Expand</Button>
                 <Button variant='primary'>Edit</Button>
-                <Button variant='primary'>Download</Button>
+                <Button variant='primary' onClick={async () =>{
+                    await downloadFile(props.fileID)
+                }}>Download</Button>
                 <Button variant='danger'
                 onClick={async () => {
                         await deleteNote(props);

@@ -65,10 +65,11 @@ export function Notes(): JSX.Element {
             title: string,
             preview: string,
             id: string,
-            todoIds: string[]
+            todoIds: string[],
+            fileID: number
         }) => { 
 
-            return <Note name={note.title} content={note.preview} key={note.id} id={note.id} connectedTodos={note.todoIds}/>
+            return <Note name={note.title} content={note.preview} key={note.id} id={note.id} connectedTodos={note.todoIds} fileID={note.fileID}/>
 
         })
 

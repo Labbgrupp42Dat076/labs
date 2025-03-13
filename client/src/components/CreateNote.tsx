@@ -59,6 +59,12 @@ export function AddNoteOverlay() {
                 return alert('No file selected')
             }
             const formData = new FormData()
+// check file type we allo .tex files
+
+            if (!file.type.includes('image') && !file.type.includes('pdf') && !file.type.includes('text') && !file.type.includes('text/plain') && !file.type.includes('application/pdf') && file.type !== 'application/x-tex' && !file.name.includes('.tex')) {
+                return alert(file.type+ ' is not a supported file type')
+            }
+
             formData.append('file', file)
 
             try {

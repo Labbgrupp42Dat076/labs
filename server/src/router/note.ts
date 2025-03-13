@@ -22,7 +22,6 @@ noteRouter.get("/", async (req: Request, res: Response) => {
 
         let notes: Note[] = []
         const noteIds = response.noteIds
-        console.log(noteIds)
         if (noteIds) {
           notes = await noteService.getNotesByListOfIDs(noteIds)
         }
@@ -60,7 +59,6 @@ noteRouter.delete("/:id", async (req: Request, res: Response) => {
         await noteService.deleteNoteByID(parseInt(req.params.id));
         res.status(200).json({ message: 'Note deleted' });
     } catch (error) {
-        console.log("hello");
         ErrorMessage.setResponseToErrorMessage(error, res);
 
     }

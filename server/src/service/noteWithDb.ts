@@ -80,7 +80,7 @@ export class NoteServiceWithDb implements INoteService {
     private async getPreview(fileID: number): Promise<string> {
         try {
             const ret = await this.fileService.readFile(fileID)
-            return ret.substring(0, 100);
+            return ret.substring(0, 100) + "...";
         } catch (error) {
             return "No preview available"; // Default preview
         }
