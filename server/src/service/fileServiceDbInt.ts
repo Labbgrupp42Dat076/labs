@@ -6,7 +6,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
-import { INTEGER } from "sequelize";
+import { readPdf, readPng, readJpg, readTxt, readTex} from "../../utilities/fileParser";
 
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
@@ -30,17 +30,16 @@ class FileServiceDbInt implements IFileService {
         },
         filename: (req, file, cb) => {
 
-            let uniqueName = path.extname(file.originalname) + uuidv4();
+            let uniqueName = uuidv4() + path.extname(file.originalname) ;
+            if(!(uniqueName.endsWith (".pdf") || uniqueName.endsWith(".png") || uniqueName.endsWith(".jpg") || uniqueName.endsWith(".tex") || uniqueName.endsWith(".txt") )){
+                cb(new ErrorMessage("File type not supported", 400), "");
+            }
             this.currentWorkingFileId= Math.round(Date.now() / 1000);
             // made into db now
             FileModel.create({
                 path: uniqueName,
                 id: this.currentWorkingFileId
             });
-
-
-
-
 
             cb(null, uniqueName);
         },
@@ -51,6 +50,7 @@ class FileServiceDbInt implements IFileService {
         try {
             await this.upload(req, res, (err: any) => {
                 if (err) {
+                    console.log("erroe")
                     callback(err);
                 } else if (!req.file) {
                     callback(new ErrorMessage('No file uploaded', 400));
@@ -72,7 +72,6 @@ class FileServiceDbInt implements IFileService {
     }
     async deleteFile(fileId: number) {
 
-        console.log(fileId)
         const file = await FileModel.findOne({
             where: {
                 id: fileId
@@ -87,14 +86,10 @@ class FileServiceDbInt implements IFileService {
         await file?.destroy();
 
         if (!fileName) {
-            console.log("file not found");
             throw new ErrorMessage("File not found", 404);
         }
-        console.log("deleting file")
-        console.log("file name " + fileName);
 
         const filePath = path.join(UPLOADS_DIR, fileName);
-        console.log("file name " + fileName);
         if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
         } else {
@@ -119,7 +114,19 @@ class FileServiceDbInt implements IFileService {
 
         const filePath = path.join(UPLOADS_DIR, fileName);
         if (fs.existsSync(filePath)) {
-            return fs.readFileSync(filePath, "utf-8");
+            if (filePath.endsWith(".pdf")) {
+                // read the text from the pdf file
+                return await readPdf(fileName);
+             
+            }else if (filePath.endsWith(".png")) {
+                return await readPng(fileName);
+            }else if (filePath.endsWith(".jpg")) {
+                return await readJpg(fileName);
+            }else if (filePath.endsWith(".tex")){
+                return await readTex(fileName)
+            }
+
+            return await readTxt(fileName);
         } else {
             throw new ErrorMessage("File not found", 404);
         }
@@ -129,3 +136,4 @@ class FileServiceDbInt implements IFileService {
 
 const fileServiceDbInt: IFileService = new FileServiceDbInt();
 export default fileServiceDbInt;
+
