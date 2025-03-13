@@ -25,16 +25,17 @@ fileRouter.get("/:id", async (req: Request, res: Response) => {
 // download a file
 fileRouter.get("/download/:id", async (req: Request, res: Response) => {
   try {
-    const file = await fileServiceLocal.downloadFile(parseInt(req.params.id));
-    const type = file.type;
-
-    const text = await file.text();
+    const bufferNtype: Map<Buffer, string>= await fileServiceLocal.downloadFile(parseInt(req.params.id));
    
 
     // set the response header
-    res.setHeader('Content-Type',type);
-    
-    res.send(file);
+    const contentType = bufferNtype.values().next().value;
+    if (contentType) {
+      res.setHeader('Content-Type', contentType);
+      res.send(bufferNtype.keys().next().value);
+    } else {
+      throw new ErrorMessage('Content type not found', 400);
+    }
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }

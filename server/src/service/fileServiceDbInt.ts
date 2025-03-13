@@ -132,7 +132,7 @@ class FileServiceDbInt implements IFileService {
         }
     }
 
-    public async downloadFile(fileId: number): Promise<Blob> {
+    public async downloadFile(fileId: number): Promise<Map<Buffer, string>> {
         const file = await FileModel.findOne({
             where: {
                 id: fileId
@@ -153,7 +153,7 @@ class FileServiceDbInt implements IFileService {
             const type = getFileType(filePath);
             const buffer=  fs.readFileSync(filePath);
             console.log("buffer " + buffer);
-            return new Blob([buffer], { type: type });
+            return new Map([[buffer, type]]);
         } else {
             throw new ErrorMessage("File not found", 404);
         }
