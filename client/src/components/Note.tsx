@@ -56,7 +56,7 @@ export function Note(props: NoteData) {
                 onClick={async () => {
                         
   
-                    
+                    await deleteNote(props)
                 }}
                 >Delete</Button>
             </div>
