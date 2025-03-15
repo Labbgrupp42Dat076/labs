@@ -46,7 +46,7 @@ export const LoginCard: React.FC = () => {
                 }
             }}>
 
-                <Form.Label htmlFor="inputUsername5">username</Form.Label>
+                <Form.Label htmlFor="inputUsername5">Username</Form.Label>
                 <Form.Control
                     type="username"
                     id="inputUsername5"

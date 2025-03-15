@@ -45,7 +45,7 @@ export const RegisterCard: React.FC = () => {
                     }
                 }>
 
-                <Form.Label htmlFor="inputUsername6">username</Form.Label>
+                <Form.Label htmlFor="inputUsername6">Username</Form.Label>
                     <Form.Control
                         type="username"
                         id="inputUsername6"
