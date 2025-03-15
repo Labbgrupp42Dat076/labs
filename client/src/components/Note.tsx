@@ -59,15 +59,14 @@ export function Note(props: NoteData): JSX.Element {
                         }
                     }
                 } >Expand</Button>
-                <Button variant='primary'>Edit</Button>
                 <Button variant='primary' onClick={async () =>{
                     await downloadFile(props.fileID)
                 }}>Download</Button>
                 <Button variant='danger'
                 onClick={async () => {
-                        await deleteNote(props);
+                        
   
-                    
+                    await deleteNote(props)
                 }}
                 >Delete</Button>
             </div>

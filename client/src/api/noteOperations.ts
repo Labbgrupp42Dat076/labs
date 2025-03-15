@@ -150,16 +150,18 @@ export async function getNotes(): Promise<AxiosResponse<any>> {
 */
 export async function downloadFile(fileId: number){
     try{
-        const response = await axiosInstance.get('/file/' + fileId, {
+        const response = await axiosInstance.get('/file/download' + fileId, {
             responseType: 'blob'
         });
-        const blob: Blob = new Blob([response.data])
+        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
+
         const url = window.URL.createObjectURL(blob);
+        // call the backend directly to download the file
         const a = document.createElement('a');
         a.href = url;
         a.download = 'file';
         a.click();
-        window.URL.revokeObjectURL(url);
     }catch(error){
         alert('Error downloading file ' + error);
     }
