@@ -7,7 +7,12 @@ export async function InitPomodoro() {
     return response.data;
 }
 
-export async function endPomodoro() {
-    const response = await axios.post('http://localhost:8080/pomodoro/end');
+export async function endPomodoro(id: number): Promise<number> {
+    const response = await axios.post('http://localhost:8080/pomodoro/end' + id);
+    return response.data;
+}
+
+export async function deletePomodoro(id: number) {
+    const response = await axios.delete('http://localhost:8080/pomodoro/' + id);
     return response.data;
 }
