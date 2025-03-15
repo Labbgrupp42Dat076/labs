@@ -32,7 +32,6 @@ userRouter.post("/login", async (req: Request, res: Response) => {
 
   try {
 
-    console.log(req.body)
     const user: User = await userService.login(req.body.name, req.body.password);
     req.session.user = user;
     res.status(200).json({
@@ -68,7 +67,6 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       lastPomodoroSession: 0
     };
 
-    console.log(req.body)
 
 
     await userService.register(user);
@@ -98,7 +96,6 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
 
 
     let userId: number = await getUserIdFromCookies(req);
-    console.log("note id" + req.body.noteId)
     await userService.addNoteId(userId, parseInt(req.body.noteId));
     await updateUserCookie(req, userId);
     res.status(200).json({ message: 'Note added' });
@@ -130,7 +127,6 @@ userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
 
     await userService.deleteTodoId(userId, parseInt(req.params.todoId));
     await updateUserCookie(req, userId);
-    console.log("deleted todo link " + req.params.todoId)
 
     res.status(200).json({ message: 'Todo deleted' });
   } catch (error: unknown) {
@@ -141,9 +137,7 @@ userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
 // add link between todo and user
 userRouter.post("/todo/", async (req: Request, res: Response) => {
   try {
-    console.log("added todo link " + req.body.todoId)
     const todoId: number = parseInt(req.body.todoId);
-    console .log(todoId)
 
     let userId: number = await getUserIdFromCookies(req);
     

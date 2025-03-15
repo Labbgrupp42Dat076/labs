@@ -1,5 +1,12 @@
 import { Sequelize } from 'sequelize';
-import sqlite3 from 'sqlite3';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const database_url = process.env.DATABASE_URL || 'localhost:5432';
+const database_user = process.env.DATABASE_USERNAME;
+const database_password = process.env.DATABASE_PASSWORD;
+
 export let sequelize : Sequelize;
 
 if (process.env.NODE_ENV === "test") {
@@ -8,7 +15,7 @@ if (process.env.NODE_ENV === "test") {
     storage: ':memory:',
   })
 } else {
-  sequelize = new Sequelize('postgres://postgres@localhost:5432/');
+  sequelize = new Sequelize(`postgres://${database_user}:${database_password}@${database_url}/`);
 }
 
 export async function initDB() {

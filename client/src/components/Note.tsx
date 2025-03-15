@@ -3,25 +3,35 @@ import { Button } from 'react-bootstrap';
 // import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NoteData } from '../types/NoteData';
-import { deleteNote } from '../api/noteOperations';
+import { deleteNote, downloadFile} from '../api/noteOperations';
 import { useEffect, useState} from 'react';
 import { requestAllTodos } from '../api/todoOperations';
 import { TodoData } from '../api/todoOperations';
 
-export function Note(props: NoteData) {
-
+/**
+ * Represents a Note component that displays note details and associated todos.
+ * 
+ * @param {NoteData} props - The properties passed to the Note component.
+ * @returns {JSX.Element} The rendered Note component.
+ * 
+ * @component
+ * 
+ * @example
+ * <Note id="1" name="Sample Note" content="This is a sample note." connectedTodos={["1", "2"]} />
+ * 
+ **/ 
+export function Note(props: NoteData): JSX.Element {
     const [todos, setTodos] = useState<TodoData[]>([])
 
     async function fetchTodos() {
-        // fetch the todos from the server
         const localtodos = await requestAllTodos()
         setTodos(localtodos)
-        console.log(localtodos)
     }
 
     useEffect(() => {
         fetchTodos()
     }, [])
+
     return (
         <div className='note' id ={props.id}>
             <h2>{props.name}</h2>
@@ -50,7 +60,9 @@ export function Note(props: NoteData) {
                     }
                 } >Expand</Button>
                 <Button variant='primary'>Edit</Button>
-                <Button variant='primary'>Download</Button>
+                <Button variant='primary' onClick={async () =>{
+                    await downloadFile(props.fileID)
+                }}>Download</Button>
                 <Button variant='danger'
                 onClick={async () => {
                         await deleteNote(props);
@@ -62,5 +74,3 @@ export function Note(props: NoteData) {
         </div>
     )
 }
-
-

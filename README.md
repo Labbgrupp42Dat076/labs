@@ -9,6 +9,7 @@ A simple sudy app developen in the course DAT076 - Web applications at Chalmers
 # Installation
 Instructions on how to install and set up the project.
 
+## Server & Client
 ```sh
 # Clone the repository
 git clone https://github.com/Labbgrupp42Dat076/labs.git
@@ -17,19 +18,58 @@ git clone https://github.com/Labbgrupp42Dat076/labs.git
 npm install --force
 ```
 
-# Usage
+## Docker Installation
+Ensure you have docker installed as it will be used for the database. If not, follow the install instructions on [Docker's official website](https://www.docker.com/products/docker-desktop).
 
+
+## Database
 ```sh
-# Start the server in the server folder
-npm run 
+docker run --env POSTGRES_USER=<usernane_in_your_file> --env POSTGRES_PASSWORD=<password_in_your_env_file> --publish 5432:5432 --name web_apps_db --detach postgres:17
+
 ```
+
+
+# Configuration
+Any necessary environment variables or configuration steps.
+
+## Server
+
+In the `server` directory, copy the `.env.example` file or create a new `.env` file with the following content:
+
+```
+SESSION_SECRET=your_session_secret_here
+DATABASE_URL=your_postgres_url_here
+DATABASE_USER=your_postgres_username_here
+DATABASE_PASSWORD=your_postgres_password_here
+```
+
+*Replace the example environment variable values with your unique values.*
+
+
+# Usage
+## Starting the Application
+
+To start the entire application from the root directory, use the following command:
 ```sh
-# Start the client in the client folder
-npm run
+npm run dev
 ```
+
+To start the PostgreSQL database on `localhost:5432`, use the following command:
 ```sh
-# Start the postgres database on localhost:5432
+npm run database
 ```
+
+To start the server, navigate to the `server` directory and use the following command:
+```sh
+npm run dev
+```
+
+To start the client, navigate to the `client` directory and use the following command:
+```sh
+npm run dev
+```
+
+
 
 # Tesing
 
@@ -39,7 +79,7 @@ The project uses jest for testing
 # Test both frontend and backend
 npm run test
 
-# alternatively test both separetly
+# alternatively run test separetly
 npm run test-server
 npm run test-client
 
@@ -58,17 +98,6 @@ SESSION_SECRET=your_session_secret_here
 ```
 
 Replace `your_session_secret_here` with a strong, unique secret key.
-
-<!-- ## Client
-
-**Optional:** You can set the API URL by creating a `.env` file in the `client` directory with the following content:
-
-```
-VITE_API_URL=your_api_url_here
-```
-
-If not set, the client will default to `http://localhost:8080` for API calls. -->
-
 
 
 ## Authors 

@@ -8,15 +8,30 @@ axios.defaults.withCredentials = true;
 import { login } from '../api/loginRegisterOperation';
 
 
+/**
+ * `LoginCard` is a React functional component that renders a login form.
+ * It allows users to input their username and password and submit the form to log in.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <LoginCard />
+ * )
+ * 
+ * @returns {JSX.Element} A JSX element representing the login card.
+ * 
+ * @remarks
+ * The component maintains two pieces of state: `username` and `password`, which are updated
+ * as the user types into the respective input fields. When the form is submitted, it calls
+ * an asynchronous `login` function with the username and password. If the login is successful,
+ * the user is redirected to the `/todo` page.
+ * 
+ */
 export const LoginCard: React.FC = () => {
-
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-
     // try doing something to check if the user is logged in
-
-
  
     return (<div>
         <Card className='mt-5 m-2'>

@@ -3,5 +3,6 @@ export interface NoteData {
     content: string;
     id: string;
     connectedTodos: string[];
+    fileID: number;
 }
 

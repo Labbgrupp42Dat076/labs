@@ -14,6 +14,24 @@ import { TodoData } from '../api/todoOperations';
 import { addNote, uploadFile } from '../api/noteOperations';
 
 
+/**
+ * Component that provides an overlay for adding a new note.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <AddNoteOverlay />
+ * )
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @remarks
+ * This component allows users to create a new note by providing a title, linking existing todos, and optionally uploading a file.
+ * 
+ * @description
+ * The `AddNoteOverlay` component fetches todos from the server and displays them as checkboxes. Users can select todos to link to the new note. 
+ * Additionally, users can upload a file which will be associated with the note. The component handles form submissions for both the note and the file.
+ */
 export function AddNoteOverlay() {
 
     const [fileId, setFileId] = useState<number| null>(null)
@@ -41,6 +59,12 @@ export function AddNoteOverlay() {
                 return alert('No file selected')
             }
             const formData = new FormData()
+// check file type we allo .tex files
+
+            if (!file.type.includes('image') && !file.type.includes('pdf') && !file.type.includes('text') && !file.type.includes('text/plain') && !file.type.includes('application/pdf') && file.type !== 'application/x-tex' && !file.name.includes('.tex')) {
+                return alert(file.type+ ' is not a supported file type')
+            }
+
             formData.append('file', file)
 
             try {

@@ -10,9 +10,23 @@ import Button from 'react-bootstrap/Button';
 import  'bootstrap/dist/css/bootstrap.min.css';
 
 
+/**
+ * NavigationPanel component renders a responsive navigation bar using Bootstrap components.
+ * 
+ * The navigation bar displays different links and buttons based on the user's login status.
+ * 
+ * @returns {JSX.Element} The rendered navigation bar component.
+ * 
+ * The navigation bar includes:
+ * - A brand name link.
+ * - A toggle button for collapsing the navigation links on smaller screens.
+ * - Navigation links for "Todo", "Notes", and "Pomodoro" if the user is logged in.
+ * - A "Logged in as" text displaying the username from localStorage if the user is logged in.
+ * - A "Logout" button if the user is logged in, otherwise a "Login" button.
+ * 
+ */
 export function NavigationPanel() {
     return (
-
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container fluid>
                 <Navbar.Brand href="todo">Brand name</Navbar.Brand>

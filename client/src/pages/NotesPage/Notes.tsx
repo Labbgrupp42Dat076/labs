@@ -8,7 +8,24 @@ import { Note } from '../../components/Note'
 import { AddNoteOverlay } from '../../components/CreateNote'
 
 
-export function Notes() {
+
+
+/**
+ * Notes component that fetches and displays a list of notes.
+ * 
+ * This component performs the following tasks:
+ * - Fetches notes from an API on initial render using the `fetchNotes` function.
+ * - Displays the notes in a list format.
+ * - Provides an overlay to add new notes.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered Notes component.
+ * 
+ * @example
+ * <Notes />
+ * 
+ */
+export function Notes(): JSX.Element {
   const [notes, setNotes] = useState([])
 
 
@@ -19,9 +36,9 @@ export function Notes() {
     setNotes(response.data)
   }
 
-    useEffect(() => {
-        fetchNotes()
-    }, [])
+  useEffect(() => { 
+      fetchNotes()
+  }, [])
 
 
   return (
@@ -48,10 +65,11 @@ export function Notes() {
             title: string,
             preview: string,
             id: string,
-            todoIds: string[]
+            todoIds: string[],
+            fileID: number
         }) => { 
 
-            return <Note name={note.title} content={note.preview} key={note.id} id={note.id} connectedTodos={note.todoIds}/>
+            return <Note name={note.title} content={note.preview} key={note.id} id={note.id} connectedTodos={note.todoIds} fileID={note.fileID}/>
 
         })
 
