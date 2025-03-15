@@ -36,7 +36,7 @@ export const LoginCard: React.FC = () => {
     return (<div>
         <Card className='mt-5 m-2'>
             <Card.Title>
-                <h1>Login</h1>
+                <h2>Login</h2>
             </Card.Title>
             <Form onSubmit={async (e) => {
 

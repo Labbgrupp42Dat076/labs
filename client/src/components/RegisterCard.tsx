@@ -34,7 +34,7 @@ export const RegisterCard: React.FC = () => {
         <div>
             <Card className='registerCard m-5' id="register-card">
                 <Card.Title>
-                    Register Here
+                    <h2>Register</h2>
                 </Card.Title>
                 <Form onSubmit={
                     async (e)=>{

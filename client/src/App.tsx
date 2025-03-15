@@ -3,7 +3,7 @@
 
 
 import './App.css'
-import Pomodoro from './pomodoro'
+import Pomodoro from './pages/PomodoroPage/pomodoro'
 import axios from 'axios'
 
 
