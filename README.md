@@ -23,6 +23,9 @@ Ensure you have docker installed as it will be used for the database. If not, fo
 
 
 ## Database
+
+Once you have docker installed, you install the database using the following command:
+
 ```sh
 docker run --env POSTGRES_USER=<usernane_in_your_file> --env POSTGRES_PASSWORD=<password_in_your_env_file> --publish 5432:5432 --name web_apps_db --detach postgres:17
 
@@ -53,6 +56,8 @@ To start the entire application from the root directory, use the following comma
 ```sh
 npm run dev
 ```
+
+It is also possible to start the different parts of the application individually:
 
 To start the PostgreSQL database on `localhost:5432`, use the following command:
 ```sh
