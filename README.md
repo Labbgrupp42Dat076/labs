@@ -86,8 +86,18 @@ npm run test-client
 ```
 
 
+# Configuration
 
+## Server
+Any necessary environment variables or configuration steps.
 
+Create a `.env` file in the `server` directory with the following content:
+
+```
+SESSION_SECRET=your_session_secret_here
+```
+
+Replace `your_session_secret_here` with a strong, unique secret key.
 
 
 ## Authors 

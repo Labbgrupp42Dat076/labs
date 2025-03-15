@@ -1,6 +1,8 @@
-import axios from 'axios';
-axios.defaults.withCredentials = true;
+import axiosInstance from "./axiosInstance";
 
+/**
+ * Represents a todo item.
+ */
 export interface Todo {
     id: number;
     title: string;
@@ -15,13 +17,13 @@ export interface Todo {
  * @throws Will throw an error if the todo item could not be added.
  */
 export async function requestAddTodo(newTodo: string) {
-    const responseTodo = await axios.post('http://localhost:8080/todo', {
+    const responseTodo = await axiosInstance.post('/todo', {
         title: newTodo,
     });
 
     if (!responseTodo.data.message) throw new Error('Failed to add todo');
 
-    await axios.post('http://localhost:8080/user/todo', {
+    await axiosInstance.post('/user/todo', {
         todoId: responseTodo.data.id,
     });
     return responseTodo;
@@ -37,7 +39,7 @@ export async function requestAddTodo(newTodo: string) {
  * @returns {Promise<void>} A promise that resolves when the operation is complete.
  */
 export async function toggleTodoDone(todo: Todo, id: number) {
-    const endpoint = todo.completed ? `http://localhost:8080/todo/${id}/undone` : `http://localhost:8080/todo/${id}/done`;
+    const endpoint = todo.completed ? `/todo/${id}/undone` : `/todo/${id}/done`;
     const response = await fetch(endpoint, {
         method: 'POST',
     });
@@ -58,7 +60,7 @@ export async function toggleTodoDone(todo: Todo, id: number) {
  * @throws Will throw an error if the todo item could not be deleted.
  */
 export async function requestDeleteTodo(id: number): Promise<void> {
-    const response = await axios.delete(`http://localhost:8080/todo/${id}`);
+    const response = await axiosInstance.delete(`/todo/${id}`);
 
     if (!response.data.message) {
         console.log(response);
@@ -66,7 +68,7 @@ export async function requestDeleteTodo(id: number): Promise<void> {
     }
 
     // then delete it for the user
-    await axios.delete(`http://localhost:8080/user/todos/${id}`);
+    await axiosInstance.delete(`/user/todos/${id}`);
 }
 
 
@@ -77,10 +79,11 @@ export async function requestDeleteTodo(id: number): Promise<void> {
  * @throws {Error} Throws an error if the request fails.
  */
 export async function requestAllTodos(): Promise<any> {
-    const response = await axios.get('http://localhost:8080/todo');
+    const response = await axiosInstance.get('/todo');
     const data = await response.data;
     return data;
 }
+
 
 
 export interface TodoData {

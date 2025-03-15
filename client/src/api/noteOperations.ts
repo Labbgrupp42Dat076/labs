@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { NoteData } from '../types/NoteData';
-axios.defaults.withCredentials = true;
+import axiosInstance from './axiosInstance';
 
 /**
  * Deletes a note from the server and removes it from the DOM.
@@ -18,13 +18,13 @@ axios.defaults.withCredentials = true;
  * 4. Logs a message indicating that the note has been deleted from the user.
  */
 export async function deleteNote(props: NoteData) {
-    await axios.delete('http://localhost:8080/note/' + props.id);
+    await axiosInstance.delete('/note/' + props.id);
 
     const note = document.getElementById(props.id);
     if (note) note.remove();
 
     // delete it from the user as well
-    await axios.delete('http://localhost:8080/user/notes/' + props.id);
+    await axiosInstance.delete('/user/notes/' + props.id);
 }
 
 
@@ -52,11 +52,11 @@ export async function addNote(title: string, todos: string[], fileId: number | n
  * @throws {Error} - Throws an error if the request fails.
  * 
  * @remarks
- * This function sends a POST request to the endpoint 'http://localhost:8080/user/notes' with the note ID.
+ * This function sends a POST request to the endpoint '/user/notes' with the note ID.
  * On success, it logs the server response, shows an alert to the user, and reloads the window.
  */
 async function linkNoteToUser(localNoteId: string): Promise<void> {
-    const responseUser: AxiosResponse = await axios.post('http://localhost:8080/user/notes',
+    const responseUser: AxiosResponse = await axiosInstance.post('/user/notes',
         { noteId: localNoteId }
     );
     console.log(responseUser);
@@ -81,7 +81,7 @@ async function uploadNote(title: string, todos: string[], fileId: number | null)
 
 
     try {
-        const response: AxiosResponse = await axios.post('http://localhost:8080/note', {
+        const response: AxiosResponse = await axiosInstance.post('/note', {
             title: title,
             content: todos,
             fileId: fileId
@@ -105,7 +105,7 @@ async function uploadNote(title: string, todos: string[], fileId: number | null)
  */
 export async function uploadFile(formData: FormData, fileIdLocal: number | null) {
     try {
-        const response = await axios.post('http://localhost:8080/file', formData, {
+        const response = await axiosInstance.post('/file', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -124,22 +124,33 @@ export async function uploadFile(formData: FormData, fileIdLocal: number | null)
     }
 }
 
+
 /**
  * Fetches the list of notes from the server.
  *
  * @returns {Promise<AxiosResponse<any>>} A promise that resolves to the response of the GET request to the notes endpoint.
  */
 export async function getNotes(): Promise<AxiosResponse<any>> {
-    return await axios.get('http://localhost:8080/note');
+    return await axiosInstance.get('/note');
+}
 
-
-
-
-  }
-  
+ 
+/* Downloads a file from the server.
+*
+* @param {number} fileId - The ID of the file to be downloaded.
+* @returns {Promise<void>} - A promise that resolves when the file has been successfully downloaded.
+*
+* @throws {Error} - Throws an error if the request fails.
+*
+* @remarks
+* This function performs the following steps:
+* 1. Sends a GET request to the server to download the file as a blob.
+* 2. Creates a URL for the blob and triggers a download in the browser.
+* 3. Revokes the object URL to free up memory.
+*/
 export async function downloadFile(fileId: number){
     try{
-        const response = await axios.get('http://localhost:8080/file/' + fileId, {
+        const response = await axiosInstance.get('/file/' + fileId, {
             responseType: 'blob'
         });
         const blob: Blob = new Blob([response.data])
@@ -152,10 +163,4 @@ export async function downloadFile(fileId: number){
     }catch(error){
         alert('Error downloading file ' + error);
     }
-
-    
-
   }
-
-  
-
