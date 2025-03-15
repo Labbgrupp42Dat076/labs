@@ -8,20 +8,30 @@ import { useEffect, useState} from 'react';
 import { requestAllTodos } from '../api/todoOperations';
 import { TodoData } from '../api/todoOperations';
 
-export function Note(props: NoteData) {
-
+/**
+ * Represents a Note component that displays note details and associated todos.
+ * 
+ * @param {NoteData} props - The properties passed to the Note component.
+ * @returns {JSX.Element} The rendered Note component.
+ * 
+ * @component
+ * 
+ * @example
+ * <Note id="1" name="Sample Note" content="This is a sample note." connectedTodos={["1", "2"]} />
+ * 
+ **/ 
+export function Note(props: NoteData): JSX.Element {
     const [todos, setTodos] = useState<TodoData[]>([])
 
     async function fetchTodos() {
-        // fetch the todos from the server
         const localtodos = await requestAllTodos()
         setTodos(localtodos)
-        console.log(localtodos)
     }
 
     useEffect(() => {
         fetchTodos()
     }, [])
+
     return (
         <div className='note' id ={props.id}>
             <h2>{props.name}</h2>
@@ -63,5 +73,3 @@ export function Note(props: NoteData) {
         </div>
     )
 }
-
-

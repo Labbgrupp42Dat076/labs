@@ -1,0 +1,29 @@
+
+/* Timer container */
+.timer-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+    margin-top: 5rem;
+}
+
+/* Timer display */
+.timer-display {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
