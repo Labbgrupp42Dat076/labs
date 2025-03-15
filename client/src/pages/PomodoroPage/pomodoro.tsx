@@ -70,22 +70,23 @@ const Pomodoro: React.FC = () => {
     
 
     return (
-        <div className='body'>
         <div className='timer-container'>
             <h1>{isBreak ? 'Break!' : 'Study!'}</h1>
             <div className='timer-display'>
                 {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
             </div>
-            <button onClick={toggle} className='button'>
-                {isActive ? 'Pause' : 'Start'}
-            </button>
-            <button onClick={reset} className='button'>
-                Reset
-            </button>
-            <button onClick={forceBreak} className='button'>
-                Force Break
-            </button>
-        </div>
+            <div className='buttons-container'>
+                <button onClick={toggle} className='btn btn-primary'>
+                    {isActive ? 'Pause' : 'Start'}
+                </button>
+                <button onClick={reset} className='btn btn-primary'>
+                    Reset
+                </button>
+                <button onClick={forceBreak} className='btn btn-primary'>
+                    Force Break
+                </button>
+            </div>
+
         </div>
     );
 };

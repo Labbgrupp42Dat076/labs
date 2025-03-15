@@ -34,7 +34,7 @@ export const RegisterCard: React.FC = () => {
         <div>
             <Card className='registerCard m-5' id="register-card">
                 <Card.Title>
-                    Register Here
+                    <h2>Register</h2>
                 </Card.Title>
                 <Form onSubmit={
                     async (e)=>{
@@ -45,7 +45,7 @@ export const RegisterCard: React.FC = () => {
                     }
                 }>
 
-                <Form.Label htmlFor="inputUsername6">username</Form.Label>
+                <Form.Label htmlFor="inputUsername6">Username</Form.Label>
                     <Form.Control
                         type="username"
                         id="inputUsername6"

@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { LoginCard } from '../../components/LoginCard';
 import { RegisterCard } from '../../components/RegisterCard';
-import { useEffect } from 'react'
-axios.defaults.withCredentials = true;
+import { useEffect, useState } from 'react'
 import { testIfLogin } from '../../api/loginRegisterOperation';
+import './LoginPage.css'
 
 
 /**
@@ -23,14 +23,31 @@ const LoginPage: React.FC = () => {
     useEffect(() => { // logs you in if you are already logged in
         testIfLogin();
     }, [])
+
+    const [ showLoin, setShowLogin ] = useState(true)
     
     return (
         <div className="loginPage">
+            {showLoin? 
+                <LoginCard />
+                :
+                <RegisterCard />
+            }
 
-            <LoginCard>
-            </LoginCard>
-            <RegisterCard>
-            </RegisterCard>
+            {showLoin? 
+                <p className="loginPage__toggle">
+                    Don't have an account?
+                    <span onClick={()=>setShowLogin(!showLoin)}> Register
+                    </span>
+                </p> : 
+                <p className="loginPage__toggle">
+                    Already have an account? 
+                    <span onClick={()=>setShowLogin(!showLoin)}>
+                        Login
+                    </span>
+                </p>
+            }
+
         </div>
     )
 }
