@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { Axios, AxiosResponse } from 'axios';
 import { NoteData } from '../types/NoteData';
 import axiosInstance from './axiosInstance';
 
@@ -91,7 +91,7 @@ async function uploadNote(title: string, todos: string[], fileId: number | null)
 
     } catch (error) {
         console.error(error);
-        alert('Error adding note');
+        alert('Error adding note with error: \n' + error);
         return '';
     }
 }
@@ -131,7 +131,11 @@ export async function uploadFile(formData: FormData, fileIdLocal: number | null)
  * @returns {Promise<AxiosResponse<any>>} A promise that resolves to the response of the GET request to the notes endpoint.
  */
 export async function getNotes(): Promise<AxiosResponse<any>> {
-    return await axiosInstance.get('/note');
+    try{
+        return await axiosInstance.get('/note');
+    }catch(error){
+        throw error;
+    }
 }
 
  

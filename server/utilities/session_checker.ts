@@ -13,7 +13,7 @@ export async  function check_session(req: Request): Promise<User> {
         console.log("user is " + user)
         if (!user) {
             console.log("user not logged in")
-            throw new ErrorMessage('User not logged in', 400);
+            throw new ErrorMessage('User not logged in', 401);
         }
         user = await userDbService.getUser(user.id)
         return user;
