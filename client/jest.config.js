@@ -9,4 +9,8 @@ export default {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
     "^.+\\.svg$": "jest-transformer-svg",
   },
+     testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 };
+

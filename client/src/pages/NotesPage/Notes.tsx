@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 // import for requests
 import { getNotes } from '../../api/noteOperations'
 import Button from 'react-bootstrap/Button';
@@ -27,17 +28,29 @@ import { AddNoteOverlay } from '../../components/CreateNote'
  */
 export function Notes(): JSX.Element {
   const [notes, setNotes] = useState([])
-
+    const navigate = useNavigate()
 
   //initial fetch of notes
+
   const fetchNotes = async () => {
-    const response = await getNotes()
+    let response = {
+        data: []
+    }
+    try{
+        response = await getNotes()
+    }catch(error: any){
+        console.log("look here " + error.response.status)
+        // get the cat image from https://http.cat/
+        navigate('/error/' + error.response.status)
+        
+    }
     console.log(response.data)
     setNotes(response.data)
   }
 
   useEffect(() => { 
       fetchNotes()
+
   }, [])
 
 
