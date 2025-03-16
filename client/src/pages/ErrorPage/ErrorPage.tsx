@@ -1,5 +1,5 @@
 
-
+// a simple page that displays an image of a cat with the status code of the error
 function ErrorPage() {
 
     let url = 'https://http.cat/' + window.location.pathname.split('/')[2]
