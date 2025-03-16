@@ -25,14 +25,14 @@ jest.mock('../api/loginRegisterOperation', () => ({
 describe('RegisterCard', () => {
     test('renders register card', () => {
         render(<RegisterCard />);
-        const registerCard = screen.getByText('Register Here');
+        const registerCard = screen.getByText('Register Now');
         expect(registerCard).toBeInTheDocument();
     });
 
 
     test('redirects to /todo on successful registration', async () => {
         render(<RegisterCard />);
-        const usernameInput = screen.getByLabelText('username');
+        const usernameInput = screen.getByLabelText('Username');
         const passwordInput = screen.getByLabelText('Password');
         const registerButton = screen.getByText('Register Now');
 
@@ -40,7 +40,7 @@ describe('RegisterCard', () => {
         fireEvent.change(passwordInput, { target: { value: 'testpassword' } });
         fireEvent.click(registerButton);
 
-        await screen.findByText('Register Here');
+        await screen.findByText('Register Now');
         expect(window.location.href).toBe('/todo');
     });
 });

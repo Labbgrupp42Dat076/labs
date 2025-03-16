@@ -22,6 +22,25 @@ fileRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// download a file
+fileRouter.get("/download/:id", async (req: Request, res: Response) => {
+  try {
+    const bufferNtype: Map<Buffer, string>= await fileServiceLocal.downloadFile(parseInt(req.params.id));
+   
+
+    // set the response header
+    const contentType = bufferNtype.values().next().value;
+    if (contentType) {
+      res.setHeader('Content-Type', contentType);
+      res.send(bufferNtype.keys().next().value);
+    } else {
+      throw new ErrorMessage('Content type not found', 400);
+    }
+  } catch (error: unknown) {
+    ErrorMessage.setResponseToErrorMessage(error, res);
+  }
+});
+
 // upload a file
 fileRouter.post("/", async (req: Request, res: Response) => {
   try {
