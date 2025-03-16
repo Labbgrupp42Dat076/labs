@@ -4,6 +4,7 @@ import todoRouter from "./router/todo";
 import noteRouter from "./router/note";
 import userRouter from "./router/user";
 import fileRouter from "./router/file";
+import pomodoroRouter from "./router/pomodoro";
 import session from 'express-session';
 import dotenv from 'dotenv';
 
@@ -31,4 +32,5 @@ app.use("/todo", todoRouter);
 app.use("/note", noteRouter);
 app.use("/user", userRouter);
 app.use("/file", fileRouter);
+app.use("/pomodoro", pomodoroRouter);
 

@@ -2,14 +2,14 @@ import express, { Request, Response } from "express";
 
 
 import { PomodoroObject } from "../model/pomodoroObject";
-import { PomodoroService } from "../service/pomodoro";
+import { PomodoroServiceWithDb } from "../service/pomodoroWithDb";
 import { IPomodoroService } from "../service/pomodoroInterface";
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";
 
 
-const pomodoroService: IPomodoroService = new PomodoroService();
+const pomodoroService: IPomodoroService = new PomodoroServiceWithDb();
 const pomodoroRouter = express.Router();
 
 pomodoroRouter.post("/", async (req: Request, res: Response) => {
@@ -21,8 +21,7 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
-}
-);
+});
 
 pomodoroRouter.post("/end", async (req: Request, res: Response) => {
     try {
@@ -58,3 +57,5 @@ pomodoroRouter.delete("/:id", async (req: Request, res: Response) => {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
 });
+
+export default pomodoroRouter;

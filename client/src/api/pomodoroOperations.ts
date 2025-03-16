@@ -2,9 +2,18 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-export async function InitPomodoro() {
-    const response = await axios.get('http://localhost:8080/pomodoro');
-    return response.data;
+export async function InitPomodoro(): Promise<number> {
+    try {
+        const response = await axios.post('http://localhost:8080/pomodoro');
+        if (response != undefined) {
+            return response.data;
+        } else {
+            throw new Error('Failed to fetch pomodoros');
+        }
+    } catch (error) {
+        console.error('Error in InitPomodoro:', error);
+        throw error;
+    }
 }
 
 export async function endPomodoro(id: number): Promise<number> {

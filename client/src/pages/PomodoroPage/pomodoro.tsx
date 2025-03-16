@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './pomodoro.css';
 import config from './pomodoro-config.json';
 
+import { InitPomodoro, endPomodoro } from '../../api/pomodoroOperations';
+
 const Pomodoro: React.FC = () => {
     const studyMinutes = config.pomodoroTimer.studyTime.minutes;
     const studySeconds = config.pomodoroTimer.studyTime.seconds;
@@ -9,11 +11,12 @@ const Pomodoro: React.FC = () => {
     const breakMinutes = config.pomodoroTimer.breakTime.minutes;
     const breakSeconds = config.pomodoroTimer.breakTime.seconds;
 
-    const [minutes, setMinutes] = useState<number>(0);
-    const [seconds, setSeconds] = useState<number>(10);
+    const [minutes, setMinutes] = useState<number>(25);
+    const [seconds, setSeconds] = useState<number>(0);
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isBreak, setIsBreak] = useState<boolean>(false);
-
+    const [sessionFlag, setSessionFlag] = useState<boolean>(false);
+    const [sessionID, setSessionID] = useState<number>(0);
 
     const setStudyTime = () => {
         setMinutes(studyMinutes);
@@ -30,6 +33,8 @@ const Pomodoro: React.FC = () => {
     }
 
     useEffect(() => {
+        window.addEventListener('beforeunload', beforeUnload);
+
         let interval: NodeJS.Timeout | null = null;
         if (isActive) {
             interval = setInterval(() => {
@@ -57,6 +62,7 @@ const Pomodoro: React.FC = () => {
 
     const toggle = () => {
         setIsActive(!isActive);
+        startPomodoro();
     };
 
     const reset = () => {
@@ -67,7 +73,20 @@ const Pomodoro: React.FC = () => {
         setBreakTime();
     }
 
-    
+    async function startPomodoro(): Promise<void> {
+        console.log("Session Flag: " + sessionFlag);
+        if(!sessionFlag) {
+            setSessionFlag(true);
+            const id = await InitPomodoro();
+            setSessionID(id);
+        }
+    }
+
+    const beforeUnload = () => {
+        return (e: BeforeUnloadEvent) => {
+            endPomodoro(sessionID);
+        }
+    }
 
     return (
         <div className='timer-container'>
