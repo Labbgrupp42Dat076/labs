@@ -7,7 +7,6 @@ import Button from 'react-bootstrap/Button';
 import './notes.css'
 import { Note } from '../../components/Note'
 import { AddNoteOverlay } from '../../components/CreateNote'
-import { AxiosError } from 'axios';
 
 
 
