@@ -29,7 +29,7 @@ jest.mock('../api/loginRegisterOperation', () => ({
 test('renders login form', () => {
     const { getByLabelText, getByText } = render(<LoginCard />);
     
-    const usernameInput = getByLabelText('username');
+    const usernameInput = getByLabelText('Username');
     const passwordInput = getByLabelText('Password');
     const loginButton = getByText('Log In');
     
@@ -41,7 +41,7 @@ test('renders login form', () => {
 test('submits login form', async () => {
     const { getByLabelText, getByText } = render(<LoginCard />);
     
-    const usernameInput = getByLabelText('username');
+    const usernameInput = getByLabelText('Username');
     const passwordInput = getByLabelText('Password');
     const loginButton = getByText('Log In');
     
