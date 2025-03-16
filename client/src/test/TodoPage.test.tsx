@@ -10,6 +10,11 @@ jest.mock("../api/todoOperations", () => ({
   requestAllTodos: jest.fn(),
 }));
 
+//mock useNavigate
+jest.mock('react-router-dom', () => ({
+  useNavigate: () => jest.fn(),
+}));
+
 const mockTodos = [
   { id: 1, title: "Test Todo 1", completed: false },
   { id: 2, title: "Test Todo 2", completed: true },
