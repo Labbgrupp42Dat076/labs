@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './pomodoro.css';
 import config from './pomodoro-config.json';
 
-import { InitPomodoro } from '../../api/pomodoroOperations';
+import { InitPomodoro, getPomodoros, PomodoroObject } from '../../api/pomodoroOperations';
 
 const Pomodoro: React.FC = () => {
     const studyMinutes = config.pomodoroTimer.studyTime.minutes;
@@ -16,7 +16,7 @@ const Pomodoro: React.FC = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isBreak, setIsBreak] = useState<boolean>(false);
     const [sessionFlag, setSessionFlag] = useState<boolean>(false);
-
+    const[ponmodoroSessions, setPomodoroSessions] = useState<PomodoroObject[]>([]);
     const [pomodoroObject, setPomodoroObject] = useState({
         id: 0,
         startTime: 0,
@@ -38,10 +38,18 @@ const Pomodoro: React.FC = () => {
         setIsBreak(true);
     }
 
+    useEffect(() => {
+        fetchPomodoros();
+    }, []);
     
+    async function fetchPomodoros() {
+        const pomodoros = await getPomodoros();
+        setPomodoroSessions(pomodoros);
+    }
 
     useEffect(() => {
         window.addEventListener('pageswap', () => { beforeUnload() });
+        window.addEventListener('beforeunload', () => { beforeUnload() });
 
         let interval: NodeJS.Timeout | null = null;
         if (isActive) {
@@ -98,6 +106,7 @@ const Pomodoro: React.FC = () => {
             await InitPomodoro(pomodoroObject);
             setSessionFlag(false);
             window.removeEventListener('pageswap', () => { beforeUnload() });
+            window.removeEventListener('beforeunload', () => { beforeUnload() });
         }
     }
 
@@ -118,9 +127,26 @@ const Pomodoro: React.FC = () => {
                     Force Break
                 </button>
             </div>
+            <h6>Previous pomodoros
+            </h6>
+            {ponmodoroSessions.map((pomodoro, index) => {
+                return (
+                    <div key={index}>
+                        <p>Day: {translateSecondsfromEpochToTheDayAndTimeItIsToday(pomodoro.startTime)}</p>
+                        <p>Duration: {pomodoro.duration} seconds</p>
+              
+                    </div>
+                );
+            })
+            }
 
         </div>
     );
 };
 
 export default Pomodoro;
+
+function translateSecondsfromEpochToTheDayAndTimeItIsToday(seconds: number): string {
+    const date = new Date(seconds * 1000);
+    return date.toLocaleString();
+}

@@ -172,7 +172,8 @@ jest.mock('../db/pomodoroObject.db', () => {
         id: 0,
         startTime: Date.now(),
         endTime: Date.now(),
-        duration: 0
+        duration: 0,
+        userId: 0
     }
 
     return {
@@ -209,7 +210,8 @@ jest.mock('../db/pomodoroObject.db', () => {
                     id: 0,
                     startTime: Date.now(),
                     endTime: Date.now(),
-                    duration: 0
+                    duration: 0,
+                    userId: 0
                 }
                 return [
                     {
@@ -232,11 +234,12 @@ test("If a timer session is created then it should be in the list", async () => 
         id: 0,
         startTime: Date.now(),
         endTime: Date.now(),
-        duration: 0
+        duration: 0,
+        userId: 0
     }
     const pomodoroService:IPomodoroService = new PomodoroServiceWithDb
     await pomodoroService.initPomodoroSession(testPomodoro);
-    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
+    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions(0);
 
     expect(pomodoroIds.length == 1);
     expect(pomodoroIds[0].id == 0).toBeTruthy();
@@ -249,16 +252,17 @@ test("If a pomodoro session is deleted then it should be removed from the list",
         id: 0,
         startTime: Date.now(),
         endTime: Date.now(),
-        duration: 0
+        duration: 0,
+        userId: 0
     }
     const pomodoroService = new PomodoroServiceWithDb();
 
     await pomodoroService.initPomodoroSession(testPomodoro);
-    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
+    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions(0);
     const id = pomodoroIds[0].id;
 
     await pomodoroService.deletePomodoroSession(id);
-    const pomodoroIds2: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
+    const pomodoroIds2: PomodoroObject[] = await pomodoroService.getPomodoroSessions(0);
 
     expect(pomodoroIds2.length == 0);
 })
@@ -268,7 +272,8 @@ test("If the list of pomodoro sessions are empty then you should get an error co
         id: 0,
         startTime: Date.now(),
         endTime: Date.now(),
-        duration: 0
+        duration: 0,
+        userId: 0
     }
     const pomodoroService = new PomodoroServiceWithDb();
 

@@ -16,7 +16,9 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
     console.log("init-bruv " + req.body.pomodoroObject.id);
     try {
         const user: User = await check_session(req);
-        const id: number = await pomodoroService.initPomodoroSession(req.body.pomodoroObject);
+        const pomodoroObject: PomodoroObject = req.body.pomodoroObject;
+        pomodoroObject.userId = user.id;
+        const id: number = await pomodoroService.initPomodoroSession(pomodoroObject);
         res.status(200).json({ message: 'Pomodoro session created', id: id });
 
     } catch (error: unknown) {
@@ -27,7 +29,7 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
 pomodoroRouter.get("/", async (req: Request, res: Response) => {
     try {
         const user: User = await check_session(req);
-        const pomodoroSessions: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
+        const pomodoroSessions: PomodoroObject[] = await pomodoroService.getPomodoroSessions(user.id);
         res.status(200).json(pomodoroSessions);
 
     } catch (error: unknown) {
