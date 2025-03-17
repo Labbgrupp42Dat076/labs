@@ -10,9 +10,7 @@ const user: User = {
     name: "admin",
     password: "admin",
     noteIds: [0],
-    todoIds: [],
-    pomodoroIds: [],
-    lastPomodoroSession: 0
+    todoIds: []
 }
 jest.mock("../../utilities/session_checker", () => ({
     check_session: jest.fn().mockImplementation(() => {
