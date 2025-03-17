@@ -29,6 +29,7 @@ const Pomodoro: React.FC = () => {
         setSeconds(studySeconds);
         setIsActive(false);
         setIsBreak(false);
+        alert("Study Time!");
     }
 
     const setBreakTime = () => {
@@ -36,6 +37,7 @@ const Pomodoro: React.FC = () => {
         setSeconds(breakSeconds);
         setIsActive(false);
         setIsBreak(true);
+        alert("Break Time!");
     }
 
     useEffect(() => {
