@@ -1,9 +1,9 @@
 import swaggerJsdoc from 'swagger-jsdoc';
-import pomodoroSchema from './swagger-models/pomodoroObject';
-import noteSchema from './swagger-models/noteObject';
-import userSchema from './swagger-models/userObject';
-import todoSchema from './swagger-models/todoObject';
-import fileSchema from './swagger-models/fileObject';
+import pomodoroSchema from './swaggerModels/pomodoroObject';
+import noteSchema from './swaggerModels/noteObject';
+import userSchema from './swaggerModels/userObject';
+import todoSchema from './swaggerModels/todoObject';
+import fileSchema from './swaggerModels/fileObject';
 
 
 

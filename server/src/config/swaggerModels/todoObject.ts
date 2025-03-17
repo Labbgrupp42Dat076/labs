@@ -1,4 +1,4 @@
-{
+const todoSchema = {
     "Todo": {
         "type": "object",
         "properties": {
@@ -18,4 +18,5 @@
         "required": ["id", "title", "completed"]
     }
 }
-  
+
+export default todoSchema;

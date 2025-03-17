@@ -1,4 +1,4 @@
-{
+const Pomodoro = {
     "Pomodoro": {
       "type": "object",
       "properties": {
@@ -21,4 +21,5 @@
       }
     }
 }
-  
+ 
+export default Pomodoro;

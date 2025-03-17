@@ -1,4 +1,4 @@
-{
+const Note = {
     "Note": {
         "type": "object",
         "properties": {
@@ -24,3 +24,5 @@
         "required": ["title", "preview", "fileID", "id", "todoIds"]
     }
 }
+
+export default Note;

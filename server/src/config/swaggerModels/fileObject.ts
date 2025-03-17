@@ -1,4 +1,4 @@
-{
+const fileObject = {
     "FileObject": {
         "type": "object",
         "properties": {
@@ -13,4 +13,6 @@
         },
         "required": ["id", "path"]
     }
-}
+};
+
+export default fileObject;

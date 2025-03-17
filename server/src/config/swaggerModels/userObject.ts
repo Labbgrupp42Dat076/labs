@@ -1,4 +1,4 @@
-{
+const User = {
     "User": {
         "type": "object",
         "properties": {
@@ -32,3 +32,5 @@
         "required": ["id", "name", "password", "noteIds", "todoIds"]
     }
 }
+
+export default User;
