@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import './notes.css'
 import { Note } from '../../components/Note'
 import { AddNoteOverlay } from '../../components/CreateNote'
+import { NoteData } from '../../types/NoteData';
 
 
 
@@ -27,17 +28,25 @@ import { AddNoteOverlay } from '../../components/CreateNote'
  * 
  */
 export function Notes(): JSX.Element {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState<NoteData[]>([])
     const navigate = useNavigate()
 
   //initial fetch of notes
 
   const fetchNotes = async () => {
+    const sampleNote: NoteData = {
+        name: 'loading',
+        content: '',
+        id: '1',
+        connectedTodos: [],
+        fileID: 1
+    }
     let response = {
-        data: []
+        data: [ sampleNote ]
     }
     try{
         response = await getNotes()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }catch(error: any){
         console.log("look here " + error.response.status)
         // get the cat image from https://http.cat/
@@ -74,16 +83,8 @@ export function Notes(): JSX.Element {
       <section className="notes">
         {
 
-        notes.map((note: {
-            title: string,
-            preview: string,
-            id: string,
-            todoIds: string[],
-            fileID: number
-        }) => { 
-
-            return <Note name={note.title} content={note.preview} key={note.id} id={note.id} connectedTodos={note.todoIds} fileID={note.fileID}/>
-
+        notes.map((note: NoteData) => { 
+            return <Note name={note.name} content={note.content} key={note.id} id={note.id} connectedTodos={note.connectedTodos} fileID={note.fileID}/>
         })
 
         }   

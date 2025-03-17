@@ -25,6 +25,9 @@ export function Note(props: NoteData): JSX.Element {
 
     async function fetchTodos() {
         const localtodos = await requestAllTodos()
+        if (localtodos === undefined) {
+            return
+        }
         setTodos(localtodos)
     }
 
@@ -37,13 +40,14 @@ export function Note(props: NoteData): JSX.Element {
             <h2>{props.name}</h2>
             <p>{props.content}</p>
             <div>
+                <h6>Linked todos</h6>
                 {props.connectedTodos.map((todo) => {
                     const todoObject = todos.find((todoObject) => todoObject.id.toString() == todo)
                     console.log(todoObject)
                     if (todoObject) {
                         return <div key={todo}>{todoObject.title }</div>
                     } else {
-                        return <div key={todo}>{todo}</div>
+                        return <div key={todo}>None</div>
                     }
                 }
                 )}

@@ -41,7 +41,7 @@ export async function requestAddTodo(newTodo: string) {
 export async function toggleTodoDone(todo: Todo, id: number) {
     try {
         const endpoint = todo.completed ? `/todo/${id}/undone` : `/todo/${id}/done`;
-        await axiosInstance.post(endpoint);
+         await axiosInstance.post(endpoint);
     } catch (error) {
         console.log(error)
     }
@@ -79,7 +79,7 @@ export async function requestDeleteTodo(id: number): Promise<void> {
  * @returns {Promise<any>} A promise that resolves to the data containing all todo items.
  * @throws {Error} Throws an error if the request fails.
  */
-export async function requestAllTodos(): Promise<any> {
+export async function requestAllTodos(): Promise<TodoData[]> {
     const response = await axiosInstance.get('/todo');
     const data = await response.data;
     return data;
