@@ -15,7 +15,24 @@ declare module 'express-session' {
 
 const userRouter = express.Router();
 
-// get a user
+
+/**
+ * @swagger
+ * /user/{id}:
+ *   get:
+ *     summary: Get user by ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User data
+ *       404:
+ *         description: User not found
+ */
 userRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     const user = await userService.getUser(parseInt(req.params.id));
@@ -25,11 +42,30 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// login
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: Log in a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Unauthorized
+ */
 userRouter.post("/login", async (req: Request, res: Response) => {
-
-
-
   try {
 
     const user: User = await userService.login(req.body.name, req.body.password);
@@ -43,7 +79,20 @@ userRouter.post("/login", async (req: Request, res: Response) => {
   }
 });
 
-// log out 
+
+
+
+/**
+ * @swagger
+ * /user/logout:
+ *   post:
+ *     summary: Log out the current user
+ *     security:
+ *       - SessionAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ */
 userRouter.post("/logout", async (req: Request, res: Response) => {
   try {
     req.session.user = undefined;
@@ -54,7 +103,27 @@ userRouter.post("/logout", async (req: Request, res: Response) => {
 });
 
 
-// register
+
+/**
+ * @swagger
+ * /user/register:
+ *   post:
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Registration successful
+ */
 userRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const user: User = {
