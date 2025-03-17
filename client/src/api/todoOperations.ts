@@ -41,7 +41,7 @@ export async function requestAddTodo(newTodo: string) {
 export async function toggleTodoDone(todo: Todo, id: number) {
     try {
         const endpoint = todo.completed ? `/todo/${id}/undone` : `/todo/${id}/done`;
-        const response = await axiosInstance.post(endpoint);
+        await axiosInstance.post(endpoint);
     } catch (error) {
         console.log(error)
     }
