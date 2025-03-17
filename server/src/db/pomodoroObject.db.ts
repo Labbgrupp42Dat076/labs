@@ -13,6 +13,7 @@ export class PomodoroModel extends Model<InferAttributes<PomodoroModel>, InferCr
     public startTime!: number;
     public endTime!: number;
     public duration!: number;
+    public userId!: number;
 }
 
 PomodoroModel.init({
@@ -30,6 +31,10 @@ PomodoroModel.init({
         allowNull: false
     },
     duration: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false
     }

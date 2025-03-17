@@ -5,7 +5,7 @@ export interface IPomodoroService {
 
 
     initPomodoroSession(pomodoroObject: PomodoroObject): Promise<number> ;
-    getPomodoroSessions():  Promise <PomodoroObject[] >
+    getPomodoroSessions(userId: number):  Promise <PomodoroObject[] >
     deletePomodoroSession(id: number): void ;
     
 
