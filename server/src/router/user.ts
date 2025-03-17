@@ -18,9 +18,18 @@ const userRouter = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management and operations
+ */
+
+/**
+ * @swagger
  * /user/{id}:
  *   get:
  *     summary: Get user by ID
+ *     tags:
+ *       - Users
  *     parameters:
  *       - name: id
  *         in: path
@@ -48,6 +57,8 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
  * /user/login:
  *   post:
  *     summary: Log in a user
+ *     tags:
+ *      - Users
  *     requestBody:
  *       required: true
  *       content:
@@ -87,6 +98,8 @@ userRouter.post("/login", async (req: Request, res: Response) => {
  * /user/logout:
  *   post:
  *     summary: Log out the current user
+ *     tags:
+ *      - Users
  *     security:
  *       - SessionAuth: []
  *     responses:
@@ -109,6 +122,8 @@ userRouter.post("/logout", async (req: Request, res: Response) => {
  * /user/register:
  *   post:
  *     summary: Register a new user
+ *     tags:
+ *      - Users
  *     requestBody:
  *       required: true
  *       content:
@@ -144,10 +159,28 @@ userRouter.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-// delete link between note and user
+
+/**
+ * @swagger
+ * /user/notes/{noteId}:
+ *   delete:
+ *     summary: Delete the link between the user and a note
+ *     tags:
+ *      - Users
+ *     parameters:
+ *       - name: noteId
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Note deleted successfully
+ *       400:
+ *         description: User not logged in or error occurred
+ */
 userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
   try {
-
     let userId: number = await getUserIdFromCookies(req);
     await userService.deleteNoteId(userId, parseInt(req.params.noteId));
     await updateUserCookie(req, userId);
@@ -157,11 +190,30 @@ userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
   }
 });
 
-// add link between note and user
+/**
+ * @swagger
+ * /user/notes:
+ *   post:
+ *     summary: Add a note to the user
+ *     tags:
+ *      - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               noteId:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Note added successfully
+ *       400:
+ *         description: User not logged in or error occurred
+ */
 userRouter.post("/notes/", async (req: Request, res: Response) => {
   try {
-
-
     let userId: number = await getUserIdFromCookies(req);
     await userService.addNoteId(userId, parseInt(req.body.noteId));
     await updateUserCookie(req, userId);
@@ -171,47 +223,94 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
   }
 });
 
-
-
-//delete link between todo and user
+/**
+ * @swagger
+ * /user/todos/{todoId}:
+ *   delete:
+ *     summary: Delete the link between the user and a todo
+ *     tags:
+ *      - Users
+ *     parameters:
+ *       - name: todoId
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Todo deleted successfully
+ *       400:
+ *         description: User not logged in or error occurred
+ */
 userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
   try {
-
-
     let userId: number = await getUserIdFromCookies(req);
-
     await userService.deleteTodoId(userId, parseInt(req.params.todoId));
     await updateUserCookie(req, userId);
-
     res.status(200).json({ message: 'Todo deleted' });
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }
 });
 
-// add link between todo and user
+/**
+ * @swagger
+ * /user/todo:
+ *   post:
+ *     summary: Add a todo to the user
+ *     tags:
+ *      - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               todoId:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Todo added successfully
+ *       400:
+ *         description: User not logged in or error occurred
+ */
 userRouter.post("/todo/", async (req: Request, res: Response) => {
   try {
     const todoId: number = parseInt(req.body.todoId);
-
     let userId: number = await getUserIdFromCookies(req);
-    
     await userService.addTodoId(userId, todoId);
     await updateUserCookie(req, userId);
-
-
     res.status(200).json({ message: 'Todo added', id: req.body.todoId });
-
   } catch (error: unknown) {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }
 });
 
-
-// update username
+/**
+ * @swagger
+ * /user/name:
+ *   put:
+ *     summary: Update the username of the user
+ *     tags:
+ *      - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Name updated successfully
+ *       400:
+ *         description: User not logged in or error occurred
+ */
 userRouter.put("/name", async (req: Request, res: Response) => {
   try {
-
     let userId: number = await getUserIdFromCookies(req);
     await userService.updateUserNames(userId, req.body.name);
     await updateUserCookie(req, userId);
@@ -221,10 +320,30 @@ userRouter.put("/name", async (req: Request, res: Response) => {
   }
 });
 
-// update password
+/**
+ * @swagger
+ * /user/password:
+ *   put:
+ *     summary: Update the password of the user
+ *     tags:
+ *      - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password updated successfully
+ *       400:
+ *         description: User not logged in or error occurred
+ */
 userRouter.put("/password", async (req: Request, res: Response) => {
   try {
-
     let userId: number = await getUserIdFromCookies(req);
     await userService.updateUserPasswords(userId, req.body.password);
     await updateUserCookie(req, userId);
@@ -233,7 +352,6 @@ userRouter.put("/password", async (req: Request, res: Response) => {
     ErrorMessage.setResponseToErrorMessage(error, res);
   }
 });
-
 
 
 
