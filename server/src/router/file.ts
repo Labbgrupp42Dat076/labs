@@ -1,12 +1,12 @@
 /**
  * @swagger
  * tags:
- *   name: Files
+ *   name: File
  *   description: File management endpoints
  * 
  * /file/{id}:
  *   get:
- *     tags: [Files]
+ *     tags: [File]
  *     summary: Get a file by ID
  *     parameters:
  *       - in: path
@@ -23,7 +23,7 @@
  * 
  * /file/download/{id}:
  *   get:
- *     tags: [Files]
+ *     tags: [File]
  *     summary: Download a file by ID
  *     parameters:
  *       - in: path
@@ -46,7 +46,7 @@
  * 
  * /file:
  *   post:
- *     tags: [Files]
+ *     tags: [File]
  *     summary: Upload a file
  *     requestBody:
  *       required: true
@@ -65,7 +65,7 @@
  *         description: When a server error occurs
  * 
  *   delete:
- *     tags: [Files]
+ *     tags: [File]
  *     summary: Delete a file by ID
  *     parameters:
  *       - in: path

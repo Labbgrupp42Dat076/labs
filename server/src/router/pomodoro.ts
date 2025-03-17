@@ -76,12 +76,14 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
         const user: User = await check_session(req);
         const pomodoroObject: PomodoroObject = req.body.pomodoroObject;
         pomodoroObject.userId = user.id;
-        const id: number = await pomodoroService.initPomodoroSession(pomodoroObject);
-        res.status(200).json({ message: 'Pomodoro session created', id: id });
+        res.status(200).json({ message: 'Pomodoro session created'});
+
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
 });
+
+
 
 /**
  * @swagger
@@ -112,6 +114,7 @@ pomodoroRouter.delete("/:id", async (req: Request, res: Response) => {
         const user: User = await check_session(req);
         await pomodoroService.deletePomodoroSession(parseInt(req.params.id));
         res.status(200).json({ message: 'Pomodoro session deleted' });
+
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }

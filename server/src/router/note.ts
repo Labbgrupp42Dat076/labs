@@ -1,13 +1,13 @@
 /**
  * @swagger
  * tags:
- *   name: Notes
+ *   name: Note
  *   description: Note management endpoints
  * 
  * paths:
  *   /note:
  *     get:
- *       tags: [Notes]
+ *       tags: [Note]
  *       summary: Get all notes for authenticated user
  *       responses:
  *         200:
@@ -23,7 +23,7 @@
  *         404:
  *           description: Notes not found
  *     post:
- *       tags: [Notes]
+ *       tags: [Note]
  *       summary: Create a new note
  *       requestBody:
  *         required: true
@@ -57,7 +57,7 @@
  * 
  *   /note/{id}:
  *     delete:
- *       tags: [Notes]
+ *       tags: [Note]
  *       summary: Delete a note
  *       parameters:
  *         - in: path
@@ -145,10 +145,4 @@ noteRouter.delete("/:id", async (req: Request, res: Response) => {
     }
 });
 
-
-
 export default noteRouter;
-
-
-
-

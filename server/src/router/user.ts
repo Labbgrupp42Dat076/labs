@@ -19,7 +19,7 @@ const userRouter = express.Router();
 /**
  * @swagger
  * tags:
- *   name: Users
+ *   name: User
  *   description: User management and operations
  */
 
@@ -28,8 +28,7 @@ const userRouter = express.Router();
  * /user/{id}:
  *   get:
  *     summary: Get user by ID
- *     tags:
- *       - Users
+ *     tags: [User]
  *     parameters:
  *       - name: id
  *         in: path
@@ -57,8 +56,7 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
  * /user/login:
  *   post:
  *     summary: Log in a user
- *     tags:
- *      - Users
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -98,8 +96,7 @@ userRouter.post("/login", async (req: Request, res: Response) => {
  * /user/logout:
  *   post:
  *     summary: Log out the current user
- *     tags:
- *      - Users
+ *     tags: [User]
  *     security:
  *       - SessionAuth: []
  *     responses:
@@ -122,8 +119,7 @@ userRouter.post("/logout", async (req: Request, res: Response) => {
  * /user/register:
  *   post:
  *     summary: Register a new user
- *     tags:
- *      - Users
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -165,8 +161,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
  * /user/notes/{noteId}:
  *   delete:
  *     summary: Delete the link between the user and a note
- *     tags:
- *      - Users
+ *     tags: [User]
  *     parameters:
  *       - name: noteId
  *         in: path
@@ -195,8 +190,7 @@ userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
  * /user/notes:
  *   post:
  *     summary: Add a note to the user
- *     tags:
- *      - Users
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -228,8 +222,7 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
  * /user/todos/{todoId}:
  *   delete:
  *     summary: Delete the link between the user and a todo
- *     tags:
- *      - Users
+ *     tags: [User]
  *     parameters:
  *       - name: todoId
  *         in: path
@@ -258,8 +251,7 @@ userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
  * /user/todo:
  *   post:
  *     summary: Add a todo to the user
- *     tags:
- *      - Users
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -292,8 +284,7 @@ userRouter.post("/todo/", async (req: Request, res: Response) => {
  * /user/name:
  *   put:
  *     summary: Update the username of the user
- *     tags:
- *      - Users
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -325,8 +316,7 @@ userRouter.put("/name", async (req: Request, res: Response) => {
  * /user/password:
  *   put:
  *     summary: Update the password of the user
- *     tags:
- *      - Users
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -357,8 +347,6 @@ userRouter.put("/password", async (req: Request, res: Response) => {
 
 export default userRouter;
 async function getUserIdFromCookies(req: Request) {
-
-
   const user:User = await check_session(req);
   let userId: number;
   if (user) {
@@ -370,6 +358,5 @@ async function getUserIdFromCookies(req: Request) {
 }
 
 async function updateUserCookie(req: Request, userId: number) {
-    req.session.user = await userService.getUser(userId);
+  req.session.user = await userService.getUser(userId);
 }
-
