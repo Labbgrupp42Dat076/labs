@@ -14,5 +14,9 @@
         "test": "concurrently \"npm run test-server\" \"npm run test-client\"",
         "install": "cd server && npm install && cd ../client && npm install"
     },
-    "author": "Erik Persson, Casper Hansen, Carl Toreborg"
+    "author": "Erik Persson, Casper Hansen, Carl Toreborg",
+    "dependencies": {
+        "express-swagger-docs": "^0.0.2",
+        "swagger-jsdoc": "^6.2.8"
+    }
 }
