@@ -1,3 +1,76 @@
+/**
+ * @swagger
+ * /note:
+ *   get:
+ *     summary: Get all notes for authenticated user
+ *     responses:
+ *       200:
+ *         description: List of notes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Note'
+ *       401:
+ *         description: Unauthorized
+ *      404:
+ *          description: Notes not found
+ *   post:
+ *     summary: Create a new note
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               fileId:
+ *                 type: string
+ *               content:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: Note created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 id:
+ *                   type: string
+ *      404:
+ *       description: the file you tried to link to the note does not exist
+ * 
+ * /note/{id}:
+ *   delete:
+ *     summary: Delete a note
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Note deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *     404: 
+ *          description: Note not found
+ */
+
 import express, { Request, Response } from "express";
 
 import { INoteService } from "../service/interface/noteInterface";
