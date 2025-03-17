@@ -1,4 +1,4 @@
-import { User } from '../model/user';
+import { User } from '../../model/user';
 
 export interface IUserService {
  
@@ -19,11 +19,11 @@ export interface IUserService {
     addTodoId(id: number, todoId: number): Promise<User>
 
 
-    setLastPomodoroSessionToNow(id: number): Promise<void> 
+    // setLastPomodoroSessionToNow(id: number): Promise<void> 
 
-    getLastPomodoroSession(id: number): Promise<number> 
+    // getLastPomodoroSession(id: number): Promise<number> 
 
-    deletePomodoroId(id: number, pomodoroId: number): Promise<void> 
+    // deletePomodoroId(id: number, pomodoroId: number): Promise<void> 
 
     getNoteIds(id: number): Promise<number[]>
     getTodoIds(id: number): Promise<number[]> 

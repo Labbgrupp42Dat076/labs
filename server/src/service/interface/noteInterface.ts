@@ -1,4 +1,4 @@
-import {Note} from '../model/note'
+import {Note} from '../../model/note'
 
 
 

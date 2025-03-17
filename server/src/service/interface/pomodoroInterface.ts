@@ -1,4 +1,4 @@
-import { PomodoroObject } from "../model/pomodoroObject";
+import { PomodoroObject } from "../../model/pomodoroObject";
 
 export interface IPomodoroService {
 

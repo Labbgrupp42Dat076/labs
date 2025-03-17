@@ -1,11 +1,11 @@
-import {Note} from '../model/note'
+import {Note} from '../../model/note'
 
-import { ErrorMessage } from '../../utilities/error_message';
-import { INoteService } from './noteInterface';
+import { ErrorMessage } from '../../../utilities/error_message';
+import { INoteService } from '../interface/noteInterface';
 
-import { IFileService } from './interfaceFile';
+import { IFileService } from '../interface/interfaceFile';
 
-import fileServiceDbInt from './fileServiceDbInt';
+import fileServiceDbInt from '../fileServiceDbInt';
 
 
 

@@ -2,9 +2,9 @@ import fs from "fs";
 import path from "path";
 import multer from "multer";
 import { v4 as uuidv4 } from 'uuid';
-import { FileObject } from "../model/fileObject";
-import { ErrorMessage } from "../../utilities/error_message";
-import { IFileService } from "./interfaceFile";
+import { FileObject } from "../../model/fileObject";
+import { ErrorMessage } from "../../../utilities/error_message";
+import { IFileService } from "../interface/interfaceFile";
 
 const UPLOADS_DIR = path.join(__dirname, "uploads");
 

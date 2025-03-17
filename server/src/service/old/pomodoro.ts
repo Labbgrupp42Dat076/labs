@@ -1,6 +1,6 @@
-import { ErrorMessage } from '../../utilities/error_message';
-import { PomodoroObject} from '../model/pomodoroObject'
-import { IPomodoroService } from './pomodoroInterface';
+import { ErrorMessage } from '../../../utilities/error_message';
+import { PomodoroObject} from '../../model/pomodoroObject'
+import { IPomodoroService } from '../interface/pomodoroInterface';
 
 export class PomodoroService implements IPomodoroService {
 

@@ -1,7 +1,7 @@
-import { TodoObject } from '../model/todoObject';
-import { ITodoService } from './todo.service';
+import { TodoObject } from '../../model/todoObject';
+import { ITodoService } from '../interface/todo.service';
 
-import { ErrorMessage } from '../../utilities/error_message';
+import { ErrorMessage } from '../../../utilities/error_message';
 
 
 export class TodoService implements ITodoService {

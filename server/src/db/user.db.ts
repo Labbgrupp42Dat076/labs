@@ -23,8 +23,6 @@ export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAt
     public password!: string;
     declare noteIds: ForeignKey<NoteModel['id']>[];
     declare todoIds: ForeignKey<TodoModel['id']>[];
-    declare pomodoroIds: ForeignKey<PomodoroModel['id']>[];
-    public lastPomodoroSession!: number;
 }
 
 
@@ -50,15 +48,6 @@ UserModel.init({
     todoIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER
         ),
-        allowNull: false
-    },
-    pomodoroIds: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER
-        ),
-        allowNull: false
-    },
-    lastPomodoroSession: {
-        type: DataTypes.INTEGER,
         allowNull: false
     }
 }, {

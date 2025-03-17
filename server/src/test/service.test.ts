@@ -1,10 +1,10 @@
 import { TodoDBService } from "../service/todoDbService";
-import { ITodoService } from "../service/todo.service";
+import { ITodoService } from "../service/interface/todo.service";
 import { TodoObject } from "../model/todoObject";
 import { NoteServiceWithDb } from "../service/noteWithDb";
-import { INoteService } from "../service/noteInterface";
+import { INoteService } from "../service/interface/noteInterface";
 import { Note } from "../model/note";
-import { PomodoroService } from "../service/pomodoro";
+import { PomodoroService } from "../service/old/pomodoro";
 import { PomodoroObject } from "../model/pomodoroObject";
 import { mock, Mock } from "node:test";
 import { NoteModel } from "../db/note.db";
@@ -12,7 +12,7 @@ import { TodoModel } from "../db/todoObject.db";
 
 import { ErrorMessage } from "../../utilities/error_message";
 import { PomodoroServiceWithDb } from "../service/pomodoroWithDb";
-import { IPomodoroService } from "../service/pomodoroInterface";
+import { IPomodoroService } from "../service/interface/pomodoroInterface";
 
 // ------------------------ Todos ------------------------
 // mock db calls

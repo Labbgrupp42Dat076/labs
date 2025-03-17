@@ -1,6 +1,6 @@
 import { ErrorMessage } from '../../utilities/error_message';
 import { PomodoroObject} from '../model/pomodoroObject'
-import { IPomodoroService } from './pomodoroInterface';
+import { IPomodoroService } from './interface/pomodoroInterface';
 
 import { PomodoroModel } from "../db/pomodoroObject.db";
 import { start } from 'repl';
