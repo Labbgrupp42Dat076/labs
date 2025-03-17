@@ -39,10 +39,10 @@
  *             schema:
  *               type: string
  *               format: binary
- *      404:
- *        description: File not found
- *     400:
- *      description: the file extensions is not supported
+ *       404:
+ *         description: File not found
+ *       400:
+ *         description: The file extension is not supported
  * 
  * /file:
  *   post:
@@ -61,8 +61,8 @@
  *     responses:
  *       200:
  *         description: File uploaded successfully
-  *       500:
-  *         description: WHen a server error occurs
+ *       500:
+ *         description: When a server error occurs
  * 
  *   delete:
  *     tags: [Files]
