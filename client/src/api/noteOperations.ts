@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import {AxiosResponse } from 'axios';
 import { NoteData } from '../types/NoteData';
 import axiosInstance from './axiosInstance';
 
@@ -91,7 +91,7 @@ async function uploadNote(title: string, todos: string[], fileId: number | null)
 
     } catch (error) {
         console.error(error);
-        alert('Error adding note');
+        alert('Error adding note with error: \n' + error);
         return '';
     }
 }
@@ -131,7 +131,12 @@ export async function uploadFile(formData: FormData, fileIdLocal: number | null)
  * @returns {Promise<AxiosResponse<any>>} A promise that resolves to the response of the GET request to the notes endpoint.
  */
 export async function getNotes(): Promise<AxiosResponse<any>> {
-    return await axiosInstance.get('/note');
+    // eslint-disable-next-line no-useless-catch
+    try{
+        return await axiosInstance.get('/note');
+    }catch(error){
+        throw error;
+    }
 }
 
  
@@ -150,16 +155,18 @@ export async function getNotes(): Promise<AxiosResponse<any>> {
 */
 export async function downloadFile(fileId: number){
     try{
-        const response = await axiosInstance.get('/file/' + fileId, {
+        const response = await axiosInstance.get('/file/download/' + fileId, {
             responseType: 'blob'
         });
-        const blob: Blob = new Blob([response.data])
+        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
+
         const url = window.URL.createObjectURL(blob);
+        // call the backend directly to download the file
         const a = document.createElement('a');
         a.href = url;
         a.download = 'file';
         a.click();
-        window.URL.revokeObjectURL(url);
     }catch(error){
         alert('Error downloading file ' + error);
     }

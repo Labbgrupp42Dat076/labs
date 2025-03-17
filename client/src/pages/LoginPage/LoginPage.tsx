@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { LoginCard } from '../../components/LoginCard';
 import { RegisterCard } from '../../components/RegisterCard';
 import { useEffect, useState } from 'react'

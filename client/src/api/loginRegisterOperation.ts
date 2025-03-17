@@ -23,8 +23,12 @@ export async function login(username: string, password:string): Promise<boolean>
             name: username,
             password: password
         })
-    } catch (e) {
+    } catch (e:any) {
         console.error(e)
+        if(e.code === "ERR_NETWORK") {
+            window.location.href = '/error/500'
+            return false
+        }
         alert("Invalid username or password")
         return false
     }
@@ -49,6 +53,7 @@ export function testIfLogin(): void {
                 window.location.href = '/todo';
             }
         });
+  
 }
 
 

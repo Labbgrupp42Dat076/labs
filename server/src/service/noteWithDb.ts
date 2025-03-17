@@ -106,7 +106,6 @@ export class NoteServiceWithDb implements INoteService {
 
     private async deleteLinkedFile(fileID: number): Promise<boolean> {
         //delete the file with the fileID
-
         try {
             this.fileService.deleteFile(fileID);
             return true;

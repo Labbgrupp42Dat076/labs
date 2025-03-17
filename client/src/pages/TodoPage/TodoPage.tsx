@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './TodoPage.css';
 
 import { requestAddTodo, toggleTodoDone, requestDeleteTodo, requestAllTodos } from '../../api/todoOperations';
@@ -21,7 +22,7 @@ const TodoPage: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [newTodo, setNewTodo] = useState<string>('');
     const [display, setDisplay] = useState<string>('all');
-
+    const navigate = useNavigate();
     /**
      * Fetches all todos from the server and updates the state.
      */
@@ -29,8 +30,8 @@ const TodoPage: React.FC = () => {
         try {
             const localTodos = await requestAllTodos();
             setTodos(localTodos);
-        } catch (error) {
-            console.error('Error:', error);
+        } catch (error:any) {
+            navigate('/error/' + error.response.status);
         }
     };
 
