@@ -19,7 +19,7 @@ const swaggerOptions = {
             contact: {
                 name: "Amazing Developer"
             },
-            servers: ["http://localhost:3000"]
+            servers: ["http://localhost:8080"]
         }
     },
     apis: ["./src/router/*.ts"]
