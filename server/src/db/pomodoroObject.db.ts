@@ -8,14 +8,15 @@ import { sequelize } from './conn';
 //     duration: number; // duration in minutes
 // }
 
-export class PomodoroObject extends Model<InferAttributes<PomodoroObject>, InferCreationAttributes<PomodoroObject>> {
+export class PomodoroModel extends Model<InferAttributes<PomodoroModel>, InferCreationAttributes<PomodoroModel>> {
     public id!: number;
     public startTime!: number;
     public endTime!: number;
     public duration!: number;
+    public userId!: number;
 }
 
-PomodoroObject.init({
+PomodoroModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -30,6 +31,10 @@ PomodoroObject.init({
         allowNull: false
     },
     duration: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false
     }

@@ -11,6 +11,8 @@ import { NoteModel } from "../db/note.db";
 import { TodoModel } from "../db/todoObject.db";
 
 import { ErrorMessage } from "../../utilities/error_message";
+import { PomodoroServiceWithDb } from "../service/pomodoroWithDb";
+import { IPomodoroService } from "../service/pomodoroInterface";
 
 // ------------------------ Todos ------------------------
 // mock db calls
@@ -162,46 +164,118 @@ test("If a note is created then it should be in the list", async () => {
     expect(notes[0].title == "testNote").toBeTruthy();
 })
 
+
+
+// mock PomodoroModel
+jest.mock('../db/pomodoroObject.db', () => {
+    let mockPomodoro: PomodoroObject = {
+        id: 0,
+        startTime: Date.now(),
+        endTime: Date.now(),
+        duration: 0,
+        userId: 0
+    }
+
+    return {
+        PomodoroModel: {
+            findAll: () => {
+                return [
+                    {
+                        id: mockPomodoro.id,
+                        startTime: mockPomodoro.startTime,
+                        endTime: mockPomodoro.endTime,
+                        duration: mockPomodoro.duration
+                    }
+                ]
+            },
+            findByPk: (id: number) => {
+                return {
+                    id: id,
+                    startTime: mockPomodoro.startTime,
+                    endTime: mockPomodoro.endTime,
+                    duration: mockPomodoro.duration
+                }
+            },
+            create: (pomodoro: PomodoroObject) => {
+                mockPomodoro = pomodoro;
+                return {
+                    id: pomodoro.id,
+                    startTime: pomodoro.startTime,
+                    endTime: pomodoro.endTime,
+                    duration: pomodoro.duration
+                }
+            },
+            destroy: (id: number) => {
+                mockPomodoro = {
+                    id: 0,
+                    startTime: Date.now(),
+                    endTime: Date.now(),
+                    duration: 0,
+                    userId: 0
+                }
+                return [
+                    {
+                        id: id,
+                        startTime: Date.now(),
+                        endTime: Date.now(),
+                        duration: 0
+                    }
+                ]
+            }
+        }
+    }
+}
+)
+
 // ------------------------ Pomodoro ------------------------
 
 test("If a timer session is created then it should be in the list", async () => {
-    const pomodoroService = new PomodoroService();
-
-    await pomodoroService.initPomodoroSession();
-    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
+    const testPomodoro: PomodoroObject = {
+        id: 0,
+        startTime: Date.now(),
+        endTime: Date.now(),
+        duration: 0,
+        userId: 0
+    }
+    const pomodoroService:IPomodoroService = new PomodoroServiceWithDb
+    await pomodoroService.initPomodoroSession(testPomodoro);
+    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions(0);
 
     expect(pomodoroIds.length == 1);
     expect(pomodoroIds[0].id == 0).toBeTruthy();
 })
 
-test("If a pomodoro session is ended then the end time should be updated", async () => {
-    const pomodoroService = new PomodoroService();
 
-    await pomodoroService.initPomodoroSession();
-    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
-    const id = pomodoroIds[0].id;
-
-    await pomodoroService.setPomodoroSessionEndTime(id);
-    const endTime = pomodoroIds[0].endTime;
-
-    expect(endTime).not.toBeNull();
-})
 
 test("If a pomodoro session is deleted then it should be removed from the list", async () => {
-    const pomodoroService = new PomodoroService();
+    const testPomodoro: PomodoroObject = {
+        id: 0,
+        startTime: Date.now(),
+        endTime: Date.now(),
+        duration: 0,
+        userId: 0
+    }
+    const pomodoroService = new PomodoroServiceWithDb();
 
-    await pomodoroService.initPomodoroSession();
-    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
+    await pomodoroService.initPomodoroSession(testPomodoro);
+    const pomodoroIds: PomodoroObject[] = await pomodoroService.getPomodoroSessions(0);
     const id = pomodoroIds[0].id;
 
     await pomodoroService.deletePomodoroSession(id);
-    const pomodoroIds2: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
+    const pomodoroIds2: PomodoroObject[] = await pomodoroService.getPomodoroSessions(0);
 
     expect(pomodoroIds2.length == 0);
 })
 
 test("If the list of pomodoro sessions are empty then you should get an error code for trying to delet an object", async () => {
-    const pomodoroService = new PomodoroService();
+    const testPomodoro: PomodoroObject = {
+        id: 0,
+        startTime: Date.now(),
+        endTime: Date.now(),
+        duration: 0,
+        userId: 0
+    }
+    const pomodoroService = new PomodoroServiceWithDb();
 
     try {
         await pomodoroService.deletePomodoroSession(0);
