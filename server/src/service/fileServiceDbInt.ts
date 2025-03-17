@@ -78,7 +78,7 @@ class FileServiceDbInt implements IFileService {
             }
         });
         if (!file) {
-            throw new ErrorMessage("File not found", 404);
+            throw console.log("File not found", 404);
         }
         const fileName = file?.path;
 
@@ -86,7 +86,7 @@ class FileServiceDbInt implements IFileService {
         await file?.destroy();
 
         if (!fileName) {
-            throw new ErrorMessage("File not found", 404);
+            throw console.log("File not found", 404);
         }
 
         const filePath = path.join(UPLOADS_DIR, fileName);
