@@ -8,6 +8,10 @@
     overflow-x: hidden;
 }
 
+/* .note{
+    overflow-x: hidden;
+} */
+
 
 .notes{
     margin-top: 8vh;
@@ -52,7 +56,7 @@
     overflow: hidden;
     max-height: 150px;
     text-overflow: ellipsis;
-
+    max-width: 350px;
 }
 
 .note h2{
@@ -82,7 +86,7 @@
 
 .expanded p{
     max-height: 500px;
-    overflow: scroll;
+    overflow: scroll !important;
 }
 
 #overlay{
