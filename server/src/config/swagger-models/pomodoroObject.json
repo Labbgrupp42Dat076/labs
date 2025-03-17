@@ -1,5 +1,5 @@
 {
-    "PomodoroObject": {
+    "Pomodoro": {
       "type": "object",
       "properties": {
         "id": {

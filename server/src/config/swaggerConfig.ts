@@ -1,6 +1,10 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import pomodoroSchema from './swagger-models/pomodoroObject';
-import noteSchema from './swagger-models/noteOnbject';
+import noteSchema from './swagger-models/noteObject';
+import userSchema from './swagger-models/userObject';
+import todoSchema from './swagger-models/todoObject';
+import fileSchema from './swagger-models/fileObject';
+
 
 
 
@@ -21,16 +25,19 @@ const swaggerOptions = {
                 SessionAuth: {
                     type: "apiKey",
                     in: "cookie",
-                    name: "connect.sid", // Default cookie name for express-session
+                    name: "connect.sid",
                 }
             },
             schemas: {
-                ...pomodoroSchema, // Spread the schemas
-                ...noteSchema       // Spread the schemas
+                ...userSchema,
+                ...todoSchema,
+                ...noteSchema,
+                ...fileSchema,
+                ...pomodoroSchema, 
             }        
         }
     },
-    apis: ["./src/router/*.ts"]  // Specify the path to your router files
+    apis: ["./src/router/*.ts"]
 };
 
 
