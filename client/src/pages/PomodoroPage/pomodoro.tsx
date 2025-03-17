@@ -142,7 +142,7 @@ const Pomodoro: React.FC = () => {
                         return (
                             <div key={index}>
                                 <p className='bold'>Day: {translateSecondsfromEpochToTheDayAndTimeItIsToday(pomodoro.startTime)}</p>
-                                <p>Duration: {pomodoro.duration} seconds</p>
+                                <p>Duration: {translateSecondsFromEpochToHoursMinutesSeconds(pomodoro.duration)}</p>
                             </div>
                         );
                     })}
@@ -157,4 +157,20 @@ export default Pomodoro;
 function translateSecondsfromEpochToTheDayAndTimeItIsToday(seconds: number): string {
     const date = new Date(seconds * 1000);
     return date.toLocaleString();
+}
+
+function translateSecondsFromEpochToHoursMinutesSeconds(seconds: number): string {
+    seconds = Math.floor(seconds);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secondsLeft = seconds % 60;
+    if (minutes === 0) {
+        return `${secondsLeft} seconds`;
+    }
+    if (hours === 0) {
+        return `${minutes} minutes, ${secondsLeft} seconds`;
+    }
+    else{
+    return `${hours} hours, ${minutes} minutes, ${secondsLeft} seconds`;
+    }
 }
