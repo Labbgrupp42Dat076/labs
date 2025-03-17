@@ -13,21 +13,19 @@ export class PomodoroServiceWithDb implements IPomodoroService {
         const startTime = pomodoroObject.startTime;
         const endTime = pomodoroObject.endTime;
         const duration = pomodoroObject.duration;
-        const userId = pomodoroObject.userId;
 
         await PomodoroModel.create({
             id,
             startTime,
             endTime,
-            duration,
-            userId
+            duration
         });
 
         return id;
     }
 
-    public async getPomodoroSessions(userId:number): Promise<PomodoroObject[]> {
-        return await PomodoroModel.findAll({where: {userId}});
+    public async getPomodoroSessions() {
+        return await PomodoroModel.findAll();
     }
 
     public async deletePomodoroSession(id: number) {

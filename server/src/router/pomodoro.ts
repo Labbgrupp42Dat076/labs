@@ -7,7 +7,6 @@ import { IPomodoroService } from "../service/pomodoroInterface";
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";
-import { UserService } from "../service/user";
 
 
 const pomodoroService: IPomodoroService = new PomodoroServiceWithDb();
@@ -17,10 +16,7 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
     console.log("init-bruv " + req.body.pomodoroObject.id);
     try {
         const user: User = await check_session(req);
-        const localPomodoroObject: PomodoroObject = req.body.pomodoroObject;
-        localPomodoroObject.userId = user.id;
-        const id: number = await pomodoroService.initPomodoroSession(localPomodoroObject);
-
+        const id: number = await pomodoroService.initPomodoroSession(req.body.pomodoroObject);
         res.status(200).json({ message: 'Pomodoro session created', id: id });
 
     } catch (error: unknown) {
@@ -31,7 +27,7 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
 pomodoroRouter.get("/", async (req: Request, res: Response) => {
     try {
         const user: User = await check_session(req);
-        const pomodoroSessions: PomodoroObject[] = await pomodoroService.getPomodoroSessions(user.id);
+        const pomodoroSessions: PomodoroObject[] = await pomodoroService.getPomodoroSessions();
         res.status(200).json(pomodoroSessions);
 
     } catch (error: unknown) {
