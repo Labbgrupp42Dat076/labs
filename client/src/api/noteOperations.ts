@@ -131,6 +131,7 @@ export async function uploadFile(formData: FormData, fileIdLocal: number | null)
  * @returns {Promise<AxiosResponse<any>>} A promise that resolves to the response of the GET request to the notes endpoint.
  */
 export async function getNotes(): Promise<AxiosResponse<any>> {
+    // eslint-disable-next-line no-useless-catch
     try{
         return await axiosInstance.get('/note');
     }catch(error){
@@ -154,7 +155,7 @@ export async function getNotes(): Promise<AxiosResponse<any>> {
 */
 export async function downloadFile(fileId: number){
     try{
-        const response = await axiosInstance.get('/file/download' + fileId, {
+        const response = await axiosInstance.get('/file/download/' + fileId, {
             responseType: 'blob'
         });
         const blob = new Blob([response.data], { type: response.headers['content-type'] });
