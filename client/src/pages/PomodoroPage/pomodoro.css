@@ -79,6 +79,18 @@ button:disabled {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.other-buttons {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+    background-color: #0d6efd;
+    border: none;
+    width: 39%;
+    height: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .page-container {
     display: flex;
     justify-content: center;

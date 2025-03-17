@@ -125,10 +125,10 @@ const Pomodoro: React.FC = () => {
                             {isActive ? 'Pause' : 'Start'}
                         </button>
                         <p>
-                            <button onClick={reset} className='button'>
+                            <button onClick={reset} className='other-buttons'>
                                 Reset
                             </button>
-                            <button onClick={forceBreak} className='button'>
+                            <button onClick={forceBreak} className='other-buttons'>
                                 Force Break
                             </button>
                         </p>
