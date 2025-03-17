@@ -113,35 +113,41 @@ const Pomodoro: React.FC = () => {
     }
 
     return (
-        <div className='timer-container'>
-            <h1>{isBreak ? 'Break!' : 'Study!'}</h1>
-            <div className='timer-display'>
-                {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-            </div>
-            <div className='buttons-container'>
-                <button onClick={toggle} className='button'>
-                    {isActive ? 'Pause' : 'Start'}
-                </button>
-                <button onClick={reset} className='button'>
-                    Reset
-                </button>
-                <button onClick={forceBreak} className='button'>
-                    Force Break
-                </button>
-            </div>
-            <h6>Previous pomodoros
-            </h6>
-            {ponmodoroSessions.map((pomodoro, index) => {
-                return (
-                    <div key={index}>
-                        <p>Day: {translateSecondsfromEpochToTheDayAndTimeItIsToday(pomodoro.startTime)}</p>
-                        <p>Duration: {pomodoro.duration} seconds</p>
-              
+        <div className='page-container'>
+            <div className='main-container'>
+                <div className='element-container' id='timer-container'>
+                    <h1>{isBreak ? 'Break!' : 'Study!'}</h1>
+                    <div className='timer-display'>
+                        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
                     </div>
-                );
-            })
-            }
+                    <div className='buttons-container'>
+                        <button onClick={toggle} className='start-button'>
+                            {isActive ? 'Pause' : 'Start'}
+                        </button>
+                        <p>
+                            <button onClick={reset} className='button'>
+                                Reset
+                            </button>
+                            <button onClick={forceBreak} className='button'>
+                                Force Break
+                            </button>
+                        </p>
+                    </div>
+                </div>
 
+                <div className='element-container' id='pomodoro-sessions-container'>
+                    <h5>Previous pomodorosessions</h5>
+                    <hr />
+                    {ponmodoroSessions.map((pomodoro, index) => {
+                        return (
+                            <div key={index}>
+                                <p className='bold'>Day: {translateSecondsfromEpochToTheDayAndTimeItIsToday(pomodoro.startTime)}</p>
+                                <p>Duration: {pomodoro.duration} seconds</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
     );
 };
