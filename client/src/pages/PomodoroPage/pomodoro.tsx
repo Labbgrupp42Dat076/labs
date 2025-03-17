@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './pomodoro.css';
 import config from './pomodoro-config.json';
 
-import { InitPomodoro, endPomodoro } from '../../api/pomodoroOperations';
+import { InitPomodoro } from '../../api/pomodoroOperations';
 
 const Pomodoro: React.FC = () => {
     const studyMinutes = config.pomodoroTimer.studyTime.minutes;
@@ -16,7 +16,13 @@ const Pomodoro: React.FC = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isBreak, setIsBreak] = useState<boolean>(false);
     const [sessionFlag, setSessionFlag] = useState<boolean>(false);
-    const [sessionID, setSessionID] = useState<number>(0);
+
+    const [pomodoroObject, setPomodoroObject] = useState({
+        id: 0,
+        startTime: 0,
+        endTime: 0,
+        duration: 0
+    });
 
     const setStudyTime = () => {
         setMinutes(studyMinutes);
@@ -32,8 +38,10 @@ const Pomodoro: React.FC = () => {
         setIsBreak(true);
     }
 
+    
+
     useEffect(() => {
-        window.addEventListener('beforeunload', beforeUnload);
+        window.addEventListener('pageswap', () => { beforeUnload() });
 
         let interval: NodeJS.Timeout | null = null;
         if (isActive) {
@@ -75,16 +83,21 @@ const Pomodoro: React.FC = () => {
 
     async function startPomodoro(): Promise<void> {
         console.log("Session Flag: " + sessionFlag);
-        if(!sessionFlag) {
+        if (!sessionFlag) {
             setSessionFlag(true);
-            const id = await InitPomodoro();
-            setSessionID(id);
+            setPomodoroObject({id:Math.floor(Date.now() / 1000), startTime:Math.floor(Date.now() / 1000), endTime:0, duration:0});
         }
     }
 
-    const beforeUnload = () => {
-        return (e: BeforeUnloadEvent) => {
-            endPomodoro(sessionID);
+    async function beforeUnload() {
+        pomodoroObject.endTime = Math.floor(Date.now() / 1000);
+        pomodoroObject.duration = (pomodoroObject.endTime - pomodoroObject.startTime);
+        setPomodoroObject(pomodoroObject);
+
+        if (sessionFlag) {            
+            await InitPomodoro(pomodoroObject);
+            setSessionFlag(false);
+            window.removeEventListener('pageswap', () => { beforeUnload() });
         }
     }
 
@@ -95,13 +108,13 @@ const Pomodoro: React.FC = () => {
                 {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
             </div>
             <div className='buttons-container'>
-                <button onClick={toggle} className='btn btn-primary'>
+                <button onClick={toggle} className='button'>
                     {isActive ? 'Pause' : 'Start'}
                 </button>
-                <button onClick={reset} className='btn btn-primary'>
+                <button onClick={reset} className='button'>
                     Reset
                 </button>
-                <button onClick={forceBreak} className='btn btn-primary'>
+                <button onClick={forceBreak} className='button'>
                     Force Break
                 </button>
             </div>

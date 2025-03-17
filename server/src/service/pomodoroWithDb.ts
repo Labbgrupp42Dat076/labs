@@ -3,43 +3,25 @@ import { PomodoroObject} from '../model/pomodoroObject'
 import { IPomodoroService } from './pomodoroInterface';
 
 import { PomodoroModel } from "../db/pomodoroObject.db";
+import { start } from 'repl';
 
 export class PomodoroServiceWithDb implements IPomodoroService {
 
 
-    public initPomodoroSession() {
-        const id = Math.floor(Date.now() / 1000);
-        const startTime = Math.floor(Date.now() / 1000);
-        const endTime = 0;
-        const duration = 0;
+    public async initPomodoroSession(pomodoroObject: PomodoroObject): Promise<number> {
+        const id = pomodoroObject.id;
+        const startTime = pomodoroObject.startTime;
+        const endTime = pomodoroObject.endTime;
+        const duration = pomodoroObject.duration;
 
-
-        const pomodoroTemp: PomodoroObject = {
-            id,
-            startTime,
-            endTime,
-            duration
-        };
-
-        PomodoroModel.create({
+        await PomodoroModel.create({
             id,
             startTime,
             endTime,
             duration
         });
 
-        return pomodoroTemp.id;
-    }
-
-
-    public async setPomodoroSessionEndTime(id: number) {
-        const pomodoroSession = await PomodoroModel.findByPk(id);
-        if (pomodoroSession) {
-            pomodoroSession.endTime = Math.floor(Date.now() / 1000);
-            pomodoroSession.duration = (pomodoroSession.endTime - pomodoroSession.startTime) / 60000;
-        } else {
-            throw new ErrorMessage('Pomodoro session not found', 404);
-        }
+        return id;
     }
 
     public async getPomodoroSessions() {

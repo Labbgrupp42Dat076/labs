@@ -13,27 +13,16 @@ const pomodoroService: IPomodoroService = new PomodoroServiceWithDb();
 const pomodoroRouter = express.Router();
 
 pomodoroRouter.post("/", async (req: Request, res: Response) => {
+    console.log("init-bruv " + req.body.pomodoroObject.id);
     try {
         const user: User = await check_session(req);
-        const id: number = await pomodoroService.initPomodoroSession();
+        const id: number = await pomodoroService.initPomodoroSession(req.body.pomodoroObject);
         res.status(200).json({ message: 'Pomodoro session created', id: id });
 
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
 });
-
-pomodoroRouter.post("/end", async (req: Request, res: Response) => {
-    try {
-        const user: User = await check_session(req);
-        await pomodoroService.setPomodoroSessionEndTime(req.body.id);
-        res.status(200).json({ message: 'Pomodoro session ended' });
-
-    } catch (error: unknown) {
-        ErrorMessage.setResponseToErrorMessage(error, res);
-    }
-}
-);
 
 pomodoroRouter.get("/", async (req: Request, res: Response) => {
     try {
