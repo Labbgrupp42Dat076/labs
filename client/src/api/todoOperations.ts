@@ -39,12 +39,13 @@ export async function requestAddTodo(newTodo: string) {
  * @returns {Promise<void>} A promise that resolves when the operation is complete.
  */
 export async function toggleTodoDone(todo: Todo, id: number) {
-    const endpoint = todo.completed ? `/todo/${id}/undone` : `/todo/${id}/done`;
-    const response = await fetch(endpoint, {
-        method: 'POST',
-    });
+    try {
+        const endpoint = todo.completed ? `/todo/${id}/undone` : `/todo/${id}/done`;
+        const response = await axiosInstance.post(endpoint);
+    } catch (error) {
+        console.log(error)
+    }
 
-    if (!response.ok) throw new Error('Failed to toggle todo');
 }
 
 
