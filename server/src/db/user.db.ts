@@ -3,7 +3,7 @@ import { sequelize } from './conn';
 import  {ForeignKey} from 'sequelize'
 import { NoteModel } from './note.db';
 import { TodoModel } from './todoObject.db';
-import { PomodoroObject } from './pomodoroObject.db';
+import { PomodoroModel } from './pomodoroObject.db';
 
 
 
@@ -23,7 +23,7 @@ export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAt
     public password!: string;
     declare noteIds: ForeignKey<NoteModel['id']>[];
     declare todoIds: ForeignKey<TodoModel['id']>[];
-    declare pomodoroIds: ForeignKey<PomodoroObject['id']>[];
+    declare pomodoroIds: ForeignKey<PomodoroModel['id']>[];
     public lastPomodoroSession!: number;
 }
 
