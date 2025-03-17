@@ -1,8 +1,8 @@
 export interface NoteData {
-    name: string;
-    content: string;
+    title: string;
+    preview: string;
     id: string;
-    connectedTodos: string[];
+    todoIds: string[];
     fileID: number;
 }
 

@@ -35,10 +35,10 @@ export function Notes(): JSX.Element {
 
   const fetchNotes = async () => {
     const sampleNote: NoteData = {
-        name: 'loading',
-        content: '',
+        title: 'loading',
+        preview: '',
         id: '1',
-        connectedTodos: [],
+        todoIds: [],
         fileID: 1
     }
     let response = {
@@ -84,7 +84,7 @@ export function Notes(): JSX.Element {
         {
 
         notes.map((note: NoteData) => { 
-            return <Note name={note.name} content={note.content} key={note.id} id={note.id} connectedTodos={note.connectedTodos} fileID={note.fileID}/>
+            return <Note title={note.title} preview={note.preview} key={note.id} id={note.id} todoIds={note.todoIds} fileID={note.fileID}/>
         })
 
         }   
