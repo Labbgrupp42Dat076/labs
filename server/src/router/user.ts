@@ -173,8 +173,8 @@ userRouter.post("/register", async (req: Request, res: Response) => {
  *         description: Note deleted successfully
  *       404:
  *         description:  User not found
- *      401:
- *        description: User not logged in
+ *       401:
+ *         description: User not logged in
  */
 userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
   try {
@@ -207,10 +207,10 @@ userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
  *         description: Note added successfully
  *       400:
  *         description: Note already added
- *      401:
+ *       401:
  *         description: User not logged in
- *      404:
- *        description: User not found
+ *       404:
+ *         description: User not found
  */
 userRouter.post("/notes/", async (req: Request, res: Response) => {
   try {
@@ -345,7 +345,7 @@ userRouter.put("/name", async (req: Request, res: Response) => {
  *         description: Password updated successfully
  *       401:
  *         description: User not logged in
- *      404:
+ *       404:
  *         description: User not found
  */
 userRouter.put("/password", async (req: Request, res: Response) => {
