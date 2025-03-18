@@ -1,7 +1,75 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Note
+ *   description: Note management endpoints
+ * 
+ * paths:
+ *   /note:
+ *     get:
+ *       tags: [Note]
+ *       summary: Get all notes for authenticated user
+ *       responses:
+ *         200:
+ *           description: List of notes
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/Note'
+ *         401:
+ *           description: Unauthorized
+ *         404:
+ *           description: Notes not found
+ *     post:
+ *       tags: [Note]
+ *       summary: Create a new note
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                 fileId:
+ *                   type: string
+ *                 content:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *       responses:
+ *         200:
+ *           description: Note created
+ * 
+ *
+ *         404:
+ *           description: The file you tried to link to the note does not exist
+ * 
+ *   /note/{id}:
+ *     delete:
+ *       tags: [Note]
+ *       summary: Delete a note
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           schema:
+ *             type: integer
+ *       responses:
+ *         200:
+ *           description: Note deleted
+ * 
+ *         404:
+ *           description: Note not found
+ */
+
 import express, { Request, Response } from "express";
 
 import { INoteService } from "../service/interface/noteInterface";
-import {NoteService } from "../service/old/note";
+import { NoteService } from "../service/old/note";
 import { NoteServiceWithDb } from "../service/noteWithDb";
 import { Note } from "../model/note";
 
@@ -17,13 +85,13 @@ const noteService: INoteService = new NoteServiceWithDb();
 noteRouter.get("/", async (req: Request, res: Response) => {
     try {
 
-        const response: User = await  check_session(req)  
-    
+        const response: User = await check_session(req)
+
 
         let notes: Note[] = []
         const noteIds = response.noteIds
         if (noteIds) {
-          notes = await noteService.getNotesByListOfIDs(noteIds)
+            notes = await noteService.getNotesByListOfIDs(noteIds)
         }
 
         res.status(200).json(notes);
@@ -46,8 +114,8 @@ noteRouter.post("/", async (req: Request, res: Response) => {
         );
 
 
-        const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content, );
-            res.status(200).json({ message: 'Note created', id:  id });
+        const id = await noteService.createNote(req.body.title, req.body.fileId, req.body.content,);
+        res.status(200).json({ message: 'Note created', id: id });
     } catch (error: unknown) {
         ErrorMessage.setResponseToErrorMessage(error, res);
     }
@@ -64,10 +132,4 @@ noteRouter.delete("/:id", async (req: Request, res: Response) => {
     }
 });
 
-
-
 export default noteRouter;
-
-
-
-

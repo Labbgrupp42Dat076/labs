@@ -7,6 +7,8 @@ import fileRouter from "./router/file";
 import pomodoroRouter from "./router/pomodoro";
 import session from 'express-session';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocs from "./config/swaggerConfig";
 
 export const app = express();
 
@@ -27,6 +29,8 @@ app.use(cors({
     origin: true,
     credentials: true
 }));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use("/todo", todoRouter);
 app.use("/note", noteRouter);

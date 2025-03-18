@@ -163,7 +163,7 @@ export class UserDbService implements IUserService {
         if (user) {
             user.noteIds = user.noteIds.filter((item) => item !== noteId);
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
         this.updateUser(user);
 
@@ -174,7 +174,7 @@ export class UserDbService implements IUserService {
         if (user) {
             user.todoIds = user.todoIds.filter((item) => item !== todoId);
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
         this.updateUser(user);
 
@@ -185,7 +185,7 @@ export class UserDbService implements IUserService {
         if (user) {
             user.name = name;
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
         this.updateUser(user);
 
@@ -196,7 +196,7 @@ export class UserDbService implements IUserService {
         if (user) {
             user.password = password;
         } else {
-            throw new Error('User not found');
+            throw new ErrorMessage('User not found', 404);
         }
         this.updateUser(user);
 

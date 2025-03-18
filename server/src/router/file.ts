@@ -1,3 +1,84 @@
+/**
+ * @swagger
+ * tags:
+ *   name: File
+ *   description: File management endpoints
+ * 
+ * /file/{id}:
+ *   get:
+ *     tags: [File]
+ *     summary: Get a file by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A short description of the file
+ *
+ *       404:
+ *         description: File not found
+ * 
+ * /file/download/{id}:
+ *   get:
+ *     tags: [File]
+ *     summary: Download a file by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: File downloaded successfully
+ *         content:
+ *           application/octet-stream:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       404:
+ *         description: File not found
+ *       400:
+ *         description: The file extension is not supported
+ * 
+ * /file:
+ *   post:
+ *     tags: [File]
+ *     summary: Upload a file
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: File uploaded successfully
+ *       500:
+ *         description: When a server error occurs
+ * 
+ *   delete:
+ *     tags: [File]
+ *     summary: Delete a file by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: File deleted successfully
+ *       404:
+ *         description: File not found
+ */
 import express, { Request, Response } from "express";
 
 import { IFileService } from "../service/interface/interfaceFile";
@@ -50,12 +131,12 @@ fileRouter.post("/", async (req: Request, res: Response) => {
     const resp = await fileServiceLocal.uploadFile(req, res, (err: any) => {
       if (err) {
         errLocal = err;
-        // throw new ErrorMessage(err.message, 400);  
+        // throw new ErrorMessage(err.message, 500);  
       }
     });
     if (errLocal) {
       console.log("error in upload file") 
-      throw new ErrorMessage(errLocal.message, 400);
+      throw new ErrorMessage(errLocal.message, 500);
     }
     res.status(200).json({ message: resp }); 
   } catch (error) {
