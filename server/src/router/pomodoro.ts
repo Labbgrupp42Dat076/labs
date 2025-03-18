@@ -76,6 +76,7 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
         const user: User = await check_session(req);
         const pomodoroObject: PomodoroObject = req.body.pomodoroObject;
         pomodoroObject.userId = user.id;
+        await pomodoroService.initPomodoroSession(pomodoroObject);
         res.status(200).json({ message: 'Pomodoro session created'});
 
     } catch (error: unknown) {
