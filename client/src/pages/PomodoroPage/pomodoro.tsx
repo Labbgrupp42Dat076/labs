@@ -136,9 +136,9 @@ const Pomodoro: React.FC = () => {
                 </div>
 
                 <div className='element-container' id='pomodoro-sessions-container'>
-                    <h5>Previous pomodorosessions</h5>
+                    <h5>Previous pomodoro sessions</h5>
                     <hr />
-                    {ponmodoroSessions.map((pomodoro, index) => {
+                    {ponmodoroSessions.slice(-5).reverse().map((pomodoro, index) => {
                         return (
                             <div key={index}>
                                 <p className='bold'>Day: {translateSecondsfromEpochToTheDayAndTimeItIsToday(pomodoro.startTime)}</p>
