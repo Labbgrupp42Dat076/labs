@@ -29,6 +29,7 @@ const Pomodoro: React.FC = () => {
         setSeconds(studySeconds);
         setIsActive(false);
         setIsBreak(false);
+        alert("Study Time!");
     }
 
     const setBreakTime = () => {
@@ -36,6 +37,7 @@ const Pomodoro: React.FC = () => {
         setSeconds(breakSeconds);
         setIsActive(false);
         setIsBreak(true);
+        alert("Break Time!");
     }
 
     useEffect(() => {
@@ -111,35 +113,41 @@ const Pomodoro: React.FC = () => {
     }
 
     return (
-        <div className='timer-container'>
-            <h1>{isBreak ? 'Break!' : 'Study!'}</h1>
-            <div className='timer-display'>
-                {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-            </div>
-            <div className='buttons-container'>
-                <button onClick={toggle} className='button'>
-                    {isActive ? 'Pause' : 'Start'}
-                </button>
-                <button onClick={reset} className='button'>
-                    Reset
-                </button>
-                <button onClick={forceBreak} className='button'>
-                    Force Break
-                </button>
-            </div>
-            <h6>Previous pomodoros
-            </h6>
-            {ponmodoroSessions.map((pomodoro, index) => {
-                return (
-                    <div key={index}>
-                        <p>Day: {translateSecondsfromEpochToTheDayAndTimeItIsToday(pomodoro.startTime)}</p>
-                        <p>Duration: {pomodoro.duration} seconds</p>
-              
+        <div className='page-container'>
+            <div className='main-container'>
+                <div className='element-container' id='timer-container'>
+                    <h1>{isBreak ? 'Break!' : 'Study!'}</h1>
+                    <div className='timer-display'>
+                        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
                     </div>
-                );
-            })
-            }
+                    <div className='buttons-container'>
+                        <button onClick={toggle} className='start-button'>
+                            {isActive ? 'Pause' : 'Start'}
+                        </button>
+                        <p>
+                            <button onClick={reset} className='other-buttons'>
+                                Reset
+                            </button>
+                            <button onClick={forceBreak} className='other-buttons'>
+                                Force Break
+                            </button>
+                        </p>
+                    </div>
+                </div>
 
+                <div className='element-container' id='pomodoro-sessions-container'>
+                    <h5>Previous pomodoro sessions</h5>
+                    <hr />
+                    {ponmodoroSessions.slice(-5).reverse().map((pomodoro, index) => {
+                        return (
+                            <div key={index}>
+                                <p className='bold'>Day: {translateSecondsfromEpochToTheDayAndTimeItIsToday(pomodoro.startTime)}</p>
+                                <p>Duration: {translateSecondsFromEpochToHoursMinutesSeconds(pomodoro.duration)}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
     );
 };
@@ -149,4 +157,20 @@ export default Pomodoro;
 function translateSecondsfromEpochToTheDayAndTimeItIsToday(seconds: number): string {
     const date = new Date(seconds * 1000);
     return date.toLocaleString();
+}
+
+function translateSecondsFromEpochToHoursMinutesSeconds(seconds: number): string {
+    seconds = Math.floor(seconds);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secondsLeft = seconds % 60;
+    if (minutes === 0) {
+        return `${secondsLeft} seconds`;
+    }
+    if (hours === 0) {
+        return `${minutes} minutes, ${secondsLeft} seconds`;
+    }
+    else{
+    return `${hours} hours, ${minutes} minutes, ${secondsLeft} seconds`;
+    }
 }
