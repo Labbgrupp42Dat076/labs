@@ -32,6 +32,8 @@ const pomodoroRouter = express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/PomodoroObject'
+*         401:
+*           description: Unauthorized
  */
 pomodoroRouter.get("/", async (req: Request, res: Response) => {
     try {
@@ -61,15 +63,8 @@ pomodoroRouter.get("/", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Pomodoro session created
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 id:
- *                   type: integer
+ *      401:
+ *         description: Unauthorized
  */
 pomodoroRouter.post("/", async (req: Request, res: Response) => {
     try {

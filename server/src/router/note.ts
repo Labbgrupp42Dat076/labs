@@ -43,15 +43,8 @@
  *       responses:
  *         200:
  *           description: Note created
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                   id:
- *                     type: string
+ * 
+ *
  *         404:
  *           description: The file you tried to link to the note does not exist
  * 
@@ -68,13 +61,7 @@
  *       responses:
  *         200:
  *           description: Note deleted
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
+ * 
  *         404:
  *           description: Note not found
  */

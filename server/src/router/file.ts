@@ -16,7 +16,7 @@
  *           type: integer
  *     responses:
  *       200:
- *         description: File details retrieved successfully
+ *         description: A short description of the file
  *
  *       404:
  *         description: File not found

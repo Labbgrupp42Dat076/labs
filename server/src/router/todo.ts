@@ -111,13 +111,6 @@ todoRouter.get("/list", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Todo deleted successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       401:
  *         description: Unauthorized
  *       404:
@@ -161,15 +154,6 @@ todoRouter.delete("/:id", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Todo added successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 id:
- *                   type: number
  *       400:
  *         description: Bad request
  *       500:
@@ -211,13 +195,6 @@ todoRouter.post("/", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Todo marked as done successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       400:
  *         description: Bad request
  *       404:
@@ -253,13 +230,6 @@ todoRouter.post("/:id/done", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Todo marked as not done successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       400:
  *         description: Bad request
  *       404:
