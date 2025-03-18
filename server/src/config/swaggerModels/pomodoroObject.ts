@@ -3,22 +3,27 @@ const Pomodoro = {
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The unique identifier for the pomodoro item."
         },
         "startTime": {
-          "type": "integer"
+          "type": "integer",
+          "description": "Start time in seconds"
         },
         "endTime": {
-          "type": "integer"
+          "type": "integer",
+          "description": "End time in seconds"
         },
         "duration": {
           "type": "integer",
-          "description": "Duration in minutes"
+          "description": "Duration in seconds"
         },
         "userId": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The unique identifier for the user owning it."
         }
-      }
+      },
+      "required": ["id", "startTime", "endTime", "duration", "userId"]
     }
 }
  
