@@ -10,7 +10,7 @@
     border: #c7c7c7 solid 1px;
     border-radius: 1rem;
 
-    width: 50vw;
+    ;
     min-height: 60vh;
 }
 
@@ -40,6 +40,7 @@
     align-items: center;
     gap: 1rem;
 
+    min-width: 20rem;
     width: 100%;
     margin-bottom: 1rem;
 }
@@ -98,6 +99,10 @@ margin-right: .5rem;
     padding: .2rem;
     border: 1px solid #c7c7c7;
     border-radius: .5rem;
+}
+
+.todo-item .todoTitle {
+    max-width: 10ch;
 }
 
 .todo-page .completed {

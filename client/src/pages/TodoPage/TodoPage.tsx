@@ -159,7 +159,7 @@ const TodoPage: React.FC = () => {
                             checked={todo.completed}
                             onChange={() => toggleTodo(todo.id)}
                         />
-                        <span onClick={() => toggleTodo(todo.id)}>
+                        <span className='todoTitle' onClick={() => toggleTodo(todo.id)}>
                             {todo.title}
                         </span>
                         <button className='delete-button' onClick={() => deleteTodo(todo.id)}>
