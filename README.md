@@ -8,7 +8,7 @@ A simple sudy app developen in the course DAT076 - Web applications at Chalmers
 
 ## Project Documentation
 - The **Swagger API documentation** can be accessed at: [http://localhost:8080/api-docs](http://localhost:YOUR_PORT/api-docs) 
-- A more detailed **project report**, outlining the project structure and additional information, is available within the repository.
+- A more detailed **project report**, outlining the project structure and additional information, is available within the at the root of this repository.
 
 
 
