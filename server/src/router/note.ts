@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
-import { INoteService } from "../service/noteInterface";
-import {NoteService } from "../service/note";
+import { INoteService } from "../service/interface/noteInterface";
+import {NoteService } from "../service/old/note";
 import { NoteServiceWithDb } from "../service/noteWithDb";
 import { Note } from "../model/note";
 

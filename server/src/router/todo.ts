@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
 import { TodoDBService } from "../service/todoDbService";
-import { ITodoService } from "../service/todo.service";
+import { ITodoService } from "../service/interface/todo.service";
 import { TodoObject } from "../model/todoObject";
 import { ErrorMessage } from "../../utilities/error_message";
 const todoRouter = express.Router();

@@ -1,4 +1,4 @@
-import { TodoObject } from '../model/todoObject';
+import { TodoObject } from '../../model/todoObject';
 
 export interface ITodoService {
     // Returns all todos

@@ -1,6 +1,6 @@
 import { TodoObject } from "../model/todoObject"
 import { TodoModel as TodoModel } from "../db/todoObject.db"
-import { ITodoService } from "./todo.service"
+import { ITodoService } from "./interface/todo.service"
 
 
 export class TodoDBService implements ITodoService {

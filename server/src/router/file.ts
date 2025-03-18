@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 
-import { IFileService } from "../service/interfaceFile";
+import { IFileService } from "../service/interface/interfaceFile";
 
-import fileService from "../service/file";
+import fileService from "../service/old/file";
 import fileServiceDbInt from "../service/fileServiceDbInt";
 
 import { ErrorMessage } from "../../utilities/error_message";

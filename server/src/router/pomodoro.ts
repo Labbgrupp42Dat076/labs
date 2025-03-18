@@ -3,7 +3,7 @@ import express, { Request, Response } from "express";
 
 import { PomodoroObject } from "../model/pomodoroObject";
 import { PomodoroServiceWithDb } from "../service/pomodoroWithDb";
-import { IPomodoroService } from "../service/pomodoroInterface";
+import { IPomodoroService } from "../service/interface/pomodoroInterface";
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker";
 import { User } from "../model/user";

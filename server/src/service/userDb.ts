@@ -3,7 +3,7 @@ import { ErrorMessage } from '../../utilities/error_message';
 import session from 'express-session';
 import { time } from 'console';
 import bcrypt from 'bcrypt';
-import { IUserService } from './userInterface';
+import { IUserService } from './interface/userInterface';
 import { UserModel } from '../db/user.db';
 
 export class UserDbService implements IUserService {
@@ -64,8 +64,6 @@ export class UserDbService implements IUserService {
                 password: user.password,
                 noteIds: user.noteIds,
                 todoIds: user.todoIds,
-                pomodoroIds: user.pomodoroIds,
-                lastPomodoroSession: user.lastPomodoroSession
             },
             {
                 where: { id: user.id }
@@ -109,37 +107,37 @@ export class UserDbService implements IUserService {
     }
 
 
-    public async setLastPomodoroSessionToNow(id: number): Promise<void> {
-        let lastPomodoroSession: number = Date.now();
-        let user = await UserModel.findByPk(id);
-        if (user) {
-            user.lastPomodoroSession = lastPomodoroSession;
-        } else {
-            throw new ErrorMessage('User not found', 404);
-        }
-        this.updateUser(user);
+    // public async setLastPomodoroSessionToNow(id: number): Promise<void> {
+    //     let lastPomodoroSession: number = Date.now();
+    //     let user = await UserModel.findByPk(id);
+    //     if (user) {
+    //         user.lastPomodoroSession = lastPomodoroSession;
+    //     } else {
+    //         throw new ErrorMessage('User not found', 404);
+    //     }
+    //     this.updateUser(user);
 
-    }
+    // }
 
-    public async getLastPomodoroSession(id: number): Promise<number> {
-        let user = await UserModel.findByPk(id);
-        if (user) {
-            return await user.lastPomodoroSession;
-        } else {
-            throw new ErrorMessage('User not found', 404);
-        }
-    }
+    // public async getLastPomodoroSession(id: number): Promise<number> {
+    //     let user = await UserModel.findByPk(id);
+    //     if (user) {
+    //         return await user.lastPomodoroSession;
+    //     } else {
+    //         throw new ErrorMessage('User not found', 404);
+    //     }
+    // }
 
-    public async deletePomodoroId(id: number, pomodoroId: number): Promise<void> {
-        let user = await UserModel.findByPk(id);
-        if (user) {
-            user.pomodoroIds = user.pomodoroIds.filter((item) => item !== pomodoroId);
-        }
-        else {
-            throw new ErrorMessage('User not found', 404);
-        }
-        this.updateUser(user);
-    }
+    // public async deletePomodoroId(id: number, pomodoroId: number): Promise<void> {
+    //     let user = await UserModel.findByPk(id);
+    //     if (user) {
+    //         user.pomodoroIds = user.pomodoroIds.filter((item) => item !== pomodoroId);
+    //     }
+    //     else {
+    //         throw new ErrorMessage('User not found', 404);
+    //     }
+    //     this.updateUser(user);
+    // }
 
     public async getNoteIds(id: number): Promise<number[]> {
         let user = await UserModel.findByPk(id);

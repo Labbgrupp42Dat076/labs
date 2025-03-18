@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { User } from "../model/user";
-import { IUserService } from "../service/userInterface";
-import { UserService } from "../service/user";
+import { IUserService } from "../service/interface/userInterface";
+import { UserService } from "../service/old/user";
 import { UserDbService } from "../service/userDb";
 import { ErrorMessage } from "../../utilities/error_message";
 import { check_session } from "../../utilities/session_checker"
@@ -62,9 +62,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       name: req.body.name,
       password: req.body.password,
       noteIds: [],
-      todoIds: [],
-      pomodoroIds: [],
-      lastPomodoroSession: 0
+      todoIds: []
     };
 
 
@@ -104,18 +102,6 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
   }
 });
 
-// delete link between pomodoro and user
-userRouter.delete("/pomodoros/:pomodoroId", async (req: Request, res: Response) => {
-  try {
-
-    let userId: number = await getUserIdFromCookies(req);
-    await userService.deletePomodoroId(userId, parseInt(req.params.pomodoroId));
-    await updateUserCookie(req, userId);
-    res.status(200).json({ message: 'Pomodoro deleted' });
-  } catch (error: unknown) {
-    ErrorMessage.setResponseToErrorMessage(error, res);
-  }
-});
 
 
 //delete link between todo and user
@@ -180,31 +166,6 @@ userRouter.put("/password", async (req: Request, res: Response) => {
 });
 
 
-// set last pomodoro session to now
-userRouter.post("/pomodoro", async (req: Request, res: Response) => {
-  try {
-
-    let userId: number = await getUserIdFromCookies(req);
-    await userService.setLastPomodoroSessionToNow(userId);
-    await updateUserCookie(req, userId);
-    res.status(200).json({ message: 'Pomodoro session updated' });
-  } catch (error: unknown) {
-    ErrorMessage.setResponseToErrorMessage(error, res);
-  }
-});
-
-// get last pomodoro session
-userRouter.get("/pomodoro", async (req: Request, res: Response) => {
-  try {
-
-    let userId: number = await getUserIdFromCookies(req);
-    const lastPomodoroSession = await userService.getLastPomodoroSession(userId);
-    await updateUserCookie(req, userId);
-    res.status(200).json(lastPomodoroSession);
-  } catch (error: unknown) {
-    ErrorMessage.setResponseToErrorMessage(error, res);
-  }
-});
 
 
 export default userRouter;

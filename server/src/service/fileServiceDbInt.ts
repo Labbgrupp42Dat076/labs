@@ -1,4 +1,4 @@
-import { IFileService } from "./interfaceFile";
+import { IFileService } from "./interface/interfaceFile";
 import { FileObject } from "../model/fileObject"
 import { FileModel } from "../db/fileObject.db";
 import { ErrorMessage } from "../../utilities/error_message";

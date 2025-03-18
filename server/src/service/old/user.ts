@@ -1,9 +1,9 @@
-import { User } from '../model/user';
-import { ErrorMessage } from '../../utilities/error_message';
+import { User } from '../../model/user';
+import { ErrorMessage } from '../../../utilities/error_message';
 import session from 'express-session';
 import { time } from 'console';
 import bcrypt from 'bcrypt';
-import { IUserService } from './userInterface';
+import { IUserService } from '../interface/userInterface';
 export class UserService implements IUserService {
     salt = bcrypt.genSaltSync(10);
     users: User[] = [
