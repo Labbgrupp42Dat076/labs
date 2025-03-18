@@ -97,13 +97,6 @@ pomodoroRouter.post("/", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Pomodoro session deleted
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  */
 pomodoroRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
