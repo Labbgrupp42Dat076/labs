@@ -120,6 +120,8 @@ todoRouter.get("/list", async (req: Request, res: Response) => {
  *                   type: string
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Not found
  *       500:
  *         description: Internal server error
  */
@@ -218,6 +220,8 @@ todoRouter.post("/", async (req: Request, res: Response) => {
  *                   type: string
  *       400:
  *         description: Bad request
+ *       404:
+ *         description: Not found
  *       500:
  *         description: Internal server error
  */
@@ -258,6 +262,8 @@ todoRouter.post("/:id/done", async (req: Request, res: Response) => {
  *                   type: string
  *       400:
  *         description: Bad request
+ *       404:
+ *         description: Not found
  *       500:
  *         description: Internal server error
  */

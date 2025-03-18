@@ -1,6 +1,7 @@
 import { TodoObject } from "../model/todoObject"
 import { TodoModel as TodoModel } from "../db/todoObject.db"
 import { ITodoService } from "./interface/todo.service"
+import { ErrorMessage } from "../../utilities/error_message";
 
 
 export class TodoDBService implements ITodoService {
@@ -25,7 +26,7 @@ export class TodoDBService implements ITodoService {
                 completed: todo.completed
             }
         } else {
-            throw new Error("Todo not found");
+            throw new ErrorMessage("Todo not found", 404);
         }
     }
 
@@ -38,7 +39,7 @@ export class TodoDBService implements ITodoService {
                 completed: todo.completed
             }
         } else {
-            throw new Error("Todo not found");
+            throw new ErrorMessage("Todo not found", 404);
         }
     }
 
@@ -74,7 +75,7 @@ export class TodoDBService implements ITodoService {
             await todo.destroy();
             return await this.getTodos();
         } else {
-            throw new Error("Todo not found");
+            throw new ErrorMessage("Todo not found", 404);
         }
     }
 
@@ -85,7 +86,7 @@ export class TodoDBService implements ITodoService {
             await todo.save();
             return await this.getTodos();
         } else {
-            throw new Error("Todo not found");
+            throw new ErrorMessage("Todo not found", 404);
         }
     }
 
@@ -96,7 +97,7 @@ export class TodoDBService implements ITodoService {
             await todo.save();
             return await this.getTodos();
         } else {
-            throw new Error("Todo not found");
+            throw new ErrorMessage("Todo not found", 404);
         }
     }
 }
