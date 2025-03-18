@@ -6,6 +6,12 @@
 A simple sudy app developen in the course DAT076 - Web applications at Chalmers
 
 
+## Project Documentation
+- The **Swagger API documentation** can be accessed at: [http://localhost:8080/api-docs](http://localhost:YOUR_PORT/api-docs) 
+- A more detailed **project report**, outlining the project structure and additional information, is available within the repository.
+
+
+
 # Installation
 Instructions on how to install and set up the project.
 
@@ -89,20 +95,6 @@ npm run test-server
 npm run test-client
 
 ```
-
-
-# Configuration
-
-## Server
-Any necessary environment variables or configuration steps.
-
-Create a `.env` file in the `server` directory with the following content:
-
-```
-SESSION_SECRET=your_session_secret_here
-```
-
-Replace `your_session_secret_here` with a strong, unique secret key.
 
 
 ## Authors 
