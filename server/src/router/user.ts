@@ -171,8 +171,10 @@ userRouter.post("/register", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Note deleted successfully
- *       400:
- *         description: User not logged in or error occurred
+ *       404:
+ *         description:  User not found
+ *      401:
+ *        description: User not logged in
  */
 userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
   try {
@@ -204,7 +206,11 @@ userRouter.delete("/notes/:noteId", async (req: Request, res: Response) => {
  *       200:
  *         description: Note added successfully
  *       400:
- *         description: User not logged in or error occurred
+ *         description: Note already added
+ *      401:
+ *         description: User not logged in
+ *      404:
+ *        description: User not found
  */
 userRouter.post("/notes/", async (req: Request, res: Response) => {
   try {
@@ -232,8 +238,10 @@ userRouter.post("/notes/", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Todo deleted successfully
- *       400:
- *         description: User not logged in or error occurred
+ *       404:
+ *         description: User not found
+ *       401: 
+ *         description: User not logged in
  */
 userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
   try {
@@ -264,8 +272,12 @@ userRouter.delete("/todos/:todoId", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Todo added successfully
+ *       401:
+ *         description: User not logged in
  *       400:
- *         description: User not logged in or error occurred
+ *         description: Todo already added
+ *       404:
+ *         description: User not found
  */
 userRouter.post("/todo/", async (req: Request, res: Response) => {
   try {
@@ -297,8 +309,10 @@ userRouter.post("/todo/", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Name updated successfully
- *       400:
+ *       401:
  *         description: User not logged in or error occurred
+ *       404:
+ *         description: User not found
  */
 userRouter.put("/name", async (req: Request, res: Response) => {
   try {
@@ -329,8 +343,10 @@ userRouter.put("/name", async (req: Request, res: Response) => {
  *     responses:
  *       200:
  *         description: Password updated successfully
- *       400:
- *         description: User not logged in or error occurred
+ *       401:
+ *         description: User not logged in
+ *      404:
+ *         description: User not found
  */
 userRouter.put("/password", async (req: Request, res: Response) => {
   try {
@@ -352,7 +368,7 @@ async function getUserIdFromCookies(req: Request) {
   if (user) {
     userId = user.id;
   } else {
-    throw new ErrorMessage('User not logged in', 400);
+    throw new ErrorMessage('User not logged in', 401);
   }
   return userId;
 }
