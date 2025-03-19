@@ -5,13 +5,12 @@
     flex-direction: column;
     align-items: center;
 
+    box-sizing: border-box;
     width: max-content;
+    min-width: 50vw;
     padding: 3rem;
     border: #c7c7c7 solid 1px;
     border-radius: 1rem;
-
-    ;
-    min-height: 60vh;
 }
 
 .todo-page input {
